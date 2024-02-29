@@ -11,22 +11,24 @@ on:
       - "dev"
 
 env:
-  DOTNET_VERSION: '7.0.x'
   AZURE_WEBAPP_NAME: 'Tangti'
   AZURE_WEBAPP_PACKAGE_PATH: '.'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '7.0.x', '8.0.x' ]
         
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       
-      - name: Setup dotnet ${{ env.DOTNET_VERSION }}
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ matrix.dotnet-version }}
       
       - name: Display dotnet version
         run: dotnet --version
