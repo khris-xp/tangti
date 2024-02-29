@@ -12,7 +12,7 @@ on:
 
 env:
   DOTNET_VERSION : '7.0.x'
-  AZURE_WEBAPP_NAME: 'Tangti'
+  AZURE_WEBAPP_NAME: 'tangtiwebapp'
   AZURE_WEBAPP_PACKAGE_PATH: '.'
 
 jobs:
