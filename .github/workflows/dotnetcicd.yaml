@@ -21,7 +21,7 @@ jobs:
         
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       
       - name: Setup dotnet ${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v2
@@ -41,7 +41,7 @@ jobs:
         run : dotnet publish -c Release -o ${{ env.DOTNET_ROOT }}
 
       - name: Upload artifact for deploymeny job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: tangti.net-app
           path: ${{ env.DOTNET_ROOT }}/tangti
@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: tangti.net-app
       
