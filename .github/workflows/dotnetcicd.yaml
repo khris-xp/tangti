@@ -11,24 +11,22 @@ on:
       - "dev"
 
 env:
+  DOTNET_VERSION : '7.0.x'
   AZURE_WEBAPP_NAME: 'Tangti'
   AZURE_WEBAPP_PACKAGE_PATH: '.'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '7.0.x', '8.0.x' ]
         
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+      - name: Setup dotnet ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
       
       - name: Display dotnet version
         run: dotnet --version
@@ -45,7 +43,7 @@ jobs:
       - name: Upload artifact for deploymeny job
         uses: actions/upload-artifact@v4
         with:
-          name: tangti-${{ matrix.dotnet-version }}.net-app
+          name: tangti.net-app
           path: ${{ env.DOTNET_ROOT }}/tangti
 
   deploy:
