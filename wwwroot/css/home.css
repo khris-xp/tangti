@@ -323,3 +323,33 @@ input[type="search"]::-webkit-search-results-decoration {
 .card-button:hover {
     background-color: #fc6005;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 90px;
+    margin-bottom: 60px;
+}
+
+.button {
+    width: 13px;
+    height: 13px;
+    float: left;
+    margin-right: 20px;
+    background-color: #C2C2C2;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease width;
+}
+
+.button:last-child {
+    margin-right: 0;
+}
+
+.button.active {
+    width: 40px;
+    cursor: auto;
+    background-color: #FF7426;
+}
