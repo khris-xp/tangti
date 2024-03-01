@@ -40,13 +40,14 @@
         </div>
     </div>
     <div class="body-text">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/119d8665c4.js" crossorigin="anonymous"></script>
     <script>
         const toggleBtn = document.querySelector('.toggle_btn');
         const dropdownMenu = document.querySelector('.dropdown_menu');
@@ -67,4 +68,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
-</html>`
+</html>
