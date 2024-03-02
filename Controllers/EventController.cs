@@ -13,13 +13,13 @@ namespace tangti.Controllers
 
 		public IActionResult Debug()
 		{
-			Event e1 = new Event()
+			tangti.Models.Event e1 = new tangti.Models.Event()
 			{
 				Name = "Event 1",
 				Status = "Ongoing",
 				Limit = 10
 			};
-			return View();
+			return View(e1);
 		}
 	}
 }
