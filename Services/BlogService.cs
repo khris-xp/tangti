@@ -10,16 +10,16 @@ public class BlogService
     private readonly IMongoCollection<Blog> _blogsCollection;
 
     public BlogService(
-        IOptions<BlogDatabaseSetting> blogDatabaseSettings)
+        IOptions<TangtiDatabaseSetting> tangtiDatabaseSetting)
     {
         var mongoClient = new MongoClient(
-            blogDatabaseSettings.Value.ConnectionString);
+            tangtiDatabaseSetting.Value.ConnectionString);
 
         var mongoDatabase = mongoClient.GetDatabase(
-            blogDatabaseSettings.Value.DatabaseName);
+            tangtiDatabaseSetting.Value.DatabaseName);
 
         _blogsCollection = mongoDatabase.GetCollection<Blog>(
-            blogDatabaseSettings.Value.BlogCollectionName);
+            "blogs");
     }
 
     public async Task<List<Blog>> GetAsync() =>
