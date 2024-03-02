@@ -26,10 +26,16 @@
                 @Html.DisplayNameFor(model => model[0].EnrollLimit)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model[0].CreatedAt)
+                Event start
             </td>
             <td>
-                @Html.DisplayNameFor(model => model[0].UpdatedAt)
+                Event end
+            </td>
+            <td>
+                Enroll start
+            </td>
+            <td>
+                Enroll end
             </td>
         </tr>
     </thead>
@@ -50,10 +56,16 @@
                     @Html.DisplayFor(modelItem => item.EnrollLimit)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                    @Html.DisplayFor(modelItem => item.EventDate.StartDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                    @Html.DisplayFor(modelItem => item.EventDate.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollDate.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollDate.EndDate)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

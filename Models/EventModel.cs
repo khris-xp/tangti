@@ -2,9 +2,23 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace tangti.Models
+
 {
     public class Event
     {
+        public class StartEndDate
+        {
+            [BsonElement("start_date")]      
+            [BsonRepresentation(BsonType.DateTime)]
+            [BsonDateTimeOptions(Kind = DateTimeKind.Local)]      
+            public DateTime StartDate { get; set; }
+
+            [BsonElement("end_date")]
+            [BsonRepresentation(BsonType.DateTime)]
+            [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+            public DateTime EndDate { get; set; }
+        }
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
@@ -25,6 +39,13 @@ namespace tangti.Models
         public required int EnrollLimit { get; set; }
 
 
+        [BsonElement("EnrollDate")]
+        public required StartEndDate EnrollDate { get; set; }
+
+        [BsonElement("EventDate")]
+        public required StartEndDate EventDate { get; set; }
+
+
         [BsonElement("CreatedAt")]
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
@@ -35,10 +56,16 @@ namespace tangti.Models
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime UpdatedAt { get; set; }
 
+
+        [BsonElement("Status")]
+        public string Status { get; set; } = "Active";
+
+
         public Event()
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
         }
+
     }
 }

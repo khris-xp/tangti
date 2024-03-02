@@ -87,17 +87,17 @@ public class EventController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(string id, Event events)
+    public async Task<IActionResult> Edit(string id, Event updateEvent)
     {
-        var _event = await _eventsService.GetAsync(id);
+        var events = await _eventsService.GetAsync(id);
 
-        if (_event is null)
+        if (events is null)
         {
             return NotFound();
         }
 
-        await _eventsService.UpdateAsync(id, events);
-
+        await _eventsService.UpdateAsync(id, updateEvent);
+        
         return RedirectToAction("Index");
     }
     [HttpPost]
