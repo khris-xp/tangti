@@ -1,13 +1,10 @@
-<<<<<<< HEAD
-<h1>This is index of View/Event page</h1>
-=======
-@model List<tangti.Models.Event>
+@model List<tangti.Models.Blog>
 @using tangti.Models
 @{
-    ViewBag.Title = "All Events";
+    ViewBag.Title = "All Blogs";
 }
 
-<h2>All Events</h2>
+<h2>All Blogs</h2>
 
 <p>
     <a asp-action="Create">Create</a>
@@ -23,22 +20,16 @@
                 @Html.DisplayNameFor(model => model[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Category)
+                @Html.DisplayNameFor(model => model[0].Content)
             </th>
             <td>
-                @Html.DisplayNameFor(model => model[0].EnrollLimit)
+                @Html.DisplayNameFor(model => model[0].CreatedBy)
             </td>
             <td>
-                Event start
+                @Html.DisplayNameFor(model => model[0].CreatedAt)
             </td>
             <td>
-                Event end
-            </td>
-            <td>
-                Enroll start
-            </td>
-            <td>
-                Enroll end
+                @Html.DisplayNameFor(model => model[0].UpdatedAt)
             </td>
         </tr>
     </thead>
@@ -53,22 +44,16 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Category)
+                    @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EnrollLimit)
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.StartDate)
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.EndDate)
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -79,4 +64,3 @@
         }
     </tbody>
 </table>
->>>>>>> f09a69279a525c7df444436f717b43b116b55e37
