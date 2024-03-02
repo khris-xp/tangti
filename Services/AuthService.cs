@@ -28,7 +28,7 @@ public class AuthService
     }
 
     public AuthService(
-        IOptions<BlogDatabaseSetting> userDatabaseSettings)
+        IOptions<TangtiDatabaseSetting> userDatabaseSettings)
     {
         var mongoClient = new MongoClient(
             userDatabaseSettings.Value.ConnectionString);
@@ -37,7 +37,7 @@ public class AuthService
             userDatabaseSettings.Value.DatabaseName);
 
         _usersCollection = mongoDatabase.GetCollection<UserModel>(
-            userDatabaseSettings.Value.UserCollectionName);
+            "users");
     }
 
     public async Task Login(string username, string password)
