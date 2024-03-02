@@ -4,6 +4,6 @@ namespace tangti.Models
 	{
 		public string name { get; set; }
 		public string status {get; set;}
-		public int limit {get: set;}
+		public int limit {get; set;}
 	}
 }
