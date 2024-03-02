@@ -1,4 +1,12 @@
+using tangti.Configs;
+using tangti.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<BlogDatabaseSetting>(
+    builder.Configuration.GetSection("TangtiDatabase"));
+
+builder.Services.AddSingleton<BlogService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
