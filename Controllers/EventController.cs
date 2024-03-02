@@ -70,10 +70,9 @@ public class EventController : Controller
                 await _eventsService.CreateAsync(events);
                 message_response = "Event created successfully";
                 ViewBag.Message = message_response;
-				Console.WriteLine("Hello eiei");
-				if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate))
-                	return RedirectToAction("Index");
-				return (View("Error"));
+				if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate) || events.EnrollDate.EndDate > events.EventDate.StartDate)
+					return (View("Error"));
+                return RedirectToAction("Index");
 			}
             else
             {
