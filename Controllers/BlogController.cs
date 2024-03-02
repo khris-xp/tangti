@@ -105,12 +105,12 @@ public class BlogController : Controller
     {
         var blog = await _blogsService.GetAsync(id);
 
-        if (blog == null) // Check if blog is null
+        if (blog == null)
         {
             return NotFound();
         }
 
-        await _blogsService.DeleteAsync(id); // Delete using the provided id
+        await _blogsService.DeleteAsync(id);
 
         return RedirectToAction("Index");
     }

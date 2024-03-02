@@ -7,6 +7,9 @@ builder.Services.Configure<TangtiDatabaseSetting>(
     builder.Configuration.GetSection("TangtiDatabase"));
 
 builder.Services.AddSingleton<BlogService>();
+builder.Services.AddSingleton<AuthService>();
+builder.Services.AddSingleton<TokenService>();
+
 builder.Services.AddSingleton<EventService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
