@@ -84,6 +84,8 @@ public class EventController : Controller
             Console.WriteLine($"Error in Create action: {ex}");
             return View("Error");
         }
+
+		// check date 
     }
 
     [HttpPost]
