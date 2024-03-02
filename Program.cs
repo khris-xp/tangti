@@ -2,6 +2,8 @@ using tangti.Configs;
 using tangti.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 builder.Services.Configure<TangtiDatabaseSetting>(
     builder.Configuration.GetSection("TangtiDatabase"));
@@ -10,6 +12,7 @@ builder.Services.AddSingleton<BlogService>();
 builder.Services.AddSingleton<EventService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
@@ -23,6 +26,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 
