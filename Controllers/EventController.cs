@@ -14,6 +14,7 @@ public class EventController : Controller
 
     public IActionResult Index()
     {
+		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
         var events = _eventsService.GetAsync().Result;
         return View(events);
     }
@@ -66,13 +67,18 @@ public class EventController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-                events.Id = ObjectId.GenerateNewId().ToString();
-                await _eventsService.CreateAsync(events);
-                message_response = "Event created successfully";
-                ViewBag.Message = message_response;
 				if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate) || events.EnrollDate.EndDate > events.EventDate.StartDate)
-					return (View("Error"));
-                return RedirectToAction("Index");
+				{
+					ViewBag.Message = "Invalid date";
+					return (View());
+				}
+				else{
+                	events.Id = ObjectId.GenerateNewId().ToString();
+                	await _eventsService.CreateAsync(events);
+                	message_response = "Event created successfully";
+                	ViewBag.Message = message_response;
+    	            return RedirectToAction("Index");
+				}
 			}
             else
             {
@@ -86,7 +92,6 @@ public class EventController : Controller
             Console.WriteLine($"Error in Create action: {ex}");
             return View("Error");
         }
-		// check date
     }
 
     [HttpPost]
@@ -98,10 +103,15 @@ public class EventController : Controller
         {
             return NotFound();
         }
-
-        await _eventsService.UpdateAsync(id, updateEvent);
-        
-        return RedirectToAction("Index");
+		if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate) || events.EnrollDate.EndDate > events.EventDate.StartDate)
+		{		
+			ViewBag.Message = "Invalid date";
+			return (View());
+		}
+		else{
+        	await _eventsService.UpdateAsync(id, updateEvent);
+        	return RedirectToAction("Index");
+		}
     }
     [HttpPost]
     public async Task<IActionResult> DeleteAsync(string id)
