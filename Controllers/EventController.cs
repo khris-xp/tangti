@@ -70,8 +70,11 @@ public class EventController : Controller
                 await _eventsService.CreateAsync(events);
                 message_response = "Event created successfully";
                 ViewBag.Message = message_response;
-                return RedirectToAction("Index");
-            }
+				Console.WriteLine("Hello eiei");
+				if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate))
+                	return RedirectToAction("Index");
+				return (View("Error"));
+			}
             else
             {
                 message_response = "Invalid model state";
@@ -84,8 +87,7 @@ public class EventController : Controller
             Console.WriteLine($"Error in Create action: {ex}");
             return View("Error");
         }
-
-		// check date 
+		// check date
     }
 
     [HttpPost]
