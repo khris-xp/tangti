@@ -79,3 +79,10 @@ body {
     cursor: pointer;
     background-color: #FF7426;
   }
+
+  .edit{
+    background-color: #FF7426;
+}
+.delete{
+    background-color: #FF7426;
+}
