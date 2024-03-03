@@ -174,9 +174,12 @@ public class EnrollController : Controller
             return RedirectToAction("Index");
         }
 
-        Enroll.JoinUserData target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
+        Enroll.JoinUserData? target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
         
-        enroll.MemberList.Remove(target);
+        if(target != null)
+        {
+            enroll.MemberList.Remove(target);
+        }
 
         enroll.Member = enroll.MemberList.Count;;
 
