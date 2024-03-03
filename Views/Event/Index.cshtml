@@ -10,10 +10,9 @@
     <a asp-action="Create">Create</a>
 </p>
 @using (Html.BeginForm()){    
-         <p> Title: @Html.TextBox("SearchString") <br />   
-         Category: @Html.DropDownList("category", ViewBag.Categories as SelectList, "All") <br />
-         
-         <input type="submit" value="Filter" /></p> 
+         <p> Title: @Html.TextBox("SearchString")
+    
+         <input type="submit" value="Search" /></p> 
         } 
 <table class="table">
     <thead>

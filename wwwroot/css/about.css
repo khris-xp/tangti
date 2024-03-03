@@ -4,6 +4,15 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #fbf0d4;
+    background: #fbf0d4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .heading {
     width: 90%;
     display: flex;
@@ -17,13 +26,11 @@
     font-size: 50px;
     color: #000;
     margin-bottom: 25px;
-    position: relative;
 }
 
 .heading h1::after {
     content: "";
-    position: absolute;
-    width: 100%;
+    width: 200px;
     height: 4px;
     display: block;
     margin: 0 auto;
@@ -90,6 +97,11 @@
     .heading h1 {
         font-size: 36px;
     }
+
+    .heading h1::after {
+        width: 150px;
+    }
+
 
     .heading p {
         font-size: 17px;

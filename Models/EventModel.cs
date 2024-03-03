@@ -19,6 +19,7 @@ namespace tangti.Models
             public DateTime EndDate { get; set; }
         }
 
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
@@ -66,6 +67,7 @@ namespace tangti.Models
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
         }
+
 
     }
 }

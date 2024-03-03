@@ -38,7 +38,7 @@ namespace tangti.Services
         }
 
 
-        public async Task<List<Event>> GetPaganationAsync(int page = 1, int pageSize = 5, string searchString = "",string Category = "")
+        public async Task<List<Event>> GetPaganationAsync(int page = 1, int pageSize = 5, string searchString = "")
 
         {
             var filter = Builders<Event>.Filter.Empty;
@@ -47,10 +47,7 @@ namespace tangti.Services
                 filter = Builders<Event>.Filter.Where(x => x.Title.Contains(searchString));
             }
 
-            if (!string.IsNullOrEmpty(Category))
-            {
-                filter = Builders<Event>.Filter.Where(x => x.Category == Category);
-            }
+ 
             
             return await _eventCollections.Find(filter).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
         }

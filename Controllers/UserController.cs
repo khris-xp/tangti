@@ -4,31 +4,29 @@ using tangti.Services;
 
 namespace UserController
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly AuthService _authService;
-        private readonly TokenService _tokenService;
 
-        public AccountController(AuthService authService, TokenService tokenService)
+        public AccountController(AuthService authService)
         {
             _authService = authService;
-            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDto user)
         {
-            var user_response = await _authService.Register(user.Username, user.Email, user.Password);
+            var user_response = await _authService.Register(user);
             return Ok(user_response);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginDto user)
         {
-            await _authService.Login(user.Username, user.Password);
-            return Ok();
+            var user_response = await _authService.Login(user.Email, user.Password);
+            return Ok(user_response);
         }
     }
 }
