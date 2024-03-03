@@ -1,0 +1,49 @@
+@model tangti.Models.Blog
+@{
+    ViewBag.Title = "Delete";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - tangti</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/createBlog.css" asp-append-version="true" />
+</head>
+
+
+<img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
+    alt="Room">
+<div class="heading">
+    <h1><span class='delete'>Delete</span> @Model.Title</h1>
+    <p> Are you sure you want to delete this blog?</p>
+    <p>
+</div>
+<div class='form'>
+    <div class="card">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+@model tangti.Models.Event
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h4>Are you sure you want to delete this Event?</h4>
+<hr />
+<h4>@ViewBag.Message</h4>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <textarea asp-for="Category" class="form-control" disabled></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

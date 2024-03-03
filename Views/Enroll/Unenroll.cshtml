@@ -1,0 +1,27 @@
+@model tangti.Models.Enroll.JoinUserData
+@using tangti.Models
+@{
+    ViewBag.Title = "Update";
+}
+
+<h1>Unenroll</h1>
+
+<h4>Enrolls</h4>
+<hr />
+<h4>@ViewBag.Message</h4>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Unenroll" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
