@@ -2,7 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace tangti.Controllers;
 
@@ -13,6 +12,35 @@ public class EnrollController : Controller
     public EnrollController(EnrollService enrollService) =>
         _enrollService = enrollService;
 
+    public IActionResult Index()
+    {
+        var enrolls = _enrollService.GetAsync().Result;
+        return View(enrolls);
+    }
+
+    public IActionResult Details(string id)
+    {
+        var enrolls = _enrollService.GetAsync(id).Result;
+        return View(enrolls);
+    }
+
+    public ActionResult Create()
+    {
+        return View();
+    }
+
+    public ActionResult Edit(string id)
+    {
+        var enrolls = _enrollService.GetAsync(id).Result;
+        return View(enrolls);
+    }
+
+    public ActionResult Delete(string id)
+    {
+        var enrolls = _enrollService.GetAsync(id).Result;
+        return View(enrolls);
+    }
+
     [HttpGet]
     public async Task<ActionResult<List<Enroll>>> Get()
     {
@@ -22,13 +50,13 @@ public class EnrollController : Controller
     [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<Enroll>> Get(string id)
     {
-        var enroll = await _enrollService.GetAsync(id);
+        var _enroll = await _enrollService.GetAsync(id);
 
-        if (enroll is null){
+        if (_enroll is null){
             return NotFound();
         }
 
-        return enroll;
+        return _enroll;
     }
 
     [HttpPost]
@@ -43,9 +71,8 @@ public class EnrollController : Controller
                 await _enrollService.CreateAsync(enroll);
                 message_response = "Enroll created Successfully";
                 ViewBag.Message = message_response;
-
                 //return some Data
-                return View();
+                return RedirectToAction("Index");
             }
             else
             {
@@ -73,7 +100,7 @@ public class EnrollController : Controller
 
         await _enrollService.UpdateAsync(id, enrollIn);
 
-        return View();
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
@@ -88,6 +115,6 @@ public class EnrollController : Controller
 
         await _enrollService.DeleteAsync(id);
 
-        return View();
+        return RedirectToAction("Index");
     }
 }

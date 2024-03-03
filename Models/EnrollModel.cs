@@ -9,6 +9,7 @@ namespace tangti.Models
             public string Id { get; set;}
             public DateTime join_date { get; set; }
             
+            
             public JoinUserData(string id) {
                 Id = id;
                 join_date = DateTime.UtcNow;
@@ -22,17 +23,19 @@ namespace tangti.Models
         [BsonElement("EventID")]
         public required string EventID { get; set; }
 
-        [BsonElement("member")]
-        public required int member { get; set;}
+        [BsonElement("Member")]
+        public required int Member { get; set;}
 
-        [BsonElement("member_list")]
-        public required List<string> member_list { get; set;}
+        [BsonElement("Member_list")]
+        public required List<string> Member_list { get; set;}
 
-        [BsonElement("Join_date")]
+        [BsonElement("Join_dates")]
         public List<JoinUserData> Joindate { get; set;}
 
         public Enroll(){
+            Member_list = new List<string>();
             Joindate = new List<JoinUserData>();
+            Member = Member_list.Count;
         }
     }
 }

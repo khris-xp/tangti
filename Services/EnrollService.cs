@@ -11,16 +11,17 @@ public class EnrollService
     private readonly IMongoCollection<Enroll> _enrollCollection;
 
     public EnrollService(
-        IOptions<EnrollDatabaseSetting> enrollDatabaseSettings)
+        IOptions<TangtiDatabaseSetting> tangtiDatabaseSetting)
     {
         var mongoClient = new MongoClient(
-            enrollDatabaseSettings.Value.ConnectionString);
+            tangtiDatabaseSetting.Value.ConnectionString);
+
         var mongoDatabase =  mongoClient.GetDatabase(
-            enrollDatabaseSettings.Value.DatabaseName
+            tangtiDatabaseSetting.Value.DatabaseName
         );
 
         _enrollCollection = mongoDatabase.GetCollection<Enroll>(
-            enrollDatabaseSettings.Value.EnrollCollectionName
+            "enroll"
         );
     }
 
