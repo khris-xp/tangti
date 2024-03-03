@@ -26,6 +26,7 @@ public class EventController : Controller
     }
     public ActionResult Create()
     {
+		Console.WriteLine("here2");
         return View();
     }
 
@@ -62,14 +63,15 @@ public class EventController : Controller
     [HttpPost]
     public async Task<ActionResult> Create(Event events)
     {
+		Console.WriteLine("here1");
         try
         {
             string message_response;
             if (ModelState.IsValid)
             {
-				if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate) || events.EnrollDate.EndDate > events.EventDate.StartDate)
+				if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
 				{
-					ViewBag.Message = "Invalid date";
+					ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
 					return (View());
 				}
 				else{
@@ -103,15 +105,13 @@ public class EventController : Controller
         {
             return NotFound();
         }
-		if (tangti.Services.UtilsService.IsCollapse(events.EventDate.StartDate, events.EventDate.EndDate, events.EnrollDate.StartDate, events.EnrollDate.EndDate) || events.EnrollDate.EndDate > events.EventDate.StartDate)
-		{		
-			ViewBag.Message = "Invalid date";
-			return (View());
+		if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
+		{
+				ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
+				return (View());
 		}
-		else{
-        	await _eventsService.UpdateAsync(id, updateEvent);
-        	return RedirectToAction("Index");
-		}
+        await _eventsService.UpdateAsync(id, updateEvent);
+        return RedirectToAction("Index");
     }
     [HttpPost]
     public async Task<IActionResult> DeleteAsync(string id)
