@@ -31,6 +31,9 @@ public class EnrollService
     public async Task<Enroll?> GetAsync(string id) => 
         await _enrollCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+    public async Task<Enroll?> GetEventEnrollAsync(string EventId) =>
+        await _enrollCollection.Find(x => x.EventID == EventId).FirstOrDefaultAsync();
+
     public async Task CreateAsync(Enroll newEnroll) =>
         await _enrollCollection.InsertOneAsync(newEnroll);
     

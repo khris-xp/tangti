@@ -22,12 +22,6 @@
             <th>
                 @Html.DisplayNameFor(model => model[0].Member)
             </th>
-            <td>
-                @Html.DisplayNameFor(model => model[0].Member_list)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model[0].Joindate)
-            </td>
         </tr>
     </thead>
     <tbody>
@@ -44,15 +38,10 @@
                     @Html.DisplayFor(modelItem => item.Member)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Member_list)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Joindate)
-                </td>
-                <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-action="Update" asp-route-id="@item.Id">Update</a>
                 </td>
             </tr>
         }
