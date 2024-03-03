@@ -141,6 +141,12 @@ public class EnrollController : Controller
             return NotFound();
         }
 
+        if (enroll.MemberList.Any(member => member.UserID == userId))
+        {
+            // Can not join this Event because already joined
+            return RedirectToAction("Index");
+        }
+
         enroll.MemberList.Add(
             new  Enroll.JoinUserData(userId)
         );
@@ -160,6 +166,12 @@ public class EnrollController : Controller
         if (enroll is null)
         {
             return NotFound();
+        }
+
+        if(! enroll.MemberList.Any(member => member.UserID == userId))
+        {
+            // Can not exit group this Event because not in this Event
+            return RedirectToAction("Index");
         }
 
         Enroll.JoinUserData target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
