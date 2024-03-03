@@ -47,6 +47,12 @@ public class EnrollController : Controller
         return View(enrolls);
     }
 
+    public ActionResult Unenroll(string eventid)
+    {
+        var enrolls = _enrollService.GetEventEnrollAsync(eventid).Result;
+        return View(enrolls);
+    }
+
     [HttpGet]
     public async Task<ActionResult<List<Enroll>>> Get()
     {
@@ -140,6 +146,27 @@ public class EnrollController : Controller
         );
 
         enroll.Member = enroll.MemberList.Count;
+
+        await _enrollService.UpdateAsync(id, enroll);
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Unenroll(string id, string userId)
+    {
+        var enroll = await _enrollService.GetAsync(id);
+
+        if (enroll is null)
+        {
+            return NotFound();
+        }
+
+        Enroll.JoinUserData target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
+        
+        enroll.MemberList.Remove(target);
+
+        enroll.Member = enroll.MemberList.Count;;
 
         await _enrollService.UpdateAsync(id, enroll);
 
