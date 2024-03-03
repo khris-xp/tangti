@@ -40,7 +40,7 @@ jobs:
         -   name: Upload artifact for deployment job
             uses: actions/upload-artifact@v3
             with:
-                name: book-store-mvc.net-app
+                name: kmitltangti.net-app
                 path: ${{env.DOTNET_ROOT}}/myapp
 
     deploy:
@@ -54,7 +54,7 @@ jobs:
         -   name: Download atifact from build job
             uses: actions/download-artifact@v3
             with:
-                name: book-store-mvc.net-app
+                name: kmitltangti.net-app
         
         -   name: Deploy to Azure Web App
             id: deploy-to-webapp

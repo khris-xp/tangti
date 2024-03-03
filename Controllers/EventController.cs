@@ -14,6 +14,7 @@ public class EventController : Controller
 
     public IActionResult Index()
     {
+		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
         var events = _eventsService.GetAsync().Result;
         return View(events);
     }
@@ -25,6 +26,7 @@ public class EventController : Controller
     }
     public ActionResult Create()
     {
+		Console.WriteLine("here2");
         return View();
     }
 
@@ -61,17 +63,25 @@ public class EventController : Controller
     [HttpPost]
     public async Task<ActionResult> Create(Event events)
     {
+		Console.WriteLine("here1");
         try
         {
             string message_response;
             if (ModelState.IsValid)
             {
-                events.Id = ObjectId.GenerateNewId().ToString();
-                await _eventsService.CreateAsync(events);
-                message_response = "Event created successfully";
-                ViewBag.Message = message_response;
-                return RedirectToAction("Index");
-            }
+				if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
+				{
+					ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
+					return (View());
+				}
+				else{
+                	events.Id = ObjectId.GenerateNewId().ToString();
+                	await _eventsService.CreateAsync(events);
+                	message_response = "Event created successfully";
+                	ViewBag.Message = message_response;
+    	            return RedirectToAction("Index");
+				}
+			}
             else
             {
                 message_response = "Invalid model state";
@@ -95,9 +105,12 @@ public class EventController : Controller
         {
             return NotFound();
         }
-
+		if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
+		{
+				ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
+				return (View());
+		}
         await _eventsService.UpdateAsync(id, updateEvent);
-        
         return RedirectToAction("Index");
     }
     [HttpPost]
