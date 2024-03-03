@@ -47,7 +47,7 @@
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Hello, Friend!</h1>
-                    <p>Enter your personal details
+                    <p>Enter your personal details 
                         and start journey with us</p>
                     <button class="hidden" id="register">Sign Up</button>
                 </div>
@@ -55,5 +55,17 @@
         </div>
     </div>
 
-    <script href="~/css/loginscript.js"></script>
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+    </script>
 </body>
