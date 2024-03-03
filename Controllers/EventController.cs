@@ -33,6 +33,7 @@ public class EventController : Controller
     public ActionResult Edit(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
+		Console.WriteLine(events.Status);
         return View(events);
     }
 
@@ -105,9 +106,9 @@ public class EventController : Controller
         {
             return NotFound();
         }
-		if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
+		if (tangti.Services.UtilsService.validateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
 		{
-				ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
+				ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
 				return (View());
 		}
         await _eventsService.UpdateAsync(id, updateEvent);
