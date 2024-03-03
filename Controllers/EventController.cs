@@ -12,9 +12,19 @@ public class EventController : Controller
     public EventController(EventService eventsService) =>
         _eventsService = eventsService;
 
-    public IActionResult Index()
+
+    // Add search string
+
+    public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5,string Category = "")
     {
-        var events = _eventsService.GetAsync().Result;
+        var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString, Category);
+        
+        ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
+        ViewBag.Page = page;
+        ViewBag.PageSize = pageSize;
+        ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
+        ViewBag.Categories = Category;
+
         return View(events);
     }
 

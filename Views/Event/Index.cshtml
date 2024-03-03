@@ -9,13 +9,20 @@
 <p>
     <a asp-action="Create">Create</a>
 </p>
-
+@using (Html.BeginForm()){    
+         <p> Title: @Html.TextBox("SearchString") <br />   
+         Category: @Html.DropDownList("category", ViewBag.Categories as SelectList, "All") <br />
+         
+         <input type="submit" value="Filter" /></p> 
+        } 
 <table class="table">
     <thead>
         <tr>
+
             <th>
                 @Html.DisplayNameFor(model => model[0].Title)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model[0].Description)
             </th>
@@ -76,3 +83,12 @@
         }
     </tbody>
 </table>
+@if (ViewBag.TotalCount > ViewBag.PageSize)
+{
+    <div>
+        Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
+        {
+            <a href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
+        }
+    </div>
+}
