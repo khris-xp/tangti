@@ -13,6 +13,7 @@ builder.Services.Configure<TangtiDatabaseSetting>(
 
 builder.Services.AddSingleton<BlogService>();
 builder.Services.AddSingleton<AuthService>();
+builder.Services.AddSingleton<EnrollService>();
 
 builder.Services.AddSingleton<EventService>();
 // Add services to the container.
