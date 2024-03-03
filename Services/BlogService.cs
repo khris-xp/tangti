@@ -10,17 +10,18 @@ public class BlogService
     private readonly IMongoCollection<Blog> _blogsCollection;
 
     public BlogService(
-        IOptions<BlogDatabaseSetting> blogDatabaseSettings)
+        IOptions<TangtiDatabaseSetting> tangtiDatabaseSetting)
     {
         var mongoClient = new MongoClient(
-            blogDatabaseSettings.Value.ConnectionString);
+            tangtiDatabaseSetting.Value.ConnectionString);
 
         var mongoDatabase = mongoClient.GetDatabase(
-            blogDatabaseSettings.Value.DatabaseName);
+            tangtiDatabaseSetting.Value.DatabaseName);
 
         _blogsCollection = mongoDatabase.GetCollection<Blog>(
-            blogDatabaseSettings.Value.BlogCollectionName);
+            "blogs");
     }
+
 
     public async Task<List<Blog>> GetAsync() =>
         await _blogsCollection.Find(_ => true).ToListAsync();
@@ -28,11 +29,12 @@ public class BlogService
     public async Task<Blog?> GetAsync(string id) =>
         await _blogsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-    public async Task CreateAsync(Blog newBook) =>
-        await _blogsCollection.InsertOneAsync(newBook);
+    public async Task CreateAsync(Blog newBlog) =>
+        await _blogsCollection.InsertOneAsync(newBlog);
 
-    public async Task UpdateAsync(string id, Blog updatedBook) =>
-        await _blogsCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+    public async Task UpdateAsync(string id, Blog updatedBlog) =>
+        
+        await _blogsCollection.ReplaceOneAsync(x => x.Id == id, updatedBlog);
 
     public async Task DeleteAsync(string id) =>
         await _blogsCollection.DeleteOneAsync(x => x.Id == id);

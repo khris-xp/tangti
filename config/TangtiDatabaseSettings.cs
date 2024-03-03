@@ -1,10 +1,7 @@
 namespace tangti.Configs;
 
-public class BlogDatabaseSetting
+public class TangtiDatabaseSetting
 {
     public string ConnectionString { get; set; } = null!;
-
     public string DatabaseName { get; set; } = null!;
-
-    public string BlogCollectionName { get; set; } = null!;
 }
