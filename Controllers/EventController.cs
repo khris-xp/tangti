@@ -97,7 +97,7 @@ public class EventController : Controller
         }
 
         await _eventsService.UpdateAsync(id, updateEvent);
-        
+
         return RedirectToAction("Index");
     }
     [HttpPost]
