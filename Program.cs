@@ -7,6 +7,7 @@ builder.Services.Configure<BlogDatabaseSetting>(
     builder.Configuration.GetSection("TangtiDatabase"));
 
 builder.Services.AddSingleton<BlogService>();
+builder.Services.AddSingleton<EnrollService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
