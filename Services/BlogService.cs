@@ -22,6 +22,7 @@ public class BlogService
             "blogs");
     }
 
+
     public async Task<List<Blog>> GetAsync() =>
         await _blogsCollection.Find(_ => true).ToListAsync();
 
@@ -32,6 +33,7 @@ public class BlogService
         await _blogsCollection.InsertOneAsync(newBlog);
 
     public async Task UpdateAsync(string id, Blog updatedBlog) =>
+        
         await _blogsCollection.ReplaceOneAsync(x => x.Id == id, updatedBlog);
 
     public async Task DeleteAsync(string id) =>

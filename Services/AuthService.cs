@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using tangti.Configs;
 using System.Security.Cryptography;
 using System.Text;
+using tangti.DTOs;
 
 namespace tangti.Services;
 
@@ -40,30 +41,38 @@ public class AuthService
             "users");
     }
 
-    public async Task Login(string username, string password)
+    public async Task<UserModel?> Login(string email, string password)
     {
-        var user = await _usersCollection.Find(x => x.UserName == username).FirstOrDefaultAsync();
+        var user = await _usersCollection.Find(x => x.Email == email).FirstOrDefaultAsync();
 
         if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
         {
-            throw new Exception("Username or password is incorrect");
+            throw new Exception("Email or password is incorrect");
         }
+        return user;
     }
 
-    public async Task<UserModel> Register(string username, string email, string password)
+    public async Task<UserModel> Register(RegisterDto user)
     {
         var hmac = new HMACSHA512();
 
-        var user = new UserModel
+        var new_user = new UserModel
         {
-            UserName = username,
-            Email = email,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            FullName = user.FirstName + " " + user.LastName,
+            Phone = user.Phone,
+            Email = user.Email,
+            Role = "user",
+            Enrolled = user.Enrolled,
+            EventCreated = user.EventCreated,
+            ImageProfile = user.ImageProfile,
+            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
             PasswordSalt = hmac.Key,
         };
 
-        await _usersCollection.InsertOneAsync(user);
+        await _usersCollection.InsertOneAsync(new_user);
 
-        return user;
+        return new_user;
     }
 }
