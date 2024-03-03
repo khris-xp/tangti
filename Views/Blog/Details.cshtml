@@ -3,65 +3,30 @@
     ViewBag.Title = "Details";
 }
 
-<h1>Details</h1>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - tangti</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/detailBlog.css" asp-append-version="true" />
+</head>
 
-<h4>Blogs</h4>
-<hr />
-<h4>@ViewBag.Message</h4>
-
-@* <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" disabled />
-            </div>
-        </form>
-    </div>
+<img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
+                alt="Room">
+<div class="heading">
+    <h1>@Html.DisplayFor(modelItem => Model.Title)</h1>
+    <p> created by <span class='bold'>@Html.DisplayFor(modelItem => Model.CreatedBy)</span></p>
+    <p>
 </div>
 
-<div class="blog">
-    <h1 class="title"></h1>
-    <p class="published"><span>published at - </span></p>
-    <div class="article">
+<div class='content'>
+	<article class="card">
+		<h2 class="title">@Html.DisplayFor(modelItem => Model.Description)</h2>
+		<p class="info">@Html.DisplayFor(modelItem => Model.Content)</p>
+        <p class="published">published at @Html.DisplayFor(modelItem => Model.CreatedAt)</p>
+	</article>
+</div>
 
-    </div>
-</div> *@
-
-    <div class="banner">
-        <img src="https://picsum.photos/id/287/250/300" alt="Mountains">
-    </div>
-
-    <div class="blog">
-        <h1 class="title"></h1>
-        <p class="published"><span>published at - </span></p>
-        <div class="article">
-            
-        </div>
-    </div>
-
-    <h1 class="sub-heading">Read more</h1>
-
-    <!-- blog section -->
-    <section class="blogs-section">
-        <div class="blog-card">
-            <img src="https://picsum.photos/id/287/250/300" alt="Mountains">
-            <h1 class="blog-title">Lorem ipsum dolor sit amet consectetur.</h1>
-            <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
-            <a href="/" class="btn dark">read</a>
-        </div>
-    </section>
+		<button class="button" href="~/Blog">
+			<span>More Articles</span>
+		</button>
