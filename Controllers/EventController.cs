@@ -128,4 +128,21 @@ public class EventController : Controller
 
         return RedirectToAction("Index");
     }
+
+	[HttpPost]
+    public async Task<IActionResult> ChangeStatus(string id, string new_status)
+    {
+        var events = await _eventsService.GetAsync(id);
+
+		// if status not in list => return ;
+        if (events is null)
+        {
+            return NotFound();
+        }
+		events.Status = new_status;
+        await _eventsService.UpdateAsync(id, events);
+        return RedirectToAction("Index");
+    }
+
+
 }
