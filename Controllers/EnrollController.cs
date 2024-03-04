@@ -2,15 +2,19 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Security.Principal;
 
 namespace tangti.Controllers;
 
 public class EnrollController : Controller
 {
     private readonly EnrollService _enrollService;
+    private readonly UserService _userService;
 
-    public EnrollController(EnrollService enrollService) =>
+    public EnrollController(EnrollService enrollService, UserService userService){
         _enrollService = enrollService;
+        _userService = userService;
+    }
 
     public IActionResult Index()
     {
@@ -131,9 +135,9 @@ public class EnrollController : Controller
     }
 
     [HttpPost]
-
     public async Task<IActionResult> Update(string id, string userId)
-    {
+    {   
+
         var enroll = await _enrollService.GetAsync(id);
 
         if (enroll is null)
