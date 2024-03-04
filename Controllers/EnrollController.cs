@@ -2,7 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Security.Principal;
 
 namespace tangti.Controllers;
 
@@ -140,6 +139,7 @@ public class EnrollController : Controller
 
         var enroll = await _enrollService.GetAsync(id);
 
+
         if (enroll is null)
         {
             return NotFound();
@@ -151,6 +151,15 @@ public class EnrollController : Controller
             return RedirectToAction("Index");
         }
 
+        var user = await _userService.GetUserAsync(userId);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        user.Enrolled.Add(enroll.EventID);
+
         enroll.MemberList.Add(
             new  Enroll.JoinUserData(userId)
         );
@@ -158,6 +167,8 @@ public class EnrollController : Controller
         enroll.Member = enroll.MemberList.Count;
 
         await _enrollService.UpdateAsync(id, enroll);
+
+        await _userService.UpdateUserAsync(userId, user);
 
         return RedirectToAction("Index");
     }
@@ -178,6 +189,14 @@ public class EnrollController : Controller
             return RedirectToAction("Index");
         }
 
+        var user = await _userService.GetUserAsync(userId);
+
+        if(user is null){
+            return NotFound();
+        }
+
+        user.Enrolled.Remove(enroll.EventID);
+
         Enroll.JoinUserData? target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
         
         if(target != null)
@@ -188,6 +207,8 @@ public class EnrollController : Controller
         enroll.Member = enroll.MemberList.Count;;
 
         await _enrollService.UpdateAsync(id, enroll);
+
+        await _userService.UpdateUserAsync(userId, user);
 
         return RedirectToAction("Index");
     }

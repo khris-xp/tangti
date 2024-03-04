@@ -17,8 +17,8 @@ namespace tangti.Models
         public byte[]? PasswordSalt { get; set; }
         public string? ImageProfile { get; set; }
         public string? Role { get; set; }
-        public string[]? Enrolled { get; set; }
-        public string[]? EventCreated { get; set; }
+        public List<string> Enrolled { get; set; }
+        public List<string> EventCreated { get; set; }
 
         [BsonElement("CreatedAt")]
         [BsonRepresentation(BsonType.DateTime)]
@@ -34,6 +34,8 @@ namespace tangti.Models
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
+            Enrolled = new List<string>();
+            EventCreated = new List<string>();
         }
     }
 }
