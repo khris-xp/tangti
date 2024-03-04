@@ -12,13 +12,13 @@ public class EventController : Controller
     public EventController(EventService eventsService) =>
         _eventsService = eventsService;
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
 		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
         var events = _eventsService.GetAsync().Result;
-		@foreach (var curr_event in events);
+		foreach (var curr_event in events)
 		{
-			if (!_eventsService.isEnrollTime(events.Id))
+			if (! await _eventsService.isEnrollTime(curr_event.Id))
 				Console.WriteLine("Notifination here");
 			// is touch limit => Notification 
 			
