@@ -142,7 +142,7 @@ public class EventController : Controller
             return NotFound();
         }
 		events.Status = new_status;
-        await _eventsService.UpdateAsync(id, event);
+        await _eventsService.UpdateAsync(id, events);
         return RedirectToAction("Index");
     }
 
