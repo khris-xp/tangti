@@ -72,7 +72,7 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            const loginResponse = fetch('http://localhost:5040/api/account/login', {
+            const loginResponse = fetch('https://kmitltangti.azurewebsites.net/api/account/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -93,7 +93,7 @@
                 console.error(error);
             });
         }
-        
+
         function register() {
             const firstName = document.getElementById('registerFirstName').value;
             const lastName = document.getElementById('registerLastName').value;
@@ -101,7 +101,7 @@
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
 
-            const registerResponse = fetch('http://localhost:5040/api/account/register', {
+            const registerResponse = fetch('https://kmitltangti.azurewebsites.net/api/account/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
