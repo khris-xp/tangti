@@ -56,7 +56,7 @@ public class EnrollController : Controller
     [HttpGet]
     public async Task<ActionResult<List<Enroll>>> Get()
     {
-        return await  _enrollService.GetAsync();
+        return await _enrollService.GetAsync();
     }
 
     [HttpGet("{id:length(24)}")]
@@ -64,7 +64,8 @@ public class EnrollController : Controller
     {
         var _enroll = await _enrollService.GetAsync(id);
 
-        if (_enroll is null){
+        if (_enroll is null)
+        {
             return NotFound();
         }
 
@@ -148,7 +149,7 @@ public class EnrollController : Controller
         }
 
         enroll.MemberList.Add(
-            new  Enroll.JoinUserData(userId)
+            new Enroll.JoinUserData(userId)
         );
 
         enroll.Member = enroll.MemberList.Count;
@@ -168,20 +169,20 @@ public class EnrollController : Controller
             return NotFound();
         }
 
-        if(! enroll.MemberList.Any(member => member.UserID == userId))
+        if (!enroll.MemberList.Any(member => member.UserID == userId))
         {
             // Can not exit group this Event because not in this Event
             return RedirectToAction("Index");
         }
 
         Enroll.JoinUserData? target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
-        
-        if(target != null)
+
+        if (target != null)
         {
             enroll.MemberList.Remove(target);
         }
 
-        enroll.Member = enroll.MemberList.Count;;
+        enroll.Member = enroll.MemberList.Count; ;
 
         await _enrollService.UpdateAsync(id, enroll);
 
