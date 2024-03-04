@@ -135,12 +135,14 @@ public class EventController : Controller
         var events = await _eventsService.GetAsync(id);
 
 		// if status not in list => return ;
+		if (new_status != "NOT_OPENED" || new_status != "ON_GOING" || new_status != "CLOSED" || new_status != "CANCELED" || new_status != "BANNED")
+			return (RedirectToAction("Index")); // can change
         if (events is null)
         {
             return NotFound();
         }
 		events.Status = new_status;
-        await _eventsService.UpdateAsync(id, events);
+        await _eventsService.UpdateAsync(id, event);
         return RedirectToAction("Index");
     }
 
