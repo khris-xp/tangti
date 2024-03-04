@@ -15,27 +15,27 @@
 
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form>
+            <form id="registerForm">
                 <h1>Create Account</h1>
                 <div class="social-icons">
                 </div>
-                <input type="text" placeholder="FirstName">
-                <input type="text" placeholder="LastName">
-                <input type="text" placeholder="Tel.">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <button>Sign Up</button>
+                <input type="text" placeholder="FirstName" id="registerFirstName">
+                <input type="text" placeholder="LastName" id="registerLastName">
+                <input type="text" placeholder="Tel." id="registerPhone">
+                <input type="email" placeholder="Email" id="registerEmail">
+                <input type="password" placeholder="Password" id="registerPassword">
+                <button type="button" onclick="register()">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in">
-            <form>
+            <form id="loginForm">
                 <h1>Sign In to Tangti!!!</h1>
                 <div class="social-icons">
                 </div>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
+                <input type="email" placeholder="Email" id="loginEmail">
+                <input type="password" placeholder="Password" id="loginPassword">
                 <a href="#">Forget Your Password?</a>
-                <button>Sign In</button>
+                <button type="button" onclick="login()">Sign In</button>
             </form>
         </div>
         <div class="toggle-container">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Hello, Friend!</h1>
-                    <p>Enter your personal details 
+                    <p>Enter your personal details
                         and start journey with us</p>
                     <button class="hidden" id="register">Sign Up</button>
                 </div>
@@ -67,5 +67,67 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const loginResponse = fetch('http://localhost:5040/api/account/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Invalid email or password');
+            }).then(data => {
+                localStorage.setItem('id', data.id);
+                window.location.href = '/';
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+        
+        function register() {
+            const firstName = document.getElementById('registerFirstName').value;
+            const lastName = document.getElementById('registerLastName').value;
+            const phone = document.getElementById('registerPhone').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            const registerResponse = fetch('http://localhost:5040/api/account/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    firstname: firstName,
+                    lastname: lastName,
+                    phone: phone,
+                    email: email,
+                    password: password,
+                    imageProfile: "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg",
+                    enrolled: [],
+                    eventCreated: []
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Invalid email or password');
+            }).then(data => {
+                console.log(data)
+                localStorage.setItem('id', data.id);
+                window.location.href = '/';
+            }).catch(error => {
+                console.error(error);
+            });
+        }
     </script>
 </body>
