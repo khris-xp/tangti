@@ -64,8 +64,6 @@ public class AuthService
             Phone = user.Phone,
             Email = user.Email,
             Role = "user",
-            Enrolled = user.Enrolled,
-            EventCreated = user.EventCreated,
             ImageProfile = user.ImageProfile,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
             PasswordSalt = hmac.Key,
