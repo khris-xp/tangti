@@ -14,11 +14,22 @@ builder.Services.Configure<TangtiDatabaseSetting>(
 builder.Services.AddSingleton<BlogService>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<EnrollService>();
-
 builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<UserService>();
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAny",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -46,10 +57,15 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-
+app.UseCors("AllowAny");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "register",
+    pattern: "Register/{action=Index}/{id?}",
+    defaults: new { controller = "Register" });
 
 app.MapControllerRoute(
     name: "default",

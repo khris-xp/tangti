@@ -1,0 +1,26 @@
+@model tangti.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+<form id="registerForm" action="@Url.Action("Register", "Register")" method="post">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <button type="submit">Register</button>
+    </div>
+</form>
+<div id="message">@ViewBag.Message</div>
+
+<script src="~/Scripts/register.js"></script>
