@@ -8,9 +8,13 @@ namespace tangti.Controllers;
 public class EventController : Controller
 {
     private readonly EventService _eventsService;
+    private readonly EnrollService _enrollService;
 
-    public EventController(EventService eventsService) =>
+    public EventController(EventService eventsService,EnrollService enrollService)
+    {
         _eventsService = eventsService;
+        _enrollService = enrollService;
+    }
 
     public IActionResult Index()
     {
@@ -78,6 +82,15 @@ public class EventController : Controller
 				else{
                 	events.Id = ObjectId.GenerateNewId().ToString();
                 	await _eventsService.CreateAsync(events);
+
+                    Enroll newEnroll = new Enroll{
+                        EventID = events.Id.ToString(),
+                        Id = ObjectId.GenerateNewId().ToString(),
+                        Member = 0
+                    };
+
+                    await _enrollService.CreateAsync(newEnroll);
+
                 	message_response = "Event created successfully";
                 	ViewBag.Message = message_response;
     	            return RedirectToAction("Index");
