@@ -18,8 +18,14 @@ public class EventController : Controller
 
     public IActionResult Index()
     {
-		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
-        var events = _eventsService.GetAsync().Result;
+        var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
+
+        ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
+        ViewBag.Page = page;
+        ViewBag.PageSize = pageSize;
+        ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
+
+
         return View(events);
     }
 
@@ -30,14 +36,14 @@ public class EventController : Controller
     }
     public ActionResult Create()
     {
-		Console.WriteLine("here2");
+        Console.WriteLine("here2");
         return View();
     }
 
     public ActionResult Edit(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
-		Console.WriteLine(events.Status);
+        Console.WriteLine(events.Status);
         return View(events);
     }
 
@@ -68,7 +74,7 @@ public class EventController : Controller
     [HttpPost]
     public async Task<ActionResult> Create(Event events)
     {
-		Console.WriteLine("here1");
+        Console.WriteLine("here1");
         try
         {
             string message_response;
@@ -119,11 +125,11 @@ public class EventController : Controller
         {
             return NotFound();
         }
-		if (tangti.Services.UtilsService.validateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
-		{
-				ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
-				return (View());
-		}
+        if (tangti.Services.UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
+        {
+            ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
+            return (View());
+        }
         await _eventsService.UpdateAsync(id, updateEvent);
         return RedirectToAction("Index");
     }

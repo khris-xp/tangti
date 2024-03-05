@@ -1,3 +1,108 @@
+@media only screen and (max-width: 600px) {
+    .container {
+        margin-top: 40px;
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        width: 400px;
+        max-width: 100%;
+        min-height: 500px;
+    }
+
+    .container button {
+        background-color: #ff7426;
+        color: #fff;
+        font-size: 12px;
+        padding: 5px 30px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .container a {
+        color: #333;
+        font-size: 10px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    .container {
+        margin-top: 40px;
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        width: 600px;
+        max-width: 100%;
+        min-height: 480px;
+    }
+
+    .container button {
+        background-color: #ff7426;
+        color: #fff;
+        font-size: 12px;
+        padding: 10px 45px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .container a {
+        color: #333;
+        font-size: 15px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    .container {
+        margin-top: 40px;
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        width: 768px;
+        max-width: 100%;
+        min-height: 480px;
+    }
+
+    .container button {
+        background-color: #ff7426;
+        color: #fff;
+        font-size: 12px;
+        padding: 10px 45px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .container a {
+        color: #333;
+        font-size: 15px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -14,18 +119,6 @@ body {
     flex-direction: column;
 }
 
-.container {
-    margin-top: 40px;
-    background-color: #fff;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-    position: relative;
-    overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-}
-
 .container p {
     font-size: 16px;
     line-height: 20px;
@@ -34,33 +127,12 @@ body {
 }
 
 
-.container a {
-    color: #333;
-    font-size: 15px;
-    text-decoration: none;
-    margin: 15px 0 10px;
-}
-
 .container h2 {
     position: absolute;
     top: 0;
     left: 0;
     margin: 15px;
     font-size: 20px;
-}
-
-.container button {
-    background-color: #ff7426;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
 }
 
 .container button.hidden {
