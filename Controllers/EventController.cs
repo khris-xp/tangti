@@ -16,10 +16,10 @@ public class EventController : Controller
         _enrollService = enrollService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
-
+        
         ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
@@ -80,9 +80,9 @@ public class EventController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-				if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
+				if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
 				{
-					ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
+					ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
 					return (View());
 				}
 				else{
