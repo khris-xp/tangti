@@ -19,7 +19,7 @@ public class EventController : Controller
 		foreach (var curr_event in events)
 		{
 			if (! await _eventsService.isEnrollTime(curr_event.Id))
-				Console.WriteLine("Notifination here");
+				Console.WriteLine(curr_event.Title + ": Notifination here");
 			// is touch limit => Notification 
 			
 		}
