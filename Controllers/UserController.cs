@@ -4,7 +4,7 @@ using tangti.Services;
 
 namespace UserController
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class AccountController : ControllerBase
     {

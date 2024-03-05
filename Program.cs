@@ -17,6 +17,7 @@ builder.Services.AddSingleton<EnrollService>();
 builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<CategoryService>();
+builder.Services.AddSingleton<ReportService>();
 
 builder.Services.AddControllersWithViews();
 

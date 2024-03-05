@@ -12,10 +12,19 @@ public class EventController : Controller
     public EventController(EventService eventsService) =>
         _eventsService = eventsService;
 
-    public IActionResult Index()
+
+    // Add search string
+
+    public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
     {
-		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
-        var events = _eventsService.GetAsync().Result;
+        var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
+        
+        ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
+        ViewBag.Page = page;
+        ViewBag.PageSize = pageSize;
+        ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
+
+
         return View(events);
     }
 

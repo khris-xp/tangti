@@ -8,9 +8,12 @@ namespace tangti.Controllers;
 public class EnrollController : Controller
 {
     private readonly EnrollService _enrollService;
+    private readonly UserService _userService;
 
-    public EnrollController(EnrollService enrollService) =>
+    public EnrollController(EnrollService enrollService, UserService userService){
         _enrollService = enrollService;
+        _userService = userService;
+    }
 
     public IActionResult Index()
     {
@@ -132,10 +135,11 @@ public class EnrollController : Controller
     }
 
     [HttpPost]
-
     public async Task<IActionResult> Update(string id, string userId)
-    {
+    {   
+
         var enroll = await _enrollService.GetAsync(id);
+
 
         if (enroll is null)
         {
@@ -148,6 +152,15 @@ public class EnrollController : Controller
             return RedirectToAction("Index");
         }
 
+        var user = await _userService.GetUserAsync(userId);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        user.Enrolled.Add(enroll.EventID);
+
         enroll.MemberList.Add(
             new Enroll.JoinUserData(userId)
         );
@@ -155,6 +168,8 @@ public class EnrollController : Controller
         enroll.Member = enroll.MemberList.Count;
 
         await _enrollService.UpdateAsync(id, enroll);
+
+        await _userService.UpdateUserAsync(userId, user);
 
         return RedirectToAction("Index");
     }
@@ -175,6 +190,14 @@ public class EnrollController : Controller
             return RedirectToAction("Index");
         }
 
+        var user = await _userService.GetUserAsync(userId);
+
+        if(user is null){
+            return NotFound();
+        }
+
+        user.Enrolled.Remove(enroll.EventID);
+
         Enroll.JoinUserData? target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
 
         if (target != null)
@@ -185,6 +208,8 @@ public class EnrollController : Controller
         enroll.Member = enroll.MemberList.Count; ;
 
         await _enrollService.UpdateAsync(id, enroll);
+
+        await _userService.UpdateUserAsync(userId, user);
 
         return RedirectToAction("Index");
     }
