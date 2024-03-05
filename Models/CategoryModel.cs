@@ -3,22 +3,14 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace tangti.Models
 {
-    public class UserModel
+    public class Category
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? FullName { get; set; }
-        public string? Phone { get; set; }
-        public string? Email { get; set; }
-        public byte[]? PasswordHash { get; set; }
-        public byte[]? PasswordSalt { get; set; }
-        public string? ImageProfile { get; set; }
-        public string? Role { get; set; }
-        public List<string> Enrolled { get; set; }
-        public List<string> EventCreated { get; set; }
+
+        [BsonElement("Name")]
+        public required string Name { get; set; }
 
         [BsonElement("CreatedAt")]
         [BsonRepresentation(BsonType.DateTime)]
@@ -30,12 +22,10 @@ namespace tangti.Models
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime UpdatedAt { get; set; }
 
-        public UserModel()
+        public Category()
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
-            Enrolled = new List<string>();
-            EventCreated = new List<string>();
         }
     }
 }

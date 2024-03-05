@@ -71,6 +71,10 @@ header {
   scale: 0.95;
 }
 
+.action_btn_hidden {
+  display: none;
+}
+
 .dropdown_menu {
   display: none;
   position: absolute;

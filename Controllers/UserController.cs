@@ -1,18 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using tangti.DTOs;
 using tangti.Services;
+using tangti.Models;
 
 namespace UserController
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly AuthService _authService;
+        private readonly UserService _userService;
 
-        public AccountController(AuthService authService)
+        public AccountController(AuthService authService, UserService userService)
         {
             _authService = authService;
+            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -27,6 +30,19 @@ namespace UserController
         {
             var user_response = await _authService.Login(user.Email, user.Password);
             return Ok(user_response);
+        }
+
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<UserModel>> GetUser(string id)
+        {
+            var user = await _userService.GetUserAsync(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
     }
 }

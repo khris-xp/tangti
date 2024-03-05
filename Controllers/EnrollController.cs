@@ -8,9 +8,12 @@ namespace tangti.Controllers;
 public class EnrollController : Controller
 {
     private readonly EnrollService _enrollService;
+    private readonly UserService _userService;
 
-    public EnrollController(EnrollService enrollService) =>
+    public EnrollController(EnrollService enrollService, UserService userService){
         _enrollService = enrollService;
+        _userService = userService;
+    }
 
     public IActionResult Index()
     {
@@ -56,7 +59,7 @@ public class EnrollController : Controller
     [HttpGet]
     public async Task<ActionResult<List<Enroll>>> Get()
     {
-        return await  _enrollService.GetAsync();
+        return await _enrollService.GetAsync();
     }
 
     [HttpGet("{id:length(24)}")]
@@ -64,7 +67,8 @@ public class EnrollController : Controller
     {
         var _enroll = await _enrollService.GetAsync(id);
 
-        if (_enroll is null){
+        if (_enroll is null)
+        {
             return NotFound();
         }
 
@@ -131,10 +135,11 @@ public class EnrollController : Controller
     }
 
     [HttpPost]
-
     public async Task<IActionResult> Update(string id, string userId)
-    {
+    {   
+
         var enroll = await _enrollService.GetAsync(id);
+
 
         if (enroll is null)
         {
@@ -147,13 +152,24 @@ public class EnrollController : Controller
             return RedirectToAction("Index");
         }
 
+        var user = await _userService.GetUserAsync(userId);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        user.Enrolled.Add(enroll.EventID);
+
         enroll.MemberList.Add(
-            new  Enroll.JoinUserData(userId)
+            new Enroll.JoinUserData(userId)
         );
 
         enroll.Member = enroll.MemberList.Count;
 
         await _enrollService.UpdateAsync(id, enroll);
+
+        await _userService.UpdateUserAsync(userId, user);
 
         return RedirectToAction("Index");
     }
@@ -168,22 +184,32 @@ public class EnrollController : Controller
             return NotFound();
         }
 
-        if(! enroll.MemberList.Any(member => member.UserID == userId))
+        if (!enroll.MemberList.Any(member => member.UserID == userId))
         {
             // Can not exit group this Event because not in this Event
             return RedirectToAction("Index");
         }
 
+        var user = await _userService.GetUserAsync(userId);
+
+        if(user is null){
+            return NotFound();
+        }
+
+        user.Enrolled.Remove(enroll.EventID);
+
         Enroll.JoinUserData? target = enroll.MemberList.FirstOrDefault(member => member.UserID == userId);
-        
-        if(target != null)
+
+        if (target != null)
         {
             enroll.MemberList.Remove(target);
         }
 
-        enroll.Member = enroll.MemberList.Count;;
+        enroll.Member = enroll.MemberList.Count; ;
 
         await _enrollService.UpdateAsync(id, enroll);
+
+        await _userService.UpdateUserAsync(userId, user);
 
         return RedirectToAction("Index");
     }
