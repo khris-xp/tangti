@@ -18,7 +18,7 @@ public class EventController : Controller
     public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
-        
+
         ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
@@ -35,14 +35,14 @@ public class EventController : Controller
     }
     public ActionResult Create()
     {
-		Console.WriteLine("here2");
+        Console.WriteLine("here2");
         return View();
     }
 
     public ActionResult Edit(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
-		Console.WriteLine(events.Status);
+        Console.WriteLine(events.Status);
         return View(events);
     }
 
@@ -73,25 +73,26 @@ public class EventController : Controller
     [HttpPost]
     public async Task<ActionResult> Create(Event events)
     {
-		Console.WriteLine("here1");
+        Console.WriteLine("here1");
         try
         {
             string message_response;
             if (ModelState.IsValid)
             {
-				if (tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate) != "")
-				{
-					ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(events.EventDate, events.EnrollDate);
-					return (View());
-				}
-				else{
-                	events.Id = ObjectId.GenerateNewId().ToString();
-                	await _eventsService.CreateAsync(events);
-                	message_response = "Event created successfully";
-                	ViewBag.Message = message_response;
-    	            return RedirectToAction("Index");
-				}
-			}
+                if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
+                {
+                    ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
+                    return (View());
+                }
+                else
+                {
+                    events.Id = ObjectId.GenerateNewId().ToString();
+                    await _eventsService.CreateAsync(events);
+                    message_response = "Event created successfully";
+                    ViewBag.Message = message_response;
+                    return RedirectToAction("Index");
+                }
+            }
             else
             {
                 message_response = "Invalid model state";
@@ -115,11 +116,11 @@ public class EventController : Controller
         {
             return NotFound();
         }
-		if (tangti.Services.UtilsService.validateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
-		{
-				ViewBag.Message = tangti.Services.UtilsService.validateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
-				return (View());
-		}
+        if (tangti.Services.UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
+        {
+            ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
+            return (View());
+        }
         await _eventsService.UpdateAsync(id, updateEvent);
         return RedirectToAction("Index");
     }

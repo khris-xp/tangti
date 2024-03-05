@@ -72,7 +72,7 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            const loginResponse = fetch('https://kmitltangti.azurewebsites.net/api/account/login', {
+            const loginResponse = fetch('https://kmitltangti.azurewebsites.net/api/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -101,7 +101,7 @@
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
 
-            const registerResponse = fetch('https://kmitltangti.azurewebsites.net/api/account/register', {
+            const registerResponse = fetch('https://kmitltangti.azurewebsites.net/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

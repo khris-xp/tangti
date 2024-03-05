@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using tangti.DTOs;
 using tangti.Services;
+using tangti.Models;
 
 namespace UserController
 {
@@ -31,12 +32,17 @@ namespace UserController
             return Ok(user_response);
         }
 
-        [HttpGet("user")]
-        public async Task<ActionResult> GetUser([FromBody] string userId)
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<UserModel>> GetUser(string id)
         {
-            var user_response = await _userService.GetUserAsync(userId);
-            Console.WriteLine(user_response);
-            return Ok(user_response);
+            var user = await _userService.GetUserAsync(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
     }
 }
