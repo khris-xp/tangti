@@ -16,21 +16,20 @@ public class EventController : Controller
         _enrollService = enrollService;
     }
 
-	public async Task<IActionResult> Index()
-	{
-		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
-        var events = _eventsService.GetAsync().Result;
-		foreach (var curr_event in events)
-		{
-			if (! await _eventsService.isEnrollTime(curr_event.Id))
-				Console.WriteLine(curr_event.Title + ": Notifination here");
-			// is touch limit => Notification 
+	// public async Task<IActionResult> Index()
+	// {
+    //     var events = _eventsService.GetAsync().Result;
+	// 	foreach (var curr_event in events)
+	// 	{
+	// 		if (! await _eventsService.isEnrollTime(curr_event.Id))
+	// 			Console.WriteLine(curr_event.Title + ": Notifination here");
+	// 		// is touch limit => Notification 
 			
-		}
-		return View(events);
-	}
+	// 	}
+	// 	return View(events);
+	// }
 
-    public async Task<async Task<IActionResult>> Index(string searchString, int page = 1, int pageSize = 5)
+    public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
         
@@ -39,6 +38,14 @@ public class EventController : Controller
         ViewBag.PageSize = pageSize;
         ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
 
+		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
+		foreach (var curr_event in events)
+		{
+			if (! await _eventsService.isEnrollTime(curr_event.Id))
+				Console.WriteLine(curr_event.Title + ": Notifination here");
+			// is touch limit => Notification 
+			
+		}
 		return View(events);
     }
 
