@@ -83,5 +83,38 @@ namespace tangti.Services
         {
             await _eventCollections.DeleteOneAsync(x => x.Id == id);
         }
+
+		// public bool isTimeClose(string id)
+		// {
+		// 	target_event = GetAsync(id);
+		// 	var now_date = DateTime.Now;
+		// 	if (now_date > target_event.EnrollDate.EndDate)
+		// 		return (true);
+		// 	return (false);
+		// }
+		public async Task<bool> isTimeClose(string id)
+        {
+            var target_event = await GetAsync(id);
+            var now_date = DateTime.Now;
+            if (now_date > target_event.EnrollDate.EndDate)
+                return true;
+            return false;
+        }
+
+		public async Task<bool> isTimeNotOpen(string id)
+		{
+			var target_event = await GetAsync(id);
+			var now_date = DateTime.Now;
+			if (now_date < target_event.EnrollDate.StartDate)
+				return (true);
+			return (false);
+		}
+
+		public async Task<bool> isEnrollTime(string id)
+		{
+			if ( await isTimeClose(id) || await isTimeNotOpen(id))
+				return (false);
+			return (true);
+		}
     }
 }

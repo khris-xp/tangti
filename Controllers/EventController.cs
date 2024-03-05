@@ -16,6 +16,19 @@ public class EventController : Controller
         _enrollService = enrollService;
     }
 
+	// public async Task<IActionResult> Index()
+	// {
+    //     var events = _eventsService.GetAsync().Result;
+	// 	foreach (var curr_event in events)
+	// 	{
+	// 		if (! await _eventsService.isEnrollTime(curr_event.Id))
+	// 			Console.WriteLine(curr_event.Title + ": Notifination here");
+	// 		// is touch limit => Notification 
+			
+	// 	}
+	// 	return View(events);
+	// }
+
     public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
@@ -25,8 +38,15 @@ public class EventController : Controller
         ViewBag.PageSize = pageSize;
         ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
 
-
-        return View(events);
+		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
+		foreach (var curr_event in events)
+		{
+			if (! await _eventsService.isEnrollTime(curr_event.Id))
+				Console.WriteLine(curr_event.Title + ": Notifination here");
+			// is touch limit => Notification 
+			
+		}
+		return View(events);
     }
 
     public IActionResult Details(string id)
@@ -147,4 +167,23 @@ public class EventController : Controller
 
         return RedirectToAction("Index");
     }
+
+	[HttpPost]
+    public async Task<IActionResult> ChangeStatus(string id, string new_status)
+    {
+        var events = await _eventsService.GetAsync(id);
+
+		// if status not in list => return ;
+		if (new_status != "NOT_OPENED" || new_status != "ON_GOING" || new_status != "CLOSED" || new_status != "CANCELED" || new_status != "BANNED")
+			return (RedirectToAction("Index")); // can change
+        if (events is null)
+        {
+            return NotFound();
+        }
+		events.Status = new_status;
+        await _eventsService.UpdateAsync(id, events);
+        return RedirectToAction("Index");
+    }
+
+
 }
