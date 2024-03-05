@@ -8,17 +8,18 @@ namespace tangti.Controllers;
 public class EventController : Controller
 {
     private readonly EventService _eventsService;
+    private readonly EnrollService _enrollService;
 
-    public EventController(EventService eventsService) =>
+    public EventController(EventService eventsService,EnrollService enrollService)
+    {
         _eventsService = eventsService;
-
-
-    // Add search string
+        _enrollService = enrollService;
+    }
 
     public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
-
+        
         ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
@@ -79,20 +80,28 @@ public class EventController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-                if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
-                {
-                    ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
-                    return (View());
-                }
-                else
-                {
-                    events.Id = ObjectId.GenerateNewId().ToString();
-                    await _eventsService.CreateAsync(events);
-                    message_response = "Event created successfully";
-                    ViewBag.Message = message_response;
-                    return RedirectToAction("Index");
-                }
-            }
+				if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
+				{
+					ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
+					return (View());
+				}
+				else{
+                	events.Id = ObjectId.GenerateNewId().ToString();
+                	await _eventsService.CreateAsync(events);
+
+                    Enroll newEnroll = new Enroll{
+                        EventID = events.Id.ToString(),
+                        Id = ObjectId.GenerateNewId().ToString(),
+                        Member = 0
+                    };
+
+                    await _enrollService.CreateAsync(newEnroll);
+
+                	message_response = "Event created successfully";
+                	ViewBag.Message = message_response;
+    	            return RedirectToAction("Index");
+				}
+			}
             else
             {
                 message_response = "Invalid model state";

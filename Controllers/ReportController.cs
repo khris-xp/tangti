@@ -70,7 +70,7 @@ public class ReportController : Controller
             {
                 report.Id = ObjectId.GenerateNewId().ToString();
                 await _reportService.CreateAsync(report);
-                message_response = "Enroll created Successfully";
+                message_response = "Report created Successfully";
                 ViewBag.Message = message_response;
                 //return some Data
                 return RedirectToAction("Index");
