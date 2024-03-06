@@ -38,18 +38,26 @@ namespace tangti.Services
         }
 
 
-        public async Task<List<Event>> GetPaganationAsync(int page = 1, int pageSize = 5, string searchString = "")
+        public async Task<List<Event>> GetPaganationAsync(int page = 1, int pageSize = 5, string searchString = "",string category ="")
 
         {
-            var filter = Builders<Event>.Filter.Empty;
+            var filterBuilder = Builders<Event>.Filter;
+            var filter = filterBuilder.Empty;
+
             if (!string.IsNullOrEmpty(searchString))
             {
-                filter = Builders<Event>.Filter.Where(x => x.Title.Contains(searchString));
+                filter &= filterBuilder.Where(x => x.Title.Contains(searchString));
             }
 
- 
-            
-            return await _eventCollections.Find(filter).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
+            if (!string.IsNullOrEmpty(category))
+            {
+                filter &= filterBuilder.Eq(x => x.Category, category);
+            }
+
+            return await _eventCollections.Find(filter)
+                .Skip((page - 1) * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
         }
 
         public async Task<long> GetTotalCountAsync(string searchString = "")

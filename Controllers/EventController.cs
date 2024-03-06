@@ -10,10 +10,12 @@ public class EventController : Controller
     private readonly EventService _eventsService;
     private readonly EnrollService _enrollService;
 
-    public EventController(EventService eventsService,EnrollService enrollService)
+     private readonly CategoryService _categoryService;
+    public EventController(EventService eventsService,EnrollService enrollService,CategoryService categoryService)
     {
         _eventsService = eventsService;
         _enrollService = enrollService;
+        _categoryService = categoryService;
     }
 
 	// public async Task<IActionResult> Index()
@@ -29,10 +31,14 @@ public class EventController : Controller
 	// 	return View(events);
 	// }
 
-    public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 5)
+    public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 5)
     {
-        var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString);
-        
+        var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString, category);
+
+        var categories_list = await _categoryService.GetCategoryNamesAsync();
+
+        ViewBag.Category = category;
+        ViewBag.Categories_list = categories_list;
         ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
@@ -42,10 +48,9 @@ public class EventController : Controller
 		foreach (var curr_event in events)
 		{
 			if (! await _eventsService.isEnrollTime(curr_event.Id))
-				Console.WriteLine(curr_event.Title + ": Notifination here");
-			// is touch limit => Notification 
-			
+				Console.WriteLine(curr_event.Title + ": Notifination here");			
 		}
+        
 		return View(events);
     }
 
@@ -54,15 +59,18 @@ public class EventController : Controller
         var events = _eventsService.GetAsync(id).Result;
         return View(events);
     }
-    public ActionResult Create()
+    public  async Task<IActionResult> Create()
     {
-        Console.WriteLine("here2");
+        var categories = await _categoryService.GetCategoryNamesAsync();
+        ViewBag.Categories = categories;
         return View();
     }
 
-    public ActionResult Edit(string id)
+    public async Task<IActionResult> Edit(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
+        var categories = await _categoryService.GetCategoryNamesAsync();
+        ViewBag.Categories = categories;
         Console.WriteLine(events.Status);
         return View(events);
     }
