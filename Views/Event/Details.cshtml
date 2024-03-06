@@ -1,24 +1,46 @@
 @model tangti.Models.Event
 @using tangti.Models
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Details";
 }
 
-<h1>Details</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/eventDetail.css" asp-append-version="true" />
+</head>
 
-<h4>Event</h4>
-<hr />
-<h4>@ViewBag.Message</h4>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" disabled />
+<div class="box-area">
+    <div class="banner-area">
+    </div>
+    <div class="content-area">
+        <h5>UX UI Design</h5>
+        <h2>Project 1</h2>
+        <button class="event-status">
+            is now openning
+        </button>
+        <div class="content-container">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi unde necessitatibus voluptatem
+                inventore ad. Molestias rerum enim, soluta quis at maxime, ducimus sed quia autem nisi suscipit,
+                accusantium ut reiciendis.</p>
+            <div class="card">
+                <div class="card-details">
+                    <p class="text-title">RUNS FROM</p>
+                    <p class="text-body">Mar 9 - 10, 2024</p>
+                </div>
+                <div class="card-details">
+                    <p class="text-title">HAPPENING</p>
+                    <p class="text-body">Mar 20 - 21, 2024</p>
+                </div>
+                <div class="card-details">
+                    <p class="text-title">Organiser</p>
+                    <p class="text-body">Clara R. Altman</p>
+                </div>
+                <button class="join-button">Join Event</button>
             </div>
+<<<<<<< HEAD
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" disabled />
@@ -45,5 +67,11 @@
             </div>
         </form>
         <a asp-action="Report" asp-route-id="@Model.Id">Report</a>
+=======
+        </div>
+>>>>>>> 22a5137e8b2573b0514f6a2a7f227df0be26c92c
     </div>
+</div>
+</div>
+</div>
 </div>
