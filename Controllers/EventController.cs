@@ -48,11 +48,12 @@ public class EventController : Controller
 		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
 		foreach (var curr_event in events)
 		{
+			// Console.WriteLine(curr_event.Id);
 			// var enroll = await _enrollService.GetEventEnrollAsync(curr_event.Id);
-			// Console.WriteLine(enroll.Member);
+			// Console.WriteLine(enroll);
 			if (! await _eventsService.isEnrollTime(curr_event.Id))
 				Console.WriteLine(curr_event.Title + ": Notifination here (by time)");
-			// if (await _eventsService.isTouchLimit(curr_event.Id, enroll))
+			// if (enroll != null &&  await _eventsService.isTouchLimit(curr_event.Id, enroll))
 			// 	Console.WriteLine(curr_event.Title + ": Notifination here (by limit)");
 		}
         
