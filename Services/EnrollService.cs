@@ -2,6 +2,8 @@ using tangti.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using tangti.Configs;
+using Microsoft.VisualBasic;
+using DnsClient.Protocol;
 
 namespace tangti.Services;
 

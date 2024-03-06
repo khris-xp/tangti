@@ -128,10 +128,13 @@ namespace tangti.Services
 		public async Task<bool> isTouchLimit(string id, Enroll enroll)
 		{
 			var target_event = await GetAsync(id);
+			if (enroll == null)
+				return (true);
 			if (enroll.Member >= target_event.EnrollLimit)
 				return (true);
 			return (false);
 
+			// return (true);
 		}
     }
 }
