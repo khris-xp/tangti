@@ -1,4 +1,5 @@
 @model tangti.Models.Event
+@using tangti.Models
 @{
     ViewBag.Title = "Edit";
 }
@@ -43,5 +44,6 @@
                 <input asp-for="EventDate.EndDate" class="form-control" disabled />
             </div>
         </form>
+        <a asp-action="Report" asp-route-id="@Model.Id">Report</a>
     </div>
 </div>

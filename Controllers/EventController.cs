@@ -9,13 +9,14 @@ public class EventController : Controller
 {
     private readonly EventService _eventsService;
     private readonly EnrollService _enrollService;
-
-     private readonly CategoryService _categoryService;
-    public EventController(EventService eventsService,EnrollService enrollService,CategoryService categoryService)
+    private readonly CategoryService _categoryService;
+    private readonly ReportService _reportService;
+    public EventController(EventService eventsService,EnrollService enrollService,CategoryService categoryService,ReportService reportService)
     {
         _eventsService = eventsService;
         _enrollService = enrollService;
         _categoryService = categoryService;
+        _reportService = reportService;
     }
 
 	// public async Task<IActionResult> Index()
@@ -79,6 +80,13 @@ public class EventController : Controller
     {
         var events = _eventsService.GetAsync(id).Result;
         return View(events);
+    }
+
+    public ActionResult Report(string id)
+    {
+        Console.WriteLine(id);
+        var reports = _reportService.GetReportAsync(id).Result;
+        return View(reports);
     }
 
     [HttpGet]
@@ -193,5 +201,14 @@ public class EventController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Report(string id, Report report)
+    {
+        report.Id = ObjectId.GenerateNewId().ToString();
+        report.EventId = id;
 
+        await _reportService.CreateAsync(report);
+        // Redirect to the Details action of the Event controller
+        return RedirectToAction("Details", "Event", new { id = id });
+    }
 }

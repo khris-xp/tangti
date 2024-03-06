@@ -2,6 +2,8 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using Microsoft.VisualBasic;
+using Microsoft.AspNetCore.Routing.Tree;
 
 namespace tangti.Controllers;
 
@@ -162,7 +164,7 @@ public class EnrollController : Controller
         user.Enrolled.Add(enroll.EventID);
 
         enroll.MemberList.Add(
-            new Enroll.JoinUserData(userId)
+            new Enroll.JoinUserData(userId, true)
         );
 
         enroll.Member = enroll.MemberList.Count;
