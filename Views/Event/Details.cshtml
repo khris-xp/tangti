@@ -18,7 +18,7 @@
         const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
         const userId = localStorage.getItem("id");
 
-        fetch('http://localhost:5040/api/enroll/update', {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/update', {
             method: "POST", // Correct the syntax here
             headers: {
                 'Content-Type': 'application/json'
@@ -48,7 +48,7 @@
         const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
         const userId = localStorage.getItem("id");
 
-        fetch('http://localhost:5040/api/enroll/unenroll', {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/unenroll', {
             method: "POST", // Correct the syntax here
             headers: {
                 'Content-Type': 'application/json'
