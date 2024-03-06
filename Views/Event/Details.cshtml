@@ -1,47 +1,117 @@
-@model tangti.Models.Event
+@model tangti.Models.EventEnroll
+@using tangti.Models
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Details";
 }
 
-<h1>Details</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/eventDetail.css" asp-append-version="true" />
+</head>
+<body>
+<script>
 
-<h4>Event</h4>
-<hr />
-<h4>@ViewBag.Message</h4>
+    function enrollEvent() {
+        const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
+        const userId = localStorage.getItem("id");
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" disabled />
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/update', {
+            method: "POST", // Correct the syntax here
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventId: eventId,
+                userId: userId
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Error');
+        })
+        .then(data => {
+            console.log(data); // Log response data if needed
+            // Handle successful response here
+        })
+        .catch(error => {
+            console.error(error); // Log any errors
+            // Handle errors here
+        });
+    }
+
+    function unenrollEvent() {
+        const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
+        const userId = localStorage.getItem("id");
+
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/unenroll', {
+            method: "POST", // Correct the syntax here
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventId: eventId,
+                userId: userId
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Error');
+        })
+        .then(data => {
+            console.log(data); // Log response data if needed
+            // Handle successful response here
+        })
+        .catch(error => {
+            console.error(error); // Log any errors
+            // Handle errors here
+        });
+    }
+
+</script>
+
+<div class="box-area">
+    <div class="banner-area">
+    </div>
+    <div class="content-area">
+        <h5>UX UI Design</h5>
+        <h2>Project 1</h2>
+        <button class="event-status">
+            is now openning
+        </button>
+        <div class="content-container">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi unde necessitatibus voluptatem
+                inventore ad. Molestias rerum enim, soluta quis at maxime, ducimus sed quia autem nisi suscipit,
+                accusantium ut reiciendis.</p>
+            <div class="card">
+                <div class="card-details">
+                    <p class="text-title">RUNS FROM</p>
+                    <p class="text-body">Mar 9 - 10, 2024</p>
+                </div>
+                <div class="card-details">
+                    <p class="text-title">HAPPENING</p>
+                    <p class="text-body">Mar 20 - 21, 2024</p>
+                </div>
+                <div class="card-details">
+                    <p class="text-title">Organiser</p>
+                    <p class="text-body">Clara R. Altman</p>
+                </div>
+                <button type="button" class="join-button" onclick="enrollEvent()">Join Event</button>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" disabled />
+                <label asp-for="Event.EventDate.EndDate" class="control-label"></label>
+                <input asp-for="Event.EventDate.EndDate" class="form-control" disabled />
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label"></label>
-                <input asp-for="EventDate.StartDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label"></label>
-                <input asp-for="EventDate.EndDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label"></label>
-                <input asp-for="EventDate.StartDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label"></label>
-                <input asp-for="EventDate.EndDate" class="form-control" disabled />
-            </div>
-        </form>
+            <a asp-action="Report" asp-route-id="@Model.Event.Id">Report</a>
+        </div>
     </div>
 </div>
+
+
+</body>

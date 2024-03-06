@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 </head>
 
-
 <body>
     <div class="container">
         <div class="banner">
@@ -75,21 +74,20 @@
                             <div class="name">Clara R. Altman</div>
                             <div class="role">Host</div>
                         </div>
-                        </div:>
-                        <div class="card-meta card-meta--date">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" display="block" id="Calendar">
-                                <rect x="2" y="4" width="20" height="18" rx="4" />
-                                <path d="M8 2v4" />
-                                <path d="M16 2v4" />
-                                <path d="M2 10h20" />
-                            </svg>
-                            01/10/24
-                        </div>
                     </div>
-                    <button class="card-button">Join Event</button>
+                    <div class="card-meta card-meta--date">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            display="block" id="Calendar">
+                            <rect x="2" y="4" width="20" height="18" rx="4" />
+                            <path d="M8 2v4" />
+                            <path d="M16 2v4" />
+                            <path d="M2 10h20" />
+                        </svg>
+                        01/10/24
+                    </div>
                 </div>
+                <button class="card-button">Join Event</button>
             </article>
 
             <article class="card">
@@ -218,34 +216,35 @@
                 </div>
             </article>
         </div>
+    </div>
 
-        <div class="pagination">
-            <div class="button active"></div>
-            <div class="button"></div>
-            <div class="button"></div>
-            <div class="button"></div>
-        </div>
-        <script>
-            function handlePagination() {
-                var buttons = document.querySelectorAll('.pagination .button');
+    <div class="pagination">
+        <div class="button active"></div>
+        <div class="button"></div>
+        <div class="button"></div>
+        <div class="button"></div>
+    </div>
+    <script>
+        function handlePagination() {
+            var buttons = document.querySelectorAll('.pagination .button');
 
-                buttons.forEach(function (button, index) {
-                    button.addEventListener('click', function () {
-                        buttons.forEach(function (btn) {
-                            btn.classList.remove('active');
-                        });
-                        button.classList.add('active');
-                        loadData(index + 1);
+            buttons.forEach(function (button, index) {
+                button.addEventListener('click', function () {
+                    buttons.forEach(function (btn) {
+                        btn.classList.remove('active');
                     });
+                    button.classList.add('active');
+                    loadData(index + 1);
                 });
-            }
-
-            function loadData(pageIndex) {
-                console.log('Loading data for page ' + pageIndex);
-            }
-            document.addEventListener('DOMContentLoaded', function () {
-                handlePagination();
             });
-        </script>
+        }
+
+        function loadData(pageIndex) {
+            console.log('Loading data for page ' + pageIndex);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            handlePagination();
+        });
+    </script>
     </div>
 </body>
