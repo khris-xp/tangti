@@ -1,4 +1,4 @@
-@model tangti.Models.Event
+@model tangti.Models.EventEnroll
 @using tangti.Models
 @{
     ViewBag.Title = "Details";
@@ -11,6 +11,70 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/eventDetail.css" asp-append-version="true" />
 </head>
+<body>
+<script>
+
+    function enrollEvent() {
+        const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
+        const userId = localStorage.getItem("id");
+
+        fetch('http://localhost:5040/api/enroll/update', {
+            method: "POST", // Correct the syntax here
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventId: eventId,
+                userId: userId
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Error');
+        })
+        .then(data => {
+            console.log(data); // Log response data if needed
+            // Handle successful response here
+        })
+        .catch(error => {
+            console.error(error); // Log any errors
+            // Handle errors here
+        });
+    }
+
+    function unenrollEvent() {
+        const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
+        const userId = localStorage.getItem("id");
+
+        fetch('http://localhost:5040/api/enroll/unenroll', {
+            method: "POST", // Correct the syntax here
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventId: eventId,
+                userId: userId
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Error');
+        })
+        .then(data => {
+            console.log(data); // Log response data if needed
+            // Handle successful response here
+        })
+        .catch(error => {
+            console.error(error); // Log any errors
+            // Handle errors here
+        });
+    }
+
+</script>
 
 <div class="box-area">
     <div class="banner-area">
@@ -38,40 +102,16 @@
                     <p class="text-title">Organiser</p>
                     <p class="text-body">Clara R. Altman</p>
                 </div>
-                <button class="join-button">Join Event</button>
-            </div>
-<<<<<<< HEAD
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" disabled />
+                <button type="button" class="join-button" onclick="enrollEvent()">Join Event</button>
             </div>
             <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" disabled />
+                <label asp-for="Event.EventDate.EndDate" class="control-label"></label>
+                <input asp-for="Event.EventDate.EndDate" class="form-control" disabled />
             </div>
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label"></label>
-                <input asp-for="EventDate.StartDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label"></label>
-                <input asp-for="EventDate.EndDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label"></label>
-                <input asp-for="EventDate.StartDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label"></label>
-                <input asp-for="EventDate.EndDate" class="form-control" disabled />
-            </div>
-        </form>
-        <a asp-action="Report" asp-route-id="@Model.Id">Report</a>
-=======
+            <a asp-action="Report" asp-route-id="@Model.Event.Id">Report</a>
         </div>
->>>>>>> 22a5137e8b2573b0514f6a2a7f227df0be26c92c
     </div>
 </div>
-</div>
-</div>
-</div>
+
+
+</body>

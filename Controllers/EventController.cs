@@ -2,6 +2,7 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Diagnostics.CodeAnalysis;
 
 namespace tangti.Controllers;
 
@@ -11,10 +12,9 @@ public class EventController : Controller
     private readonly EnrollService _enrollService;
     private readonly CategoryService _categoryService;
     private readonly ReportService _reportService;
-    public EventController(EventService eventsService,EnrollService enrollService,CategoryService categoryService,ReportService reportService)
+    public EventController(EventService eventsService,EnrollService enrollService,CategoryService categoryService,ReportService reportService,UserService userService)
     {
         _eventsService = eventsService;
-        _enrollService = enrollService;
         _categoryService = categoryService;
         _reportService = reportService;
     }
@@ -58,7 +58,13 @@ public class EventController : Controller
     public IActionResult Details(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
-        return View(events);
+
+        var viewModel = new EventEnroll
+        {
+            Event = events
+        };
+
+        return View(viewModel);
     }
     public  async Task<IActionResult> Create()
     {

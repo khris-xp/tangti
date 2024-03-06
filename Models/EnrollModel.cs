@@ -9,11 +9,14 @@ namespace tangti.Models
             [BsonElement("UserID")]
             public string UserID { get; set;}
             public DateTime join_date { get; set; }
+
+            public bool enroll_status { get; set; }
             
             
-            public JoinUserData(string id) {
+            public JoinUserData(string id,bool status) {
                 UserID = id;
                 join_date = DateTime.UtcNow;
+                enroll_status = status;
             }
         }
 
