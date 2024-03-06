@@ -21,6 +21,17 @@ public class CategoryService
         _categoriesCollection = mongoDatabase.GetCollection<Category>(
             "categories");
     }
+ 
+    public async Task<List<string>> GetCategoryNamesAsync()
+    {
+        var projection = Builders<Category>.Projection.Include(c => c.Name);
+        var categoryNames = await _categoriesCollection.Find(_ => true)
+                                                    .Project(projection)
+                                                    .ToListAsync();
+
+        return categoryNames.Select(x => x["Name"].AsString).ToList();
+    }
+
 
     public async Task<List<Category>> GetAsync() =>
         await _categoriesCollection.Find(_ => true).ToListAsync();
