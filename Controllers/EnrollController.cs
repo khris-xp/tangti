@@ -191,5 +191,21 @@ namespace EnrollController
 
             return Ok(enroll);
         }
+
+        [HttpPost("check")]
+        public async Task<IActionResult> Check([FromBody] EnrollDto enrollDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
+
+            if (enroll is null)
+            {
+                return BadRequest();
+            }
+
+            bool Result = enroll.MemberList.Any(member => member.UserID == enrollDto.userId);
+
+            // if enroll in event return true : if not enroll return false
+            return Ok(Result);
+        }
     }
 }
