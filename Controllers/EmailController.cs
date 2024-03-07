@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Threading.Tasks;
 using tangti.Services;
+using tangti.DTOs;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -18,7 +16,7 @@ public class EmailController : ControllerBase
     }
 
     [HttpPost("send")]
-    public async Task<IActionResult> SendEmail([FromBody] EmailRequest request)
+    public async Task<IActionResult> SendEmail([FromBody] EmailDto request)
     {
         // Extract email details from the request
         string toAddress = request.ToAddress;
@@ -37,11 +35,4 @@ public class EmailController : ControllerBase
         }
     }
 
-}
-
-public class EmailRequest
-{
-    public string ToAddress { get; set; }
-    public string Subject { get; set; }
-    public string Body { get; set; }
 }

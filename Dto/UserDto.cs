@@ -1,5 +1,3 @@
-using tangti.Models;
-
 namespace tangti.DTOs
 {
     public class RegisterDto
