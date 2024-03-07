@@ -1,17 +1,18 @@
 @model tangti.Models.Report
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Report";
     var eventId = ViewContext.RouteData.Values["id"]?.ToString();
 }
-<h1>Create</h1>
 
-<h4>Report</h4>
+<h1>Report</h1>
+
+<h4>Event</h4>
 <hr />
 <h4>@ViewBag.Message</h4>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Report">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -26,7 +27,7 @@
             <input id="EventIDInput" asp-for="EventId" class="form-control" type="hidden" />
             <input id="userIDInput" asp-for="Createdby" class="form-control" type="hidden"/>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" id="sendDataButton" />
+                <input type="submit" value="Submit" class="btn btn-primary" id="sendDataButton" />
             </div>
         </form>
     </div>
@@ -37,7 +38,6 @@
         // Retrieve data from local storage
         var data = localStorage.getItem('id');
         document.getElementById("userIDInput").value = data;
-
         document.getElementById("EventIDInput").value = eventId;
     });
 </script>
