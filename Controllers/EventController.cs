@@ -122,24 +122,36 @@ public class EventController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-                if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
+                if (UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
                 {
-                    ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
-                    return (View());
+                    ViewBag.Message = UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
+                    return View();
                 }
                 else
                 {
                     events.Id = ObjectId.GenerateNewId().ToString();
                     await _eventsService.CreateAsync(events);
-
                     Enroll newEnroll = new Enroll
                     {
                         EventID = events.Id.ToString(),
                         Id = ObjectId.GenerateNewId().ToString(),
                         Member = 0
                     };
+                    Console.WriteLine(newEnroll.EventID);
+                    Console.WriteLine(newEnroll.Id);
+                    Console.WriteLine(newEnroll.Member);
+                    try{
+                        
 
                     await _enrollService.CreateAsync(newEnroll);
+                    }catch(Exception e){
+                        
+                        Console.WriteLine(e.Message);
+                    }
+                    
+
+
+
 
                     message_response = "Event created successfully";
                     ViewBag.Message = message_response;
@@ -169,10 +181,10 @@ public class EventController : Controller
         {
             return NotFound();
         }
-        if (tangti.Services.UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
+        if (UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
         {
-            ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
-            return (View());
+            ViewBag.Message = UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
+            return View();
         }
         await _eventsService.UpdateAsync(id, updateEvent);
         return RedirectToAction("Index");

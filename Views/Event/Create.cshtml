@@ -75,9 +75,17 @@
                     @* <span asp-validation-for="EventDate.EndDate" class="text-danger">@Model.end_event_err</span>
                     *@
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden"/>
+            <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" id="sendDataButton" />
                 </div>
             </form>
     </section>
 </div>
+<script>
+    document.getElementById('sendDataButton').addEventListener('click', function () {
+        // Retrieve data from local storage
+        var data = localStorage.getItem('id');
+        document.getElementById("userIDInput").value = data;
+    });
+</script>
