@@ -1,0 +1,146 @@
+@{
+    ViewData["Title"] = "Profile Page";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
+    <title>@ViewData["Title"] - tangti</title>
+</head>
+<body>
+    <div class ="container">
+        <div class="option">
+            <nav>
+                  <div class="nav-con">
+                    <ul class="menu">
+                      <li><button class="button" onclick="showContainer('container1')" onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Personal Info</button></li>
+                      <li><button class="button" onclick="showContainer('container2')" onmouseover="growButton(this)" onmouseout="shrinkButton(this)">My Project</button></li>
+                      <li><button class="button" onclick="showContainer('container3')" onmouseover="growButton(this)" onmouseout="shrinkButton(this)">My Libraly</button></li>
+                    </ul>
+                  </div>
+              </nav>
+        
+        </div>
+            <div class="tabShow" id="container1">
+                <ul>
+                <div class="circular-image">
+                    <input type="file" id="fileInput" style="display: none;" accept="image/*">
+                    <label for="fileInput"></label>
+                    <img id="photo" src="https://pbs.twimg.com/profile_images/477371167880134657/wXovvyZB_400x400.jpeg" alt="Original Photo" onclick="changePhoto()">
+                </div>
+                    <h1> Personal Info </h1>
+                        <h2> First name </h2>
+                        <input type ="text" class="input" id="textInput1" value="Bak" readonly>
+
+                        <h2> Last name </h2>
+                        <input type ="text" class="input" id="textInput2" value="Som" readonly>
+                        
+                        <h2> Email </h2>
+                        <input type ="text" class="input" id="textInput3" value="555@gmail.com" readonly>
+                        
+                        <h2> Telephone Number </h2> 
+                        <input type ="text" class="input" id="textInput4" value="0987654321" readonly>
+                        
+                        <h2> Password </h2>
+                        <input type ="text" class="input" id="textInput5" value="11223344" readonly>
+
+                    <button class="button" id="editButton" onclick="toggleButtons()" onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Edit</button>
+                    <button class="button" id="saveButton" onclick="saveChanges()" style="background-color: green;" onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Save</button>
+                    <button class="button" id="cancelButton" onclick="cancelChanges()" style="background-color: red;" onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Cancel</button>   
+                </ul>
+            </div>
+            <div class="tabShow" id="container2" >
+                <h1>My project</h1>
+            </div>
+                
+            <div class="tabShow" id="container3" >
+                <h1>My Libraly</h1>
+            </div>
+    </div>
+    <script>
+        function changePhoto() {
+          var photo = document.getElementById('photo');
+          var fileInput = document.getElementById('fileInput');
+          fileInput.onchange = function(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              photo.src = e.target.result;
+              photo.alt = 'Selected Photo';
+            };
+            reader.readAsDataURL(file);
+          };
+          fileInput.click();
+        }
+        
+
+        function showContainer(containerId) {
+            var containers = document.querySelectorAll('.tabShow');
+            containers.forEach(function(tabShow) {
+                if (tabShow.id !== containerId) {
+                    tabShow.style.display = 'none';
+                }
+            });
+
+            var containerToShow = document.getElementById(containerId);
+            containerToShow.style.display = 'flex';
+        }
+
+        function toggleButtons() {
+            var editButton = document.getElementById('editButton');
+            var saveButton = document.getElementById('saveButton');
+            var cancelButton = document.getElementById('cancelButton');
+            var textInput1 = document.getElementById('textInput1');
+            var textInput2 = document.getElementById('textInput2');
+            var textInput3 = document.getElementById('textInput3');
+            var textInput4 = document.getElementById('textInput4');
+            var textInput5 = document.getElementById('textInput5');
+
+            if (editButton.style.display !== 'none') {
+                editButton.style.display = 'none';
+                saveButton.style.display = 'inline-block';
+                cancelButton.style.display = 'inline-block';
+                
+                textInput1.readOnly = false;
+                textInput2.readOnly = false;
+                textInput3.readOnly = false;
+                textInput4.readOnly = false;
+                textInput5.readOnly = false;
+                document.getElementById('buttonContainer').style.textAlign = 'center';
+            } 
+            else {
+                editButton.style.display = 'inline-block';
+                saveButton.style.display = 'none';
+                cancelButton.style.display = 'none';
+                
+                textInput1.readOnly = true;
+                textInput2.readOnly = true;
+                textInput3.readOnly = true;
+                textInput4.readOnly = true;
+                textInput5.readOnly = true;
+                document.getElementById('buttonContainer').style.textAlign = 'center';
+            }
+        }
+
+        function saveChanges() {
+            alert('Changes saved!');
+            toggleButtons();
+        }
+
+        function cancelChanges() {
+            alert('Changes canceled!');
+            toggleButtons(); 
+        }
+
+        function growButton(button) {
+      button.style.transform = "scale(1.1)";
+        }
+
+        function shrinkButton(button) {
+      button.style.transform = "scale(1)";
+        }
+    </script>
+
+</body>
