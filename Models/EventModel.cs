@@ -8,9 +8,9 @@ namespace tangti.Models
     {
         public class StartEndDate
         {
-            [BsonElement("start_date")]      
+            [BsonElement("start_date")]
             [BsonRepresentation(BsonType.DateTime)]
-            [BsonDateTimeOptions(Kind = DateTimeKind.Local)]      
+            [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
             public DateTime StartDate { get; set; }
 
             [BsonElement("end_date")]
@@ -61,6 +61,8 @@ namespace tangti.Models
         [BsonElement("Status")]
         public string Status { get; set; } = "Active";
 
+        [BsonElement("CreatedBy")]        
+        public string CreatedBy { get; set; }
 
         public Event()
         {
