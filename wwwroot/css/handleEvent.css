@@ -1,25 +1,24 @@
-body {
-    background-color: #fbf0d4;
-    background: #fbf0d4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
+/* CSS Styles */
 .heading {
-    width: 100%;
-    margin: 20px auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10% auto;
+    text-align: center;
 }
 
 .heading h1 {
     font-size: 50px;
     color: #000;
     margin-bottom: 25px;
+    position: relative;
 }
 
 .heading h1::after {
     content: "";
+    position: absolute;
     width: 100%;
     height: 4px;
     display: block;
@@ -27,47 +26,65 @@ body {
     background-color: #FC611F;
 }
 
-/* Custom styles for the form container */
-.form-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-}
-
-/* Custom styles for the form inside the container */
-.form-container form {
-    padding: 20px;
-    border-radius: 8px;
-}
 .form-control {
     background: #f3f2f2;
     border-radius: 50px;
     margin-top: 10px;
 }
 
-.control-label{
-   color: #666;
-   margin-top: 30px;
+.control-label {
+    color: #666;
+    margin-top: 30px;
 }
 
-
-.btn-primary {
-    padding: 8px 24px ;
+.btn-primary,
+.btn-danger {
+    padding: 8px 24px;
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    background-color: #C2C2C2;
     color: #fff;
     font-size: 14px;
     transition: background-color 0.3s ease;
     margin-top: 30px;
-    margin-left: 30%;
-  
-  }
-  
-  .btn-primary:hover {
-    cursor: pointer;
+    margin-left: 40%;
+}
+
+.btn-primary {
+    background-color: #C2C2C2;
+}
+
+.btn-danger {
+    background-color: #C2C2C2;
+}
+
+.btn-primary:hover {
     background-color: #FF7426;
-  }
+}
+
+.btn-danger:hover {
+    background-color: red;
+}
+
+/* Media Queries for responsiveness */
+@media screen and (max-width: 768px) {
+    .heading h1 {
+        font-size: 40px;
+    }
+
+    .form-control {
+        padding: 6px 20px;
+        font-size: 12px;
+    }
+}
+
+.container {
+    margin: 10%;
+    background-color: white;
+    padding: 10%;
+    border-radius: 4%
+}
+
+body {
+    background-color: #fbf0d4;
+}
