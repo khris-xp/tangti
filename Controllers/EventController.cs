@@ -17,6 +17,7 @@ public class EventController : Controller
         _eventsService = eventsService;
         _categoryService = categoryService;
         _reportService = reportService;
+        _enrollService = enrollService;
     }
 
     // public async Task<IActionResult> Index()
@@ -133,13 +134,14 @@ public class EventController : Controller
                     await _eventsService.CreateAsync(events);
                     Enroll newEnroll = new Enroll
                     {
-                        EventID = events.Id.ToString(),
+                        EventID = events.Id,
                         Id = ObjectId.GenerateNewId().ToString(),
                         Member = 0
                     };
-                    Console.WriteLine(newEnroll.EventID);
-                    Console.WriteLine(newEnroll.Id);
-                    Console.WriteLine(newEnroll.Member);
+                    // Console.WriteLine(newEnroll.EventID);
+                    // Console.WriteLine(newEnroll.Id);
+                    // Console.WriteLine(newEnroll.Member);
+                    // Console.WriteLine(newEnroll.ToJson());
                     try{
                         
 
