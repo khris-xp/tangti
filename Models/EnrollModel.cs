@@ -27,10 +27,10 @@ namespace tangti.Models
         public string? Id { get; set; }
 
         [BsonElement("EventID")]
-        public required string EventID { get; set; }
+        public  string EventID { get; set; }
 
         [BsonElement("Member")]
-        public required int Member { get; set; }
+        public  int Member { get; set; }
 
         [BsonElement("MemberList")]
         public List<JoinUserData> MemberList { get; set; }
@@ -41,4 +41,6 @@ namespace tangti.Models
             Member = MemberList.Count;
         }
     }
+
+
 }

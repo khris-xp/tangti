@@ -3,69 +3,89 @@
     ViewBag.Title = "Create";
 }
 
-<h1>Create</h1>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - tangti</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/handleEvent.css" asp-append-version="true" />
+</head>
 
-<h4>Event</h4>
-<hr />
-<h4 style="color:red">@ViewBag.Message</h4>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                 <label asp-for="Category" class="control-label">Category:</label>
-                    <select id="Category" name="Category" class="form-control" >
-                    @foreach(var category in ViewBag.Categories)
-                    {
-                        <option value="@category">@category</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="EnrollLimit" class="control-label"></label>
-                <input asp-for="EnrollLimit" class="form-control" />
-                <span asp-validation-for="EnrollLimit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
-                <input asp-for="EnrollDate.StartDate" class="form-control" />
-                @* <span asp-validation-for="EnrollDate.StartDate" class="text-danger">@Model.start_enroll_err</span> *@
-            </div>
-            <div class="form-group">
-                <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
-                <input asp-for="EnrollDate.EndDate" class="form-control" />
-                @* <span asp-validation-for="EnrollDate.EndDate" class="text-danger">@Model.end_enroll_err</span> *@
-            </div>
-
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
-                <input asp-for="EventDate.StartDate" class="form-control" />
-                @* <span asp-validation-for="EventDate.StartDate" class="text-danger">@Model.start_event_err</span> *@
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label" >Event End Date</label>
-                <input asp-for="EventDate.EndDate" class="form-control" />
-                @* <span asp-validation-for="EventDate.EndDate" class="text-danger">@Model.end_event_err</span> *@
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="heading">
+    <h1>Create Event</h1>
 </div>
+<div class="container">
+    <section class="form">
+        <div class="form-container">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label">Category:</label>
+                    <select id="Category" name="Category" class="form-control">
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EnrollLimit" class="control-label"></label>
+                    <input asp-for="EnrollLimit" class="form-control" />
+                    <span asp-validation-for="EnrollLimit" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
+                    <input asp-for="EnrollDate.StartDate" class="form-control" />
+                    @* <span asp-validation-for="EnrollDate.StartDate"
+                    class="text-danger">@Model.start_enroll_err</span> *@
+                </div>
+                <div class="form-group">
+                    <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
+                    <input asp-for="EnrollDate.EndDate" class="form-control" />
+                    @* <span asp-validation-for="EnrollDate.EndDate"
+                    class="text-danger">@Model.end_enroll_err</span> *@
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
+                    <input asp-for="EventDate.StartDate" class="form-control" />
+                    @* <span asp-validation-for="EventDate.StartDate"
+                    class="text-danger">@Model.start_event_err</span>
+                    *@
+                </div>
+                <div class="form-group">
+                    <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
+                    <input asp-for="EventDate.EndDate" class="form-control" />
+                    @* <span asp-validation-for="EventDate.EndDate" class="text-danger">@Model.end_event_err</span>
+                    *@
+                </div>
+                <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden"/>
+            <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" id="sendDataButton" />
+                </div>
+            </form>
+    </section>
+</div>
+<script>
+    document.getElementById('sendDataButton').addEventListener('click', function () {
+        // Retrieve data from local storage
+        var data = localStorage.getItem('id');
+        document.getElementById("userIDInput").value = data;
+    });
+</script>

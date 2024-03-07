@@ -10,8 +10,11 @@ public class EnrollService
 
     private readonly IMongoCollection<Enroll> _enrollCollection;
 
+     private readonly ILogger<EventService> _logger;
+
     public EnrollService(
-        IOptions<TangtiDatabaseSetting> tangtiDatabaseSetting)
+        IOptions<TangtiDatabaseSetting> tangtiDatabaseSetting,
+        ILogger<EventService> logger)
     {
         var mongoClient = new MongoClient(
             tangtiDatabaseSetting.Value.ConnectionString);
@@ -23,6 +26,8 @@ public class EnrollService
         _enrollCollection = mongoDatabase.GetCollection<Enroll>(
             "enroll"
         );
+
+        _logger = logger;
     }
 
     public async Task<List<Enroll>> GetAsync() =>
@@ -34,8 +39,18 @@ public class EnrollService
     public async Task<Enroll?> GetEventEnrollAsync(string EventId) =>
         await _enrollCollection.Find(x => x.EventID == EventId).FirstOrDefaultAsync();
 
-    public async Task CreateAsync(Enroll newEnroll) =>
-        await _enrollCollection.InsertOneAsync(newEnroll);
+    public async Task CreateAsync(Enroll newEnroll){
+        try{
+            _logger.LogInformation("Creating a new event: {@Enroll}", newEnroll);
+            await _enrollCollection.InsertOneAsync(newEnroll);
+            
+        }catch(Exception e){
+            _logger.LogError(e.Message);
+
+        }
+
+
+    }
 
     public async Task UpdateAsync(string id, Enroll updatedEnroll) =>
         await _enrollCollection.ReplaceOneAsync(x => x.Id == id, updatedEnroll);

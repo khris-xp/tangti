@@ -10,108 +10,49 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/eventDetail.css" asp-append-version="true" />
+    <script src="~/js/eventDetail.js" asp-append-version="true"></script>
 </head>
+
 <body>
-<script>
-
-    function enrollEvent() {
-        const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
-        const userId = localStorage.getItem("id");
-
-        fetch('https://kmitltangti.azurewebsites.net/api/enroll/update', {
-            method: "POST", // Correct the syntax here
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                eventId: eventId,
-                userId: userId
-            })
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Error');
-        })
-        .then(data => {
-            console.log(data); // Log response data if needed
-            // Handle successful response here
-        })
-        .catch(error => {
-            console.error(error); // Log any errors
-            // Handle errors here
-        });
-    }
-
-    function unenrollEvent() {
-        const eventId = "@Model.Event.Id"; // Add quotes around Model.Event.Id
-        const userId = localStorage.getItem("id");
-
-        fetch('https://kmitltangti.azurewebsites.net/api/enroll/unenroll', {
-            method: "POST", // Correct the syntax here
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                eventId: eventId,
-                userId: userId
-            })
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Error');
-        })
-        .then(data => {
-            console.log(data); // Log response data if needed
-            // Handle successful response here
-        })
-        .catch(error => {
-            console.error(error); // Log any errors
-            // Handle errors here
-        });
-    }
-
-</script>
-
-<div class="box-area">
-    <div class="banner-area">
-    </div>
-    <div class="content-area">
-        <h5>UX UI Design</h5>
-        <h2>Project 1</h2>
-        <button class="event-status">
-            is now openning
-        </button>
-        <div class="content-container">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi unde necessitatibus voluptatem
-                inventore ad. Molestias rerum enim, soluta quis at maxime, ducimus sed quia autem nisi suscipit,
-                accusantium ut reiciendis.</p>
-            <div class="card">
-                <div class="card-details">
-                    <p class="text-title">RUNS FROM</p>
-                    <p class="text-body">Mar 9 - 10, 2024</p>
+    <div class="box-area">
+        <div class="banner-area" style="background-image: url('@Html.DisplayFor(modelItem => Model.Event.Image)');">
+        </div>
+        <div class="content-area">
+            <h5>@Html.DisplayFor(modelItem => Model.Event.Category)</h5>
+            <h2>@Html.DisplayFor(modelItem => Model.Event.Title)</h2>
+            <button class="event-status">
+                @Html.DisplayFor(modelItem => Model.Event.Status)
+            </button>
+            <div class="content-container">
+                <p>@Html.DisplayFor(modelItem => Model.Event.Description)</p>
+                <div class="card">
+                    <div class="card-details">
+                        <p class="text-title">RUNS FROM</p>
+                        <p class="text-body">
+                            <script>
+                                var startDate = "@Model.Event.EnrollDate.StartDate";
+                                var endDate = "@Model.Event.EnrollDate.EndDate";
+                                document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                            </script>
+                        </p>
+                    </div>
+                    <div class="card-details">
+                        <p class="text-title">HAPPENING</p>
+                        <p class="text-body">
+                            <script>
+                                var startDate = "@Model.Event.EventDate.StartDate";
+                                var endDate = "@Model.Event.EventDate.EndDate";
+                                document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                            </script>
+                        </p>
+                    </div>
+                    <div class="card-details">
+                        <p class="text-title">Organiser</p>
+                        <p class="text-body" id="organiser">Plubby</p>
+                    </div>
+                    <button type="button" class="join-button" onclick="enrollEvent()">Join Event</button>
                 </div>
-                <div class="card-details">
-                    <p class="text-title">HAPPENING</p>
-                    <p class="text-body">Mar 20 - 21, 2024</p>
-                </div>
-                <div class="card-details">
-                    <p class="text-title">Organiser</p>
-                    <p class="text-body">Clara R. Altman</p>
-                </div>
-                <button type="button" class="join-button" onclick="enrollEvent()">Join Event</button>
             </div>
-            <div class="form-group">
-                <label asp-for="Event.EventDate.EndDate" class="control-label"></label>
-                <input asp-for="Event.EventDate.EndDate" class="form-control" disabled />
-            </div>
-            <a asp-action="Report" asp-route-id="@Model.Event.Id">Report</a>
         </div>
     </div>
-</div>
-
-
 </body>

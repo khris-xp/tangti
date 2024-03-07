@@ -17,7 +17,7 @@ body {
     width: 100%;
     height: 500px;
     position: relative;
-    background: url('https://media.licdn.com/dms/image/C561BAQE-51J-8KkMZg/company-background_10000/0/1584559866970/eventscom_cover?e=2147483647&v=beta&t=8NsL_HPkr3nHk4ppAg8MkUoiYPUIf082mpMvySv5C7o') no-repeat;
+    background: no-repeat;
     background-size: cover;
     text-align: center;
 }
@@ -29,11 +29,12 @@ body {
 }
 
 .content-area {
-    width: 100%;
     height: 100px;
     position: relative;
     background: #fff;
     top: 50px;
+    margin: 0 auto;
+    padding: 0 10%;
 }
 
 .content-area h2 {
@@ -66,7 +67,7 @@ body {
     text-align: justify;
 }
 
-.content-area .content-container {
+.content-container {
     display: grid;
     grid-template-columns: 70% 30%;
     gap: 1.5rem;
@@ -88,11 +89,7 @@ body {
 }
 
 .card-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    padding-left: 30px;
-    padding-top: 10px;
+    padding: 0.5rem 1rem;
 }
 
 .card-button {
