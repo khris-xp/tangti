@@ -1,6 +1,6 @@
 img {
   width: 100%;
-  height: auto; /* Change height to auto to maintain aspect ratio */
+  height: 300px;
   display: block;
 }
 
@@ -10,7 +10,7 @@ img {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 10% auto;
+  margin: 20px auto;
   text-align: center;
 }
 
@@ -47,7 +47,7 @@ body {
   box-shadow: 0 30px 30px -25px rgba(#626267, .25);
   max-width: 1000px;
   padding: 5.5rem;
-  margin: 10%;
+  margin-left: 10%;
 }
 
 .form-control {
@@ -61,55 +61,48 @@ body {
   margin-top: 30px;
 }
 
-.btn-primary,
+.btn-primary {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #C2C2C2;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+  margin-left: 50%;
+
+}
+
+.btn-primary:hover {
+  cursor: pointer;
+  background-color: #FF7426;
+}
+
+.edit {
+  background-color: #FF7426;
+}
+
+.delete {
+  background-color: red;
+}
+
 .btn-danger {
   padding: 8px 24px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  background-color: #C2C2C2;
   color: #fff;
   font-size: 14px;
   transition: background-color 0.3s ease;
   margin-top: 30px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  margin-left: 10%;
 
-.btn-primary {
-  background-color: #C2C2C2;
-}
-
-.btn-danger {
-  background-color: #C2C2C2;
-}
-
-.btn-primary:hover {
-  background-color: #FF7426;
 }
 
 .btn-danger:hover {
+  cursor: pointer;
   background-color: red;
-}
-
-/* Media Queries for responsiveness */
-
-@media screen and (max-width: 768px) {
-  .heading h1 {
-      font-size: 40px;
-  }
-
-  .heading p {
-      font-size: 16px;
-  }
-
-  .card {
-      padding: 3rem;
-      margin-left: 5%;
-  }
-
-  .btn-primary,
-  .btn-danger {
-      padding: 6px 20px;
-      font-size: 12px;
-  }
 }

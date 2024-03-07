@@ -1,47 +1,58 @@
-@model tangti.Models.Event
+@model tangti.Models.EventEnroll
+@using tangti.Models
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Details";
 }
 
-<h1>Details</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/eventDetail.css" asp-append-version="true" />
+    <script src="~/js/eventDetail.js" asp-append-version="true"></script>
+</head>
 
-<h4>Event</h4>
-<hr />
-<h4>@ViewBag.Message</h4>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" disabled />
+<body>
+    <div class="box-area">
+        <div class="banner-area" style="background-image: url('@Html.DisplayFor(modelItem => Model.Event.Image)');">
+        </div>
+        <div class="content-area">
+            <h5>@Html.DisplayFor(modelItem => Model.Event.Category)</h5>
+            <h2>@Html.DisplayFor(modelItem => Model.Event.Title)</h2>
+            <button class="event-status">
+                @Html.DisplayFor(modelItem => Model.Event.Status)
+            </button>
+            <div class="content-container">
+                <p>@Html.DisplayFor(modelItem => Model.Event.Description)</p>
+                <div class="card">
+                    <div class="card-details">
+                        <p class="text-title">RUNS FROM</p>
+                        <p class="text-body">
+                            <script>
+                                var startDate = "@Model.Event.EnrollDate.StartDate";
+                                var endDate = "@Model.Event.EnrollDate.EndDate";
+                                document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                            </script>
+                        </p>
+                    </div>
+                    <div class="card-details">
+                        <p class="text-title">HAPPENING</p>
+                        <p class="text-body">
+                            <script>
+                                var startDate = "@Model.Event.EventDate.StartDate";
+                                var endDate = "@Model.Event.EventDate.EndDate";
+                                document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                            </script>
+                        </p>
+                    </div>
+                    <div class="card-details">
+                        <p class="text-title">Organiser</p>
+                        <p class="text-body" id="organiser">Plubby</p>
+                    </div>
+                    <button type="button" class="join-button" onclick="enrollEvent()">Join Event</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label"></label>
-                <input asp-for="EventDate.StartDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label"></label>
-                <input asp-for="EventDate.EndDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.StartDate" class="control-label"></label>
-                <input asp-for="EventDate.StartDate" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDate.EndDate" class="control-label"></label>
-                <input asp-for="EventDate.EndDate" class="form-control" disabled />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</body>
