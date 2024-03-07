@@ -2,9 +2,7 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using Microsoft.VisualBasic;
 using tangti.DTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EnrollController
 {
@@ -130,7 +128,7 @@ namespace EnrollController
 
             var _event = await _eventService.GetAsync(enrollDto.eventId);
 
-            if( _event is null)
+            if (_event is null)
             {
                 return BadRequest();
             }
