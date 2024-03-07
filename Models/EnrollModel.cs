@@ -5,15 +5,17 @@ namespace tangti.Models
 {
     public class Enroll
     {
-        public class JoinUserData{
+        public class JoinUserData
+        {
             [BsonElement("UserID")]
-            public string UserID { get; set;}
+            public string UserID { get; set; }
             public DateTime join_date { get; set; }
 
             public bool enroll_status { get; set; }
-            
-            
-            public JoinUserData(string id,bool status) {
+
+
+            public JoinUserData(string id, bool status)
+            {
                 UserID = id;
                 join_date = DateTime.UtcNow;
                 enroll_status = status;
@@ -25,17 +27,20 @@ namespace tangti.Models
         public string? Id { get; set; }
 
         [BsonElement("EventID")]
-        public required string EventID { get; set; }
+        public  string EventID { get; set; }
 
         [BsonElement("Member")]
-        public required int Member { get; set;}
+        public  int Member { get; set; }
 
         [BsonElement("MemberList")]
-        public List<JoinUserData> MemberList { get; set;}
+        public List<JoinUserData> MemberList { get; set; }
 
-        public Enroll(){
+        public Enroll()
+        {
             MemberList = new List<JoinUserData>();
             Member = MemberList.Count;
         }
     }
+
+
 }

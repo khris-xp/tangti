@@ -2,8 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using Microsoft.VisualBasic;
-using Microsoft.AspNetCore.Routing.Tree;
 using tangti.DTOs;
 
 namespace EnrollController
@@ -14,17 +12,19 @@ namespace EnrollController
     {
         private readonly EnrollService _enrollService;
         private readonly UserService _userService;
+        private readonly EventService _eventService;
 
-        public EnrollController(EnrollService enrollService, UserService userService)
+        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService)
         {
             _enrollService = enrollService;
             _userService = userService;
+            _eventService = eventService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Enroll>>> Get()
         {
-            var enrolls = await _enrollService.GetAsync(); 
+            var enrolls = await _enrollService.GetAsync();
 
             return Ok(enrolls);
         }
@@ -108,7 +108,7 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             if (enroll.MemberList.Any(member => member.UserID == enrollDto.userId))
@@ -121,16 +121,30 @@ namespace EnrollController
 
             if (user is null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             user.Enrolled.Add(enroll.EventID);
 
+            var _event = await _eventService.GetAsync(enrollDto.eventId);
+
+            if (_event is null)
+            {
+                return BadRequest();
+            }
+
+            bool status = enroll.Member < _event.EnrollLimit;
+
             enroll.MemberList.Add(
-                new Enroll.JoinUserData(enrollDto.userId, true)
+                new Enroll.JoinUserData(enrollDto.userId, status)
             );
 
             enroll.Member = enroll.MemberList.Count;
+
+            if (enroll.Id == null)
+            {
+                return BadRequest("Enroll Id is null");
+            }
 
             await _enrollService.UpdateAsync(enroll.Id, enroll);
 
@@ -173,11 +187,31 @@ namespace EnrollController
 
             enroll.Member = enroll.MemberList.Count; ;
 
+            if (enroll.Id == null)
+            {
+                return BadRequest("Enroll Id is null");
+            }
             await _enrollService.UpdateAsync(enroll.Id, enroll);
 
-            await _userService.UpdateUserAsync(enrollDto.eventId, user);
+            await _userService.UpdateUserAsync(enrollDto.userId, user);
 
             return Ok(enroll);
+        }
+
+        [HttpPost("check")]
+        public async Task<IActionResult> Check([FromBody] EnrollDto enrollDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
+
+            if (enroll is null)
+            {
+                return BadRequest();
+            }
+
+            bool Result = enroll.MemberList.Any(member => member.UserID == enrollDto.userId);
+
+            // if enroll in event return true : if not enroll return false
+            return Ok(Result);
         }
     }
 }

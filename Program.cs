@@ -3,6 +3,7 @@ using tangti.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -11,6 +12,10 @@ builder.Logging.AddConsole();
 builder.Services.Configure<TangtiDatabaseSetting>(
     builder.Configuration.GetSection("TangtiDatabase"));
 
+builder.Services.Configure<MailSettings>(
+    builder.Configuration.GetSection("SmtpSettings"));
+
+
 builder.Services.AddSingleton<BlogService>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<EnrollService>();
@@ -18,6 +23,7 @@ builder.Services.AddSingleton<EventService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<CategoryService>();
 builder.Services.AddSingleton<ReportService>();
+builder.Services.AddTransient<EmailService>();
 
 builder.Services.AddControllersWithViews();
 
@@ -31,6 +37,7 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
