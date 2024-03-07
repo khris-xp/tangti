@@ -20,19 +20,6 @@ public class EventController : Controller
         _enrollService = enrollService;
     }
 
-    // public async Task<IActionResult> Index()
-    // {
-    //     var events = _eventsService.GetAsync().Result;
-    // 	foreach (var curr_event in events)
-    // 	{
-    // 		if (! await _eventsService.isEnrollTime(curr_event.Id))
-    // 			Console.WriteLine(curr_event.Title + ": Notifination here");
-    // 		// is touch limit => Notification 
-
-    // 	}
-    // 	return View(events);
-    // }
-
     public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString, category);

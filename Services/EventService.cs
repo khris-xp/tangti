@@ -118,11 +118,23 @@ namespace tangti.Services
             return (false);
         }
 
-        public async Task<bool> isEnrollTime(string id)
-        {
-            if (await isTimeClose(id) || await isTimeNotOpen(id))
-                return (false);
-            return (true);
-        }
+		public async Task<bool> isEnrollTime(string id)
+		{
+			if ( await isTimeClose(id) || await isTimeNotOpen(id))
+				return (false);
+			return (true);
+		}
+
+		public async Task<bool> isTouchLimit(string id, Enroll enroll)
+		{
+			var target_event = await GetAsync(id);
+			if (enroll == null)
+				return (true);
+			if (enroll.Member >= target_event.EnrollLimit)
+				return (true);
+			return (false);
+
+			// return (true);
+		}
     }
 }
