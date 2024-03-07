@@ -41,4 +41,6 @@ namespace tangti.Models
             Member = MemberList.Count;
         }
     }
+
+
 }
