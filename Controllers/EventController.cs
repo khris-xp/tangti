@@ -12,25 +12,25 @@ public class EventController : Controller
     private readonly EnrollService _enrollService;
     private readonly CategoryService _categoryService;
     private readonly ReportService _reportService;
-    public EventController(EventService eventsService,EnrollService enrollService,CategoryService categoryService,ReportService reportService,UserService userService)
+    public EventController(EventService eventsService, EnrollService enrollService, CategoryService categoryService, ReportService reportService, UserService userService)
     {
         _eventsService = eventsService;
         _categoryService = categoryService;
         _reportService = reportService;
     }
 
-	// public async Task<IActionResult> Index()
-	// {
+    // public async Task<IActionResult> Index()
+    // {
     //     var events = _eventsService.GetAsync().Result;
-	// 	foreach (var curr_event in events)
-	// 	{
-	// 		if (! await _eventsService.isEnrollTime(curr_event.Id))
-	// 			Console.WriteLine(curr_event.Title + ": Notifination here");
-	// 		// is touch limit => Notification 
-			
-	// 	}
-	// 	return View(events);
-	// }
+    // 	foreach (var curr_event in events)
+    // 	{
+    // 		if (! await _eventsService.isEnrollTime(curr_event.Id))
+    // 			Console.WriteLine(curr_event.Title + ": Notifination here");
+    // 		// is touch limit => Notification 
+
+    // 	}
+    // 	return View(events);
+    // }
 
     public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 5)
     {
@@ -45,14 +45,14 @@ public class EventController : Controller
         ViewBag.PageSize = pageSize;
         ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
 
-		// check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
-		foreach (var curr_event in events)
-		{
-			if (! await _eventsService.isEnrollTime(curr_event.Id))
-				Console.WriteLine(curr_event.Title + ": Notifination here");			
-		}
-        
-		return View(events);
+        // check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
+        foreach (var curr_event in events)
+        {
+            if (curr_event.Id != null && !await _eventsService.isEnrollTime(curr_event.Id))
+                Console.WriteLine(curr_event.Title + ": Notifination here");
+        }
+
+        return View(events);
     }
 
     public IActionResult Details(string id)
@@ -66,7 +66,7 @@ public class EventController : Controller
 
         return View(viewModel);
     }
-    public  async Task<IActionResult> Create()
+    public async Task<IActionResult> Create()
     {
         var categories = await _categoryService.GetCategoryNamesAsync();
         ViewBag.Categories = categories;
@@ -122,16 +122,18 @@ public class EventController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-				if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
-				{
-					ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
-					return (View());
-				}
-				else{
-                	events.Id = ObjectId.GenerateNewId().ToString();
-                	await _eventsService.CreateAsync(events);
+                if (tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
+                {
+                    ViewBag.Message = tangti.Services.UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
+                    return (View());
+                }
+                else
+                {
+                    events.Id = ObjectId.GenerateNewId().ToString();
+                    await _eventsService.CreateAsync(events);
 
-                    Enroll newEnroll = new Enroll{
+                    Enroll newEnroll = new Enroll
+                    {
                         EventID = events.Id.ToString(),
                         Id = ObjectId.GenerateNewId().ToString(),
                         Member = 0
@@ -139,11 +141,11 @@ public class EventController : Controller
 
                     await _enrollService.CreateAsync(newEnroll);
 
-                	message_response = "Event created successfully";
-                	ViewBag.Message = message_response;
-    	            return RedirectToAction("Index");
-				}
-			}
+                    message_response = "Event created successfully";
+                    ViewBag.Message = message_response;
+                    return RedirectToAction("Index");
+                }
+            }
             else
             {
                 message_response = "Invalid model state";
@@ -190,19 +192,19 @@ public class EventController : Controller
         return RedirectToAction("Index");
     }
 
-	[HttpPost]
+    [HttpPost]
     public async Task<IActionResult> ChangeStatus(string id, string new_status)
     {
         var events = await _eventsService.GetAsync(id);
 
-		// if status not in list => return ;
-		if (new_status != "NOT_OPENED" || new_status != "ON_GOING" || new_status != "CLOSED" || new_status != "CANCELED" || new_status != "BANNED")
-			return (RedirectToAction("Index")); // can change
+        // if status not in list => return ;
+        if (new_status != "NOT_OPENED" || new_status != "ON_GOING" || new_status != "CLOSED" || new_status != "CANCELED" || new_status != "BANNED")
+            return (RedirectToAction("Index")); // can change
         if (events is null)
         {
             return NotFound();
         }
-		events.Status = new_status;
+        events.Status = new_status;
         await _eventsService.UpdateAsync(id, events);
         return RedirectToAction("Index");
     }

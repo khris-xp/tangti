@@ -12,7 +12,7 @@ namespace tangti.Models
         public string? Content { get; set; }
         public string? EventId { get; set; }
         public string? Createdby { get; set; }
-        
+
         [BsonElement("CreateAt")]
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
