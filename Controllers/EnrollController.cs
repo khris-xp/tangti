@@ -3,7 +3,6 @@ using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Microsoft.VisualBasic;
-using Microsoft.AspNetCore.Routing.Tree;
 using tangti.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -27,7 +26,7 @@ namespace EnrollController
         [HttpGet]
         public async Task<ActionResult<List<Enroll>>> Get()
         {
-            var enrolls = await _enrollService.GetAsync(); 
+            var enrolls = await _enrollService.GetAsync();
 
             return Ok(enrolls);
         }
@@ -144,6 +143,11 @@ namespace EnrollController
 
             enroll.Member = enroll.MemberList.Count;
 
+            if (enroll.Id == null)
+            {
+                return BadRequest("Enroll Id is null");
+            }
+
             await _enrollService.UpdateAsync(enroll.Id, enroll);
 
             await _userService.UpdateUserAsync(enrollDto.userId, user);
@@ -185,9 +189,13 @@ namespace EnrollController
 
             enroll.Member = enroll.MemberList.Count; ;
 
+            if (enroll.Id == null)
+            {
+                return BadRequest("Enroll Id is null");
+            }
             await _enrollService.UpdateAsync(enroll.Id, enroll);
 
-            await _userService.UpdateUserAsync(enrollDto.eventId, user);
+            await _userService.UpdateUserAsync(enrollDto.userId, user);
 
             return Ok(enroll);
         }
