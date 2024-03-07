@@ -26,23 +26,28 @@ public class ReportService
         );
     }
 
-    public async Task<List<Report>> GetReportsAsync(){
+    public async Task<List<Report>> GetReportsAsync()
+    {
         return await _reportCollection.Find(_ => true).ToListAsync();
     }
 
-    public async Task<Report?> GetReportAsync(string id){
+    public async Task<Report?> GetReportAsync(string id)
+    {
         return await _reportCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task CreateAsync(Report newReport){
+    public async Task CreateAsync(Report newReport)
+    {
         await _reportCollection.InsertOneAsync(newReport);
     }
 
-    public async Task UpdateAsync(string id,Report updateReport){
-        await _reportCollection.ReplaceOneAsync(x => x.Id == id , updateReport);
+    public async Task UpdateAsync(string id, Report updateReport)
+    {
+        await _reportCollection.ReplaceOneAsync(x => x.Id == id, updateReport);
     }
 
-    public async Task DeleteAsync(string id){
+    public async Task DeleteAsync(string id)
+    {
         await _reportCollection.DeleteOneAsync(x => x.Id == id);
     }
 }

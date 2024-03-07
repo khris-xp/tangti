@@ -33,7 +33,7 @@ public class BlogService
         await _blogsCollection.InsertOneAsync(newBlog);
 
     public async Task UpdateAsync(string id, Blog updatedBlog) =>
-        
+
         await _blogsCollection.ReplaceOneAsync(x => x.Id == id, updatedBlog);
 
     public async Task DeleteAsync(string id) =>
