@@ -1,107 +1,115 @@
-img{
-    width: 100%;
-    height: 300px;
-    display: block;
-  }
+img {
+  width: 100%;
+  height: auto; /* Change height to auto to maintain aspect ratio */
+  display: block;
+}
 
-  .heading {
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 20px auto;
-    text-align: center;
-  }
-  
-  .heading h1 {
-    font-size: 50px;
-    color: #000;
-    margin-bottom: 25px;
-    position: relative;
-  }
-  
-  .heading h1::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 4px;
-    display: block;
-    margin: 0 auto;
-    background-color: #FC611F;
-  }
-  
-  .heading p {
-    font-size: 18px;
-    color: #666;
+.heading {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10% auto;
+  text-align: center;
+}
 
-  }
+.heading h1 {
+  font-size: 50px;
+  color: #000;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.heading h1::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  display: block;
+  margin: 0 auto;
+  background-color: #FC611F;
+}
+
+.heading p {
+  font-size: 18px;
+  color: #666;
+}
 
 body {
-    line-height: 1.5;
-    min-height: 100vh;
-    align-items: center;
+  line-height: 1.5;
+  min-height: 100vh;
+  align-items: center;
 }
 
 .card {
-    border-radius: 16px;
-    box-shadow: 0 30px 30px -25px rgba(#626267, .25);
-    max-width: 1000px;
-    padding: 5.5rem;
-    margin-left: 10%;
-}
-.form-control {
-    background: #f3f2f2;
-    border-radius: 50px;
-    margin-top: 10px;
+  border-radius: 16px;
+  box-shadow: 0 30px 30px -25px rgba(#626267, .25);
+  max-width: 1000px;
+  padding: 5.5rem;
+  margin: 10%;
 }
 
-.control-label{
-   color: #666;
-   margin-top: 30px;
+.form-control {
+  background: #f3f2f2;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+
+.control-label {
+  color: #666;
+  margin-top: 30px;
+}
+
+.btn-primary,
+.btn-danger {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-primary {
-    padding: 8px 24px ;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    background-color: #C2C2C2;
-    color: #fff;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    margin-top: 30px;
-    margin-left: 50%;
-  
-  }
-  
-  .btn-primary:hover {
-    cursor: pointer;
-    background-color: #FF7426;
-  }
-
-  .edit{
-    background-color: #FF7426;
-}
-.delete{
-    background-color: red;
+  background-color: #C2C2C2;
 }
 
 .btn-danger {
-    padding: 8px 24px ;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    background-color: #C2C2C2;
-    color: #fff;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    margin-top: 30px;
-    margin-left: 10%;
-  
+  background-color: #C2C2C2;
+}
+
+.btn-primary:hover {
+  background-color: #FF7426;
+}
+
+.btn-danger:hover {
+  background-color: red;
+}
+
+/* Media Queries for responsiveness */
+
+@media screen and (max-width: 768px) {
+  .heading h1 {
+      font-size: 40px;
   }
-  
-  .btn-danger:hover {
-    cursor: pointer;
-    background-color: red;
+
+  .heading p {
+      font-size: 16px;
   }
+
+  .card {
+      padding: 3rem;
+      margin-left: 5%;
+  }
+
+  .btn-primary,
+  .btn-danger {
+      padding: 6px 20px;
+      font-size: 12px;
+  }
+}

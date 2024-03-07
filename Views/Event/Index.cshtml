@@ -10,12 +10,35 @@
     <a asp-action="Create">Create</a>
 </p>
 
+@using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" })) {    
+
+    <p> 
+        Title: @Html.TextBox("SearchString") 
+        <input type="submit" value="Search" />
+        <br/>
+        <label for="category" class="control-label">Category:</label>
+        <select id="category" name="category" class="form-control" >
+            <option value="">All</option>
+            @foreach(var category in ViewBag.Categories_list) {  
+                <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
+            }
+        </select>
+        
+    </p> 
+}
+
+
+
+
+
 <table class="table">
     <thead>
         <tr>
+
             <th>
                 @Html.DisplayNameFor(model => model[0].Title)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model[0].Description)
             </th>
@@ -76,3 +99,23 @@
         }
     </tbody>
 </table>
+
+<div>
+    Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
+    {
+        <a href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
+    }
+</div>
+
+
+<script>
+    // Attach an event listener to the category select element
+    document.getElementById("category").addEventListener("change", function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+        // Submit the form when category selection changes
+        document.getElementById("searchForm").submit();
+    });
+
+
+</script>

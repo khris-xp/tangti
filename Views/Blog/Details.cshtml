@@ -12,7 +12,7 @@
 </head>
 
 <img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
-                alt="Room">
+    alt="Room">
 <div class="heading">
     <h1>@Html.DisplayFor(modelItem => Model.Title)</h1>
     <p> created by <span class='bold'>@Html.DisplayFor(modelItem => Model.CreatedBy)</span></p>
@@ -20,13 +20,13 @@
 </div>
 
 <div class='content'>
-	<article class="card">
-		<h2 class="title">@Html.DisplayFor(modelItem => Model.Description)</h2>
-		<p class="info">@Html.DisplayFor(modelItem => Model.Content)</p>
+    <article class="card">
+        <h2 class="title">@Html.DisplayFor(modelItem => Model.Description)</h2>
+        <p class="info">@Html.DisplayFor(modelItem => Model.Content)</p>
         <p class="published">published at @Html.DisplayFor(modelItem => Model.CreatedAt)</p>
-	</article>
+    </article>
 </div>
 
-		<button class="button" href="/Blog/">
-			<span>More Articles</span>
-		</button>
+<button class="button" href="/Blog/">
+    <span>More Articles</span>
+</button>

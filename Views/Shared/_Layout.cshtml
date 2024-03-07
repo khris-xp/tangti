@@ -22,13 +22,15 @@
             <li><a href="/Blog">Blogs</a></li>
             <li><a href="/">History</a></li>
         </ul>
-        <a href="/Login" class="action_btn">
-            Login
-        </a>
+        <div>
+            <a href="/Login" class="action_btn" id="loginBtn">Login</a>
+            <a href="/Profile" class="action_btn" id="profileLink">Profile</a>
+            <button class="action_btn" id="logoutBtn" onclick="logout()">Logout</button>
+        </div>
         <div class="toggle_btn">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
         </div>
 
@@ -50,6 +52,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/119d8665c4.js" crossorigin="anonymous"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            checkLogin();
+        });
+
         const toggleBtn = document.querySelector('.toggle_btn');
         const dropdownMenu = document.querySelector('.dropdown_menu');
         toggleBtn.onclick = function () {
@@ -64,6 +70,25 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>`;
             }
+        }
+
+        function checkLogin() {
+            const id = localStorage.getItem('id');
+            if (id) {
+                document.getElementById('loginBtn').classList.add('action_btn_hidden');
+                document.getElementById('profileLink').classList.remove('action_btn_hidden');
+                document.getElementById('logoutBtn').classList.remove('action_btn_hidden');
+            }
+            else {
+                document.getElementById('loginBtn').classList.remove('action_btn_hidden');
+                document.getElementById('profileLink').classList.add('action_btn_hidden');
+                document.getElementById('logoutBtn').classList.add('action_btn_hidden');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('id');
+            window.location.href = '/';
         }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
