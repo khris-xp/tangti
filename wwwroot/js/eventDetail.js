@@ -15,8 +15,9 @@ function getOrganiserById(endpointUrl) {
     });
 }
 
-function updateEnrollment(endpointUrl) {
-  const eventId = '@Model.Event.Id';
+function updateEnrollment(endpointUrl,eventId) {
+  // const eventId = '@Model.Event.Id';
+  // console.log(eventId);
   const userId = localStorage.getItem('id');
 
   fetch(endpointUrl, {
@@ -40,15 +41,15 @@ function updateEnrollment(endpointUrl) {
     });
 }
 
-function enrollEvent() {
+function enrollEvent(eventId) {
   const endpointUrl = 'https://kmitltangti.azurewebsites.net/api/enroll/update';
-  updateEnrollment(endpointUrl);
+  updateEnrollment(endpointUrl,eventId);
 }
 
-function unenrollEvent() {
+function unenrollEvent(eventId) {
   const endpointUrl =
     'https://kmitltangti.azurewebsites.net/api/enroll/unenroll';
-  updateEnrollment(endpointUrl);
+  updateEnrollment(endpointUrl,eventId);
 }
 
 function formatDate(date) {
