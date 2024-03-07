@@ -3,14 +3,41 @@
     ViewBag.Title = "Edit";
 }
 
-<h1>Edit</h1>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - tangti</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/handleEvent.css" asp-append-version="true" />
+</head>
 
-<h4>Event</h4>
-<hr />
-<h4>@ViewBag.Message</h4>
+<script>
+    function openConfirmationModal() {
+        var projectName = prompt("Please enter the project name:");
+        if (projectName) {
+            document.getElementById("projectName").innerText = projectName;
+            document.getElementById("myModal").style.display = "block";
+        }
+    }
 
-<div class="row">
-    <div class="col-md-4">
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function closeProject() {
+        // Add your logic to close the project here
+        alert("Project closed successfully!");
+        closeModal();
+    }
+</script>
+
+
+<div class="heading">
+    <h1>Edit Event</h1>
+</div>
+<h3>1. Information</h3>
+<div class="container">
+    <div class="form-container">
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -29,9 +56,9 @@
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                 <label asp-for="Category" class="control-label">Category:</label>
-                    <select id="Category" name="Category" class="form-control" >
-                    @foreach(var category in ViewBag.Categories)
+                <label asp-for="Category" class="control-label">Category:</label>
+                <select id="Category" name="Category" class="form-control">
+                    @foreach (var category in ViewBag.Categories)
                     {
                         <option value="@category">@category</option>
                     }
@@ -59,7 +86,7 @@
                 <span asp-validation-for="EventDate.StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="EventDate_EndDate" class="control-label" >Event End Date</label>
+                <label for="EventDate_EndDate" class="control-label">Event End Date</label>
                 <input asp-for="EventDate.EndDate" class="form-control" />
                 <span asp-validation-for="EventDate.EndDate" class="text-danger"></span>
             </div>
@@ -74,3 +101,112 @@
         </form>
     </div>
 </div>
+
+<h3>2. Selection & Closing</h3>
+<div class="container">
+    <h4>Member</h4>
+    <div class="members">
+        <div class="card" style="--background:#FF7426; --text:white;">
+            <div class="multi-button">
+                <button class="fas fa-heart"></button>
+                <button class="fas fa-comment"></button>
+                <button class="fas fa-share-alt"></button>
+            </div>
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
+                <figcaption>
+                    <h3 class"username">John Doe</h3>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="card" style="--background:#FF7426; --text:white;">
+            <div class="multi-button">
+                <button class="fas fa-heart"></button>
+                <button class="fas fa-comment"></button>
+                <button class="fas fa-share-alt"></button>
+            </div>
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
+                <figcaption>
+                    <h3 class"username">John Doe</h3>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="card" style="--background:#FF7426; --text:white;">
+            <div class="multi-button">
+                <button class="fas fa-heart"></button>
+                <button class="fas fa-comment"></button>
+                <button class="fas fa-share-alt"></button>
+            </div>
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
+                <figcaption>
+                    <h3 class"username">John Doe</h3>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+    <h4>Registrator</h4>
+    <div class="members">
+        <div class="card" style="--background:#FF7426; --text:white;">
+            <div class="multi-button">
+                <button class="fas fa-heart"></button>
+                <button class="fas fa-comment"></button>
+                <button class="fas fa-share-alt"></button>
+            </div>
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
+                <figcaption>
+                    <h3 class"username">John Doe</h3>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="card" style="--background:#FF7426; --text:white;">
+            <div class="multi-button">
+                <button class="fas fa-heart"></button>
+                <button class="fas fa-comment"></button>
+                <button class="fas fa-share-alt"></button>
+            </div>
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
+                <figcaption>
+                    <h3 class"username">John Doe</h3>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="card" style="--background:#FF7426; --text:white;">
+            <div class="multi-button">
+                <button class="fas fa-heart"></button>
+                <button class="fas fa-comment"></button>
+                <button class="fas fa-share-alt"></button>
+            </div>
+            <figure>
+                <img
+                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
+                <figcaption>
+                    <h3 class"username">John Doe</h3>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+        <h4>Dangerous Zone! Cannot be undone</h4>
+        <button class="button-24" role="button" onclick="openConfirmationModal()">Close Project</button>
+        <div id="warningMessage" class="warning" style="display: none;">
+            Please enter a valid project name!
+        </div>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p>Are you sure you want to close the project "<span id="projectName"></span>"?</p>
+        <button class="confirm-btn" onclick="closeProject()">Yes, Close</button>
+    </div>
+</div>
+
