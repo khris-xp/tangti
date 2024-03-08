@@ -24,6 +24,7 @@ builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<CategoryService>();
 builder.Services.AddSingleton<ReportService>();
 builder.Services.AddTransient<EmailService>();
+builder.Services.AddSingleton<CommentService>();
 
 builder.Services.AddControllersWithViews();
 
