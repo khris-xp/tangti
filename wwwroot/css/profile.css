@@ -1,0 +1,153 @@
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+.circular-image {
+    margin-top: 5%;
+    width: 200px; 
+    height: 200px;
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 3px solid #000;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+#photo {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    object-fit:cover;
+  }
+
+.container {
+    background: #fbf0d4;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 5%;
+    margin-left: 1%;
+    margin-right: 1%;
+    box-shadow: 2px 5px 20px
+    rgba(119,119,119,.5);
+    border-radius: 5px;
+}
+
+.option {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding:10px 0px;
+}
+
+.li {
+    list-style: none;
+}
+
+nav .menu{
+    gap: 10px;
+  }
+  
+  .nav-con {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+  }
+
+  .menu {
+    display: flex;
+  }
+  
+  .menu li {
+    list-style: none;
+  }
+
+.tabShow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tabShow h1{
+    color: #ff7426;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.tabShow h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2.5%;
+}
+
+.input{
+    color: #6f6f6f;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15%;
+}
+
+.button {
+    background-color: #ff7426;
+        color: #fff;
+        font-size: 20px;
+        padding: 10px 30px;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+  }
+
+  .button:hover {
+    transform: scale(1.1);
+  }
+
+.project_tabShow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.libraly_tabShow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container2{
+    display: none;
+}
+
+#container3{
+    display: none;
+}
+
+#saveButton, #cancelButton {
+    display: none;
+}
+
+#textInput1 #textInput2{
+    width: 200px;
+}
+
