@@ -213,5 +213,27 @@ namespace EnrollController
             // if enroll in event return true : if not enroll return false
             return Ok(Result);
         }
+
+        [HttpPost("updatestatus")]
+        public async Task<IActionResult> UpdateStatus([FromBody] UpdateStatusDto UpdateStatusDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(UpdateStatusDto.eventId);
+
+            if (enroll is null)
+            {
+                return BadRequest();
+            }
+
+            foreach(var member in enroll.MemberList)
+            {
+                if(member.UserID == UpdateStatusDto.userId)
+                {
+                    member.enroll_status = UpdateStatusDto.status;
+                    return Ok(member);
+                }
+            } 
+
+            return Ok("Not in Enrollment");
+        }
     }
 }
