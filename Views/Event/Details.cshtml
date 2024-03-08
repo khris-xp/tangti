@@ -48,11 +48,63 @@
                     </div>
                     <div class="card-details">
                         <p class="text-title">Organiser</p>
-                        <p class="text-body" id="organiser">Plubby</p>
+                        <p class="text-body" id="organiser"></p>
                     </div>
-                    <button type="button" class="join-button" onclick="enrollEvent('@Model.Event.Id')">Join Event</button>
+                    <button id="join-event" type="button" class="join-button"
+                        onclick="enrollEvent('@Model.Event.Id')">Join
+                        Event</button>
+                    <button id="unjoin-event" type="button" class="join-button"
+                        onclick="unenrollEvent('@Model.Event.Id')">
+                        Unjoin Event</button>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const organiserId = "@Model.Event.CreatedBy";
+        const user_id = localStorage.getItem('id');
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                document.getElementById('organiser').innerHTML = data.fullName;
+            }).catch(error => {
+                console.error(error);
+            });
+
+            const enrollment = fetch('https://kmitltangti.azurewebsites.net/api/enroll/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventId: "@Model.Event.Id",
+                    userId: user_id
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                console.log('data : ', data);
+                if (data) {
+                    document.querySelector('.join-button').style.display = 'none';
+                    document.querySelector('#unjoin-event').style.display = 'block';
+                }
+                else {
+                    document.querySelector('.join-button').style.display = 'block';
+                    document.querySelector('#unjoin-event').style.display = 'none';
+                }
+            }).catch(error => {
+                console.error(error);
+            })
+        });
+    </script>
 </body>

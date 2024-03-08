@@ -1,3 +1,16 @@
+function updateEnrollmentUI(enrolled) {
+  const joinButton = document.querySelector('#join-event');
+  const unjoinButton = document.querySelector('#unjoin-event');
+
+  if (enrolled) {
+    joinButton.style.display = 'none';
+    unjoinButton.style.display = 'block';
+  } else {
+    joinButton.style.display = 'block';
+    unjoinButton.style.display = 'none';
+  }
+}
+
 function getOrganiserById(endpointUrl) {
   fetch(endpointUrl)
     .then((response) => {
@@ -15,9 +28,7 @@ function getOrganiserById(endpointUrl) {
     });
 }
 
-function updateEnrollment(endpointUrl,eventId) {
-  // const eventId = '@Model.Event.Id';
-  // console.log(eventId);
+function updateEnrollment(endpointUrl, eventId) {
   const userId = localStorage.getItem('id');
 
   fetch(endpointUrl, {
@@ -43,13 +54,15 @@ function updateEnrollment(endpointUrl,eventId) {
 
 function enrollEvent(eventId) {
   const endpointUrl = 'https://kmitltangti.azurewebsites.net/api/enroll/update';
-  updateEnrollment(endpointUrl,eventId);
+  updateEnrollment(endpointUrl, eventId);
+  updateEnrollmentUI(true);
 }
 
 function unenrollEvent(eventId) {
   const endpointUrl =
     'https://kmitltangti.azurewebsites.net/api/enroll/unenroll';
-  updateEnrollment(endpointUrl,eventId);
+  updateEnrollment(endpointUrl, eventId);
+  updateEnrollmentUI(false);
 }
 
 function formatDate(date) {
