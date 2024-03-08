@@ -61,15 +61,14 @@ namespace tangti.Models
         [BsonElement("Status")]
         public string Status { get; set; } = "Active";
 
-        [BsonElement("CreatedBy")]        
-        public string CreatedBy { get; set; }
+        [BsonElement("CreatedBy")]
+        public string? CreatedBy { get; set; }
 
         public Event()
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
+            CreatedBy = null;
         }
-
-
     }
 }

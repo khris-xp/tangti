@@ -129,18 +129,15 @@ public class EventController : Controller
                     // Console.WriteLine(newEnroll.Id);
                     // Console.WriteLine(newEnroll.Member);
                     // Console.WriteLine(newEnroll.ToJson());
-                    try{
-                        
+                    try
+                    {
+                        await _enrollService.CreateAsync(newEnroll);
+                    }
+                    catch (Exception e)
+                    {
 
-                    await _enrollService.CreateAsync(newEnroll);
-                    }catch(Exception e){
-                        
                         Console.WriteLine(e.Message);
                     }
-                    
-
-
-
 
                     message_response = "Event created successfully";
                     ViewBag.Message = message_response;
