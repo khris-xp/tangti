@@ -256,7 +256,7 @@ nav .menu{
     padding: 1.25rem;
     position: relative;
     transition: .15s ease-in;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     
     
 
@@ -481,4 +481,34 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .card-button:hover {
     background-color: darkred;
+}
+
+.pagination {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.pagebutton {
+    width: 13px;
+    height: 13px;
+    float: left;
+    margin-right: 20px;
+    background-color: #C2C2C2;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease width;
+}
+
+.pagebutton:last-child {
+    margin-right: 0;
+}
+
+.pagebutton.active {
+    width: 40px;
+    cursor: auto;
+    background-color: #FF7426;
 }

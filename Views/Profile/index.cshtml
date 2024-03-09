@@ -16,11 +16,11 @@
             <nav>
                 <div class="nav-con">
                     <div class="menu">
-                        <li><button class="option_button clicked" id="option1" onclick="showContainer('container1'); changeColor('option1')" onmouseover="growButton(this)"
+                        <li><button class="option_button clicked" id="option1" onclick="showContainer('container1'); changeColor('option1'); hidepagination()" onmouseover="growButton(this)"
                                 onmouseout="shrinkButton(this)">Personal Info</button></li>
-                        <li><button class="option_button" id="option2" onclick="showContainer('container2'); changeColor('option2')" onmouseover="growButton(this)"
+                        <li><button class="option_button" id="option2" onclick="showContainer('container2'); changeColor('option2'); hidepagination()" onmouseover="growButton(this)"
                                 onmouseout="shrinkButton(this)">My Project</button></li>
-                        <li><button class="option_button" id="option3" onclick="showContainer('container3'); changeColor('option3')" onmouseover="growButton(this)"
+                        <li><button class="option_button" id="option3" onclick="showContainer('container3'); changeColor('option3'); hidepagination()" onmouseover="growButton(this)"
                                 onmouseout="shrinkButton(this)">My Libraly</button></li>
                     </div>
                     <select id="dropdownMenu" onchange="dropdownSelectionChanged()"></select>
@@ -112,7 +112,7 @@
                                         01/10/24
                                     </div>
                                 </div>
-                                <button class="card-button">Leave Event</button>
+                                <button class="card-button"> details </button>
                             </div>
                         </article>
                     
@@ -170,12 +170,22 @@
                                         01/10/24
                                     </div>
                                 </div>
-                                <button class="card-button">Leave Event</button>
+                                <button class="card-button"> details </button>
                             </div>
-
                         </article>
+                    
+            </div>
+            
+            <div class="pagination">
+                        <div class="pagebutton active"></div>
+                        <div class="pagebutton"></div>
+                        <div class="pagebutton"></div>
+                        <div class="pagebutton"></div> 
+
         </div>
+
     </div>
+
     <script>
         function changePhoto() {
             var photo = document.getElementById('photo');
@@ -192,9 +202,9 @@
             fileInput.click();
         }
 
-
         function showContainer(containerId) {
             var containers = document.querySelectorAll('.tabShow');
+            var pagination = document.getElementsByClassName('pagination');
             containers.forEach(function (tabShow) {
                 if (tabShow.id !== containerId) {
                     tabShow.style.display = 'none';
@@ -204,8 +214,20 @@
             var containerToShow = document.getElementById(containerId);
             if(containerId === 'container1')
             containerToShow.style.display = 'flex';
+            
             else
             containerToShow.style.display = 'flex';
+            
+        }
+
+        function hidepagination(){
+            var pagination = document.getElementsByClassName('pagination')
+            var container = document.getElementById('container1')
+            console.log(pagination)
+            if (container.style.display === 'none')
+            pagination.style.display = 'none';
+            else
+            pagination.style.display = 'flex';
         }
 
         function toggleButtons() {
@@ -311,6 +333,27 @@
 
     prevButtonId = buttonId;
   }
+
+  function handlePagination() {
+            var buttons = document.querySelectorAll('.pagination .button');
+
+            buttons.forEach(function (button, index) {
+                button.addEventListener('click', function () {
+                    buttons.forEach(function (btn) {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    loadData(index + 1);
+                });
+            });
+        }
+
+        function loadData(pageIndex) {
+            console.log('Loading data for page ' + pageIndex);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            handlePagination();
+        });
     </script>
 
 </body>
