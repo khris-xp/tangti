@@ -1,3 +1,4 @@
+@model IEnumerable<tangti.Models.UserModel>
 @{
     ViewData["Title"] = "Profile Page";
 }
@@ -38,19 +39,17 @@
                 <h1> Personal Info </h1>
                     <div class="textlist">
                         <h2> First name </h2>
-                        <input type="text" class="input" id="textInput1" value="Bak" readonly>
+                        <div class="input" id="userFirstName"></div>
 
                         <h2> Last name </h2>
-                        <input type="text" class="input" id="textInput2" value="Som" readonly>
+                        <div class="input" id="userLastName"></div>
 
                         <h2> Email </h2>
-                        <input type="text" class="input" id="textInput3" value="555@gmail.com" readonly>
+                        <div class="input" id="userEmail"></div>
 
                         <h2> Telephone Number </h2>
-                        <input type="text" class="input" id="textInput4" value="0987654321" readonly>
+                        <div class="input" id="userPhone"></div>
 
-                        <h2> Password </h2>
-                        <input type="text" class="input" id="textInput5" value="11223344" readonly>
                     </div>
                 <button class="button" id="editButton" onclick="toggleButtons()" onmouseover="growButton(this)"
                     onmouseout="shrinkButton(this)">Edit</button>
@@ -334,25 +333,27 @@
     prevButtonId = buttonId;
   }
 
-  function handlePagination() {
-            var buttons = document.querySelectorAll('.pagination .button');
-
-            buttons.forEach(function (button, index) {
-                button.addEventListener('click', function () {
-                    buttons.forEach(function (btn) {
-                        btn.classList.remove('active');
-                    });
-                    button.classList.add('active');
-                    loadData(index + 1);
-                });
+  const user_id = localStorage.getItem('id');
+  document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                console.log(data)
+                document.getElementById('userFirstName').innerHTML = data.firstName;
+                document.getElementById('userLastName').innerHTML = data.lastName;
+                document.getElementById('userEmail').innerHTML = data.email;
+                document.getElementById('userPhone').innerHTML = data.phone;
+            }).catch(error => {
+                console.error(error);
             });
-        }
 
-        function loadData(pageIndex) {
-            console.log('Loading data for page ' + pageIndex);
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            handlePagination();
         });
     </script>
 
