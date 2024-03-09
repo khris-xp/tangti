@@ -35,8 +35,12 @@ public class EventController : Controller
 
         foreach (var curr_event in events)
         {
-            if (curr_event.Id != null && !await _eventsService.isEnrollTime(curr_event.Id))
-                Console.WriteLine(curr_event.Title + ": Notifination here");
+			var enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
+
+            if (curr_event.Id != null && await _eventsService.isTimeClose(curr_event.Id))
+                Console.WriteLine(curr_event.Title + ": Notifination (by time)");
+			if (await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
+				Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
         }
 
         return View(events);
