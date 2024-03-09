@@ -2,7 +2,6 @@ using tangti.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using tangti.Configs;
-using Microsoft.Extensions.Logging; // Add this namespace
 
 namespace tangti.Services
 {
@@ -91,15 +90,6 @@ namespace tangti.Services
         {
             await _eventCollections.DeleteOneAsync(x => x.Id == id);
         }
-
-        // public bool isTimeClose(string id)
-        // {
-        // 	target_event = GetAsync(id);
-        // 	var now_date = DateTime.Now;
-        // 	if (now_date > target_event.EnrollDate.EndDate)
-        // 		return (true);
-        // 	return (false);
-        // }
         public async Task<bool> isTimeClose(string id)
         {
             var target_event = await GetAsync(id);
@@ -118,23 +108,22 @@ namespace tangti.Services
             return (false);
         }
 
-		public async Task<bool> isEnrollTime(string id)
-		{
-			if ( await isTimeClose(id) || await isTimeNotOpen(id))
-				return (false);
-			return (true);
-		}
+        public async Task<bool> isEnrollTime(string id)
+        {
+            if (await isTimeClose(id) || await isTimeNotOpen(id))
+                return (false);
+            return (true);
+        }
 
-		public async Task<bool> isTouchLimit(string id, Enroll enroll)
-		{
-			var target_event = await GetAsync(id);
-			if (enroll == null)
-				return (true);
-			if (enroll.Member >= target_event.EnrollLimit)
-				return (true);
-			return (false);
+        public async Task<bool> isTouchLimit(string id, Enroll enroll)
+        {
+            var target_event = await GetAsync(id);
+            if (enroll == null)
+                return (true);
+            if (enroll.Member >= target_event.EnrollLimit)
+                return (true);
+            return (false);
 
-			// return (true);
-		}
+        }
     }
 }

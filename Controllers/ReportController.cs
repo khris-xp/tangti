@@ -68,6 +68,13 @@ public class ReportController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
+                if(report.Createdby is null)
+                {
+                    message_response = "User id is null";
+                    ViewBag.Message = message_response;
+                    return View();
+                }
+
                 report.Id = ObjectId.GenerateNewId().ToString();
                 await _reportService.CreateAsync(report);
                 message_response = "Report created Successfully";
