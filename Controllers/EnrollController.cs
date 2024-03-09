@@ -3,6 +3,7 @@ using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using tangti.DTOs;
+using Microsoft.VisualBasic;
 
 namespace EnrollController
 {
@@ -229,11 +230,39 @@ namespace EnrollController
                 if(member.UserID == UpdateStatusDto.userId)
                 {
                     member.enroll_status = UpdateStatusDto.status;
+
+                    await _enrollService.UpdateAsync(enroll.Id, enroll);
+
                     return Ok(member);
                 }
             } 
 
             return Ok("Not in Enrollment");
+        }
+
+        [HttpPost("getmember")]
+        public  async Task<ActionResult> GetMember([FromBody] GetenrollMembersDto enrollDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
+
+            if (enroll is null)
+            {
+                return BadRequest();
+            }
+
+            var members = new List<Enroll.JoinUserData>();
+
+            foreach (var member in enroll.MemberList)
+            {
+                if(member.enroll_status == true)
+                {
+                    members.Add(member);
+                }
+            }
+
+            enroll.MemberList = members;
+
+            return Ok(enroll);
         }
     }
 }
