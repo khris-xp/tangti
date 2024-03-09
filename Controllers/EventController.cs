@@ -28,12 +28,11 @@ public class EventController : Controller
 
         ViewBag.Category = category;
         ViewBag.Categories_list = categories_list;
-        ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
+        ViewBag.SearchString = searchString;
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
         ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
 
-        // check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
         foreach (var curr_event in events)
         {
             if (curr_event.Id != null && !await _eventsService.isEnrollTime(curr_event.Id))
@@ -104,7 +103,6 @@ public class EventController : Controller
     [HttpPost]
     public async Task<ActionResult> Create(Event events)
     {
-        Console.WriteLine("here1");
         try
         {
             string message_response;
@@ -117,6 +115,7 @@ public class EventController : Controller
                 }
                 else
                 {
+                    Console.WriteLine("Created By : ", events.CreatedBy);
                     events.Id = ObjectId.GenerateNewId().ToString();
                     await _eventsService.CreateAsync(events);
                     Enroll newEnroll = new Enroll
@@ -125,10 +124,6 @@ public class EventController : Controller
                         Id = ObjectId.GenerateNewId().ToString(),
                         Member = 0
                     };
-                    // Console.WriteLine(newEnroll.EventID);
-                    // Console.WriteLine(newEnroll.Id);
-                    // Console.WriteLine(newEnroll.Member);
-                    // Console.WriteLine(newEnroll.ToJson());
                     try
                     {
                         await _enrollService.CreateAsync(newEnroll);
@@ -166,6 +161,11 @@ public class EventController : Controller
         if (events is null)
         {
             return NotFound();
+        }
+        if (events.CreatedBy == null)
+        {
+            ViewBag.Message = "You are not authorized to edit this event";
+            return View();
         }
         if (UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
         {
