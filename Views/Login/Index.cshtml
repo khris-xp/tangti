@@ -122,7 +122,6 @@
                 }
                 throw new Error('Invalid email or password');
             }).then(data => {
-                console.log(data)
                 localStorage.setItem('id', data.id);
                 window.location.href = '/';
             }).catch(error => {
