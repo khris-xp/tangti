@@ -279,5 +279,18 @@ namespace EnrollController
 
             return Ok(enroll);
         }
+
+        [HttpGet("event/{eventid:length(24)}")]
+        public async Task<ActionResult> GetEnrollByEventId(string eventid)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(eventid);
+
+            if (enroll is null)
+            {
+                return BadRequest("Enroll is null");
+            }
+
+            return Ok(enroll);
+        }
     }
 }
