@@ -52,7 +52,7 @@ namespace CommentController
         }
 
         [HttpPost("delete")]
-        public async Task<ActionResult> DeleteAsync([FromBody] CommentDto deleteCommentDto)
+        public async Task<ActionResult> DeleteAsync([FromBody] DeleteCommentDto deleteCommentDto)
         {
             var comment = await _commentService.GetCommentAsync(deleteCommentDto.id);
 
@@ -67,7 +67,7 @@ namespace CommentController
         }
 
         [HttpPost("update")]
-        public async Task<ActionResult> Update([FromBody] CommentDto updatedCommentDto)
+        public async Task<ActionResult> Update([FromBody] UpdateCommentDto updatedCommentDto)
         {
             var comment = await _commentService.GetCommentAsync(updatedCommentDto.id);
 
@@ -84,7 +84,7 @@ namespace CommentController
         }
 
         [HttpPost("eventcomment")]
-        public async Task<ActionResult> GetEventComment([FromBody] CommentDto eventCommentDto)
+        public async Task<ActionResult> GetEventComment([FromBody] EventCommentDto eventCommentDto)
         {
             var comments = await _commentService.GetEventCommentsAsync(eventCommentDto.eventId);
 
