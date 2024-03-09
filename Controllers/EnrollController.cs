@@ -37,7 +37,7 @@ namespace EnrollController
 
             if (_enroll is null)
             {
-                return NotFound();
+                return BadRequest("Enroll is null");
             }
 
             return Ok(_enroll);
@@ -60,7 +60,7 @@ namespace EnrollController
                 else
                 {
                     message_response = "invalid model state";
-                    return NotFound();
+                    return BadRequest(message_response);
                 }
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return NotFound();
+                return BadRequest("Enroll is null");
             }
 
             await _enrollService.UpdateAsync(id, enrollIn);
@@ -92,7 +92,7 @@ namespace EnrollController
 
             if (enroll == null)
             {
-                return NotFound();
+                return BadRequest("Enroll is null");
             }
 
             await _enrollService.DeleteAsync(id);
@@ -103,14 +103,18 @@ namespace EnrollController
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] EnrollDto enrollDto)
         {
+            if (enrollDto.userId is null)
+            {
+                return BadRequest("User Id is null");
+            }
 
             var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
 
-
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll is null");
             }
+
 
             if (enroll.MemberList.Any(member => member.UserID == enrollDto.userId))
             {
@@ -122,7 +126,7 @@ namespace EnrollController
 
             if (user is null)
             {
-                return BadRequest();
+                return BadRequest("User is null");
             }
 
             user.Enrolled.Add(enroll.EventID);
@@ -131,7 +135,7 @@ namespace EnrollController
 
             if (_event is null)
             {
-                return BadRequest();
+                return BadRequest("Event is null");
             }
 
             bool status = enroll.Member < _event.EnrollLimit;
@@ -157,11 +161,17 @@ namespace EnrollController
         [HttpPost("unenroll")]
         public async Task<IActionResult> Unenroll([FromBody] EnrollDto enrollDto)
         {
+            if (enrollDto.userId is null)
+            {
+                return BadRequest("User Id is null");
+            }
+
+
             var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll is null");
             }
 
             if (!enroll.MemberList.Any(member => member.UserID == enrollDto.userId))
@@ -174,7 +184,7 @@ namespace EnrollController
 
             if (user is null)
             {
-                return BadRequest();
+                return BadRequest("User is null");
             }
 
             user.Enrolled.Remove(enroll.EventID);
@@ -206,7 +216,7 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll not Found");
             }
 
             bool Result = enroll.MemberList.Any(member => member.UserID == enrollDto.userId);
@@ -222,7 +232,12 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll not Found");
+            }
+
+            if (enroll.Id is null)
+            {
+                return BadRequest("Enroll id is null");
             }
 
             foreach(var member in enroll.MemberList)
@@ -237,7 +252,7 @@ namespace EnrollController
                 }
             } 
 
-            return Ok("Not in Enrollment");
+            return Ok("User Not in Enrollment");
         }
 
         [HttpPost("getmember")]
@@ -247,7 +262,7 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll is null");
             }
 
             var members = new List<Enroll.JoinUserData>();

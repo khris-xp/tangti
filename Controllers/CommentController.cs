@@ -33,6 +33,11 @@ namespace CommentController
         {
             try
             {
+                if (commentDto.userId is null)
+                {
+                    return BadRequest("User Id is null");
+                }
+
                 Console.WriteLine("Create");
                 var newComment = new Comment{
                     EventId = commentDto.eventId,
