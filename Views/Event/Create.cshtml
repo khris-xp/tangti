@@ -45,6 +45,13 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Type" class="control-label">Type:</label>
+                    <select id="Type" name="Type" class="form-control">
+                        <option value="Qeueue">Queue</option>
+                        <option value="Close When full">Close When full</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label asp-for="EnrollLimit" class="control-label"></label>
                     <input asp-for="EnrollLimit" class="form-control" />
                     <span asp-validation-for="EnrollLimit" class="text-danger"></span>
@@ -52,31 +59,22 @@
                 <div class="form-group">
                     <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
                     <input asp-for="EnrollDate.StartDate" class="form-control" />
-                    @* <span asp-validation-for="EnrollDate.StartDate"
-                    class="text-danger">@Model.start_enroll_err</span> *@
                 </div>
                 <div class="form-group">
                     <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
                     <input asp-for="EnrollDate.EndDate" class="form-control" />
-                    @* <span asp-validation-for="EnrollDate.EndDate"
-                    class="text-danger">@Model.end_enroll_err</span> *@
                 </div>
 
                 <div class="form-group">
                     <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
                     <input asp-for="EventDate.StartDate" class="form-control" />
-                    @* <span asp-validation-for="EventDate.StartDate"
-                    class="text-danger">@Model.start_event_err</span>
-                    *@
                 </div>
                 <div class="form-group">
                     <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
                     <input asp-for="EventDate.EndDate" class="form-control" />
-                    @* <span asp-validation-for="EventDate.EndDate" class="text-danger">@Model.end_event_err</span>
-                    *@
                 </div>
-                <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden"/>
-            <div class="form-group">
+                <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" />
+                <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" id="sendDataButton" />
                 </div>
             </form>
@@ -84,7 +82,6 @@
 </div>
 <script>
     document.getElementById('sendDataButton').addEventListener('click', function () {
-        // Retrieve data from local storage
         var data = localStorage.getItem('id');
         document.getElementById("userIDInput").value = data;
     });

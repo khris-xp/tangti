@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<tangti.Models.Event>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -28,223 +30,143 @@
         </div>
 
         <div class="card-list">
-            <article class="card">
-                <figure class="card-image">
-                    <img src="https://s3-alpha-sig.figma.com/img/ab94/06e3/73004348c716d31fadb40a17039bccef?Expires=1710115200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KEjSYA-PCb1NXc4STNPuDY5bqBOAMjeF0isrt-UED322kgWqj~2JP6lTfhbkS4b6H26xrNbaaz9lH1TNLVd3SWIeOw-GDXYg7yfaTAu9rQHLdWY5MS0kYi2LSTl4UWqarGwO7gEF3Nin~tfUedBEKMvCEDq6cgHbOXaiZQMZnzYVKu5xL1GkEZnq65k5GJ1pWfCk5WF9lDQTSTU09vppMrs22fQ4a0BZ4GyGQXVrEj8~nf40zeW72Hfpr3thrYU-zKkUh55bQeNqHLTVcMlkqzTIEnlydP7sWh~utTcRInyOrvSDCV7NmWxjt1sHne~j9OYGslspn7Fo1juO-keLgg__"
-                        alt="An orange painted blue, cut in half laying on a blue background" />
-                </figure>
-                <div class="card-container">
-                    <div class="card-category">
-                        <div>UX/UI Design</div>
-                    </div>
-                    <div class="rate">
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="text">5 stars</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text">1 star</label>
-                    </div>
-                </div>
-                <div class="card-header">
-                    <a href="#">When life gives you oranges</a>
-                    <button class="icon-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            display="block" id="Heart">
-                            <path
-                                d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="member-container">
-                    <div class="member">
-                        <div>0 / 10 members</div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-meta card-meta--views">
-                        <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
-                            alt="Avatar" class="avatar">
-                        <div class="user-profile">
-                            <div class="name">Clara R. Altman</div>
-                            <div class="role">Host</div>
+            @foreach (var item in @Model)
+            {
+                <article class="card">
+                    <figure class="card-image">
+                        <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                    </figure>
+                    <div class="card-container">
+                        <div class="card-category">
+                            <div>@item.Category</div>
+                        </div>
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5" />
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="text">1 star</label>
                         </div>
                     </div>
-                    <div class="card-meta card-meta--date">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            display="block" id="Calendar">
-                            <rect x="2" y="4" width="20" height="18" rx="4" />
-                            <path d="M8 2v4" />
-                            <path d="M16 2v4" />
-                            <path d="M2 10h20" />
-                        </svg>
-                        01/10/24
-                    </div>
-                </div>
-                <button class="card-button">Join Event</button>
-            </article>
-
-            <article class="card">
-                <figure class="card-image">
-                    <img src="https://s3-alpha-sig.figma.com/img/ab94/06e3/73004348c716d31fadb40a17039bccef?Expires=1710115200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KEjSYA-PCb1NXc4STNPuDY5bqBOAMjeF0isrt-UED322kgWqj~2JP6lTfhbkS4b6H26xrNbaaz9lH1TNLVd3SWIeOw-GDXYg7yfaTAu9rQHLdWY5MS0kYi2LSTl4UWqarGwO7gEF3Nin~tfUedBEKMvCEDq6cgHbOXaiZQMZnzYVKu5xL1GkEZnq65k5GJ1pWfCk5WF9lDQTSTU09vppMrs22fQ4a0BZ4GyGQXVrEj8~nf40zeW72Hfpr3thrYU-zKkUh55bQeNqHLTVcMlkqzTIEnlydP7sWh~utTcRInyOrvSDCV7NmWxjt1sHne~j9OYGslspn7Fo1juO-keLgg__"
-                        alt="An orange painted blue, cut in half laying on a blue background" />
-                </figure>
-                <div class="card-container">
-                    <div class="card-category">
-                        <div>UX/UI Design</div>
-                    </div>
-                    <div class="rate">
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="text">5 stars</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text">1 star</label>
-                    </div>
-                </div>
-                <div class="card-header">
-                    <a href="#">When life gives you oranges</a>
-                    <button class="icon-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            display="block" id="Heart">
-                            <path
-                                d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="member-container">
-                    <div class="member">
-                        <div>0 / 10 members</div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-meta card-meta--views">
-                        <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
-                            alt="Avatar" class="avatar">
-                        <div class="user-profile">
-                            <div class="name">Clara R. Altman</div>
-                            <div class="role">Host</div>
-                        </div>
-                        </div:>
-                        <div class="card-meta card-meta--date">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" display="block" id="Calendar">
-                                <rect x="2" y="4" width="20" height="18" rx="4" />
-                                <path d="M8 2v4" />
-                                <path d="M16 2v4" />
-                                <path d="M2 10h20" />
+                    <div class="card-header">
+                        <a href="#">@item.Title</a>
+                        <button class="icon-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                display="block" id="Heart">
+                                <path
+                                    d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
                             </svg>
-                            01/10/24
+                        </button>
+                    </div>
+                    <div class="member-container">
+                        <div class="member">
+                            <div>0 / @item.EnrollLimit members</div>
                         </div>
                     </div>
-                    <button class="card-button">Join Event</button>
-                </div>
-            </article>
+                    <div class="card-footer">
+                        <div class="card-meta card-meta--views">
+                            <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
+                                alt="Avatar" class="avatar">
+                            <div class="user-profile">
+                                <div class="name" id="organiser"></div>
+                                <div class="role">Organiser</div>
+                            </div>
+                            <div class="card-meta card-meta--date">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" display="block" id="Calendar">
+                                    <rect x="2" y="4" width="20" height="18" rx="4" />
+                                    <path d="M8 2v4" />
+                                    <path d="M16 2v4" />
+                                    <path d="M2 10h20" />
+                                </svg>
+                                <div>
+                                    <script>
+                                        function formatDate(date) {
+                                            const parts = date.split(' ');
+                                            const dateString = parts[0];
+                                            const timeString = parts[1] + ' ' + parts[2];
 
-            <article class="card">
-                <figure class="card-image">
-                    <img src="https://s3-alpha-sig.figma.com/img/ab94/06e3/73004348c716d31fadb40a17039bccef?Expires=1710115200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=KEjSYA-PCb1NXc4STNPuDY5bqBOAMjeF0isrt-UED322kgWqj~2JP6lTfhbkS4b6H26xrNbaaz9lH1TNLVd3SWIeOw-GDXYg7yfaTAu9rQHLdWY5MS0kYi2LSTl4UWqarGwO7gEF3Nin~tfUedBEKMvCEDq6cgHbOXaiZQMZnzYVKu5xL1GkEZnq65k5GJ1pWfCk5WF9lDQTSTU09vppMrs22fQ4a0BZ4GyGQXVrEj8~nf40zeW72Hfpr3thrYU-zKkUh55bQeNqHLTVcMlkqzTIEnlydP7sWh~utTcRInyOrvSDCV7NmWxjt1sHne~j9OYGslspn7Fo1juO-keLgg__"
-                        alt="An orange painted blue, cut in half laying on a blue background" />
-                </figure>
-                <div class="card-container">
-                    <div class="card-category">
-                        <div>UX/UI Design</div>
-                    </div>
-                    <div class="rate">
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="text">5 stars</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text">1 star</label>
-                    </div>
-                </div>
-                <div class="card-header">
-                    <a href="#">When life gives you oranges</a>
-                    <button class="icon-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            display="block" id="Heart">
-                            <path
-                                d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="member-container">
-                    <div class="member">
-                        <div>0 / 10 members</div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-meta card-meta--views">
-                        <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
-                            alt="Avatar" class="avatar">
-                        <div class="user-profile">
-                            <div class="name">Clara R. Altman</div>
-                            <div class="role">Host</div>
+                                            const dateParts = dateString.split('/');
+                                            const month = parseInt(dateParts[0]) - 1;
+                                            const day = parseInt(dateParts[1]);
+                                            const year = parseInt(dateParts[2]);
+
+                                            let timeParts = timeString.split(':');
+                                            let hours = parseInt(timeParts[0]);
+                                            const minutes = parseInt(timeParts[1]);
+
+                                            const d = new Date(year, month, day, hours, minutes);
+
+                                            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+                                            return d.toLocaleDateString('en', options);
+                                        }
+
+                                        var startDate = "@item.EnrollDate.StartDate";
+                                        var endDate = "@item.EnrollDate.EndDate";
+                                        console.log('startDate : ', startDate);
+                                        console.log('endDate : ', endDate);
+                                        document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                                    </script>
+                                </div>
+                            </div>
                         </div>
-                        </div:>
-                        <div class="card-meta card-meta--date">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" display="block" id="Calendar">
-                                <rect x="2" y="4" width="20" height="18" rx="4" />
-                                <path d="M8 2v4" />
-                                <path d="M16 2v4" />
-                                <path d="M2 10h20" />
-                            </svg>
-                            01/10/24
-                        </div>
+                        <button class="card-button">Join Event</button>
                     </div>
-                    <button class="card-button">Join Event</button>
-                </div>
-            </article>
+                    <script>
+                        const organiserId = '@item.CreatedBy';
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                }
+                            }).then(data => {
+                                console.log('data : ', data);
+                                document.getElementById('organiser').innerHTML = data.fullName;
+                            }).catch(error => {
+                                console.error(error);
+                            });
+                        });
+                    </script>
+                </article>
+            }
         </div>
-    </div>
 
-    <div class="pagination">
-        <div class="button active"></div>
-        <div class="button"></div>
-        <div class="button"></div>
-        <div class="button"></div>
-    </div>
-    <script>
-        function handlePagination() {
-            var buttons = document.querySelectorAll('.pagination .button');
+        <div class="pagination">
+            <div class="button active"></div>
+            <div class="button"></div>
+            <div class="button"></div>
+            <div class="button"></div>
+        </div>
+        <script>
+            function handlePagination() {
+                var buttons = document.querySelectorAll('.pagination .button');
 
-            buttons.forEach(function (button, index) {
-                button.addEventListener('click', function () {
-                    buttons.forEach(function (btn) {
-                        btn.classList.remove('active');
+                buttons.forEach(function (button, index) {
+                    button.addEventListener('click', function () {
+                        buttons.forEach(function (btn) {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                        loadData(index + 1);
                     });
-                    button.classList.add('active');
-                    loadData(index + 1);
                 });
-            });
-        }
+            }
 
-        function loadData(pageIndex) {
-            console.log('Loading data for page ' + pageIndex);
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            handlePagination();
-        });
-    </script>
+            function loadData(pageIndex) {
+                console.log('Loading data for page ' + pageIndex);
+            }
+        </script>
     </div>
 </body>

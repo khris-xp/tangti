@@ -1,4 +1,4 @@
-@model tangti.Models.EventEnroll
+@model tangti.Models.Event
 @using tangti.Models
 @{
     ViewBag.Title = "Details";
@@ -15,23 +15,23 @@
 
 <body>
     <div class="box-area">
-        <div class="banner-area" style="background-image: url('@Html.DisplayFor(modelItem => Model.Event.Image)');">
+        <div class="banner-area" style="background-image: url('@Html.DisplayFor(modelItem => Model.Image)');">
         </div>
         <div class="content-area">
-            <h5>@Html.DisplayFor(modelItem => Model.Event.Category)</h5>
-            <h2>@Html.DisplayFor(modelItem => Model.Event.Title)</h2>
+            <h5>@Html.DisplayFor(modelItem => Model.Category)</h5>
+            <h2>@Html.DisplayFor(modelItem => Model.Title)</h2>
             <button class="event-status">
-                @Html.DisplayFor(modelItem => Model.Event.Status)
+                @Html.DisplayFor(modelItem => Model.Status)
             </button>
             <div class="content-container">
-                <p>@Html.DisplayFor(modelItem => Model.Event.Description)</p>
+                <p>@Html.DisplayFor(modelItem => Model.Description)</p>
                 <div class="card">
                     <div class="card-details">
                         <p class="text-title">RUNS FROM</p>
                         <p class="text-body">
                             <script>
-                                var startDate = "@Model.Event.EnrollDate.StartDate";
-                                var endDate = "@Model.Event.EnrollDate.EndDate";
+                                var startDate = "@Model.EnrollDate.StartDate";
+                                var endDate = "@Model.EnrollDate.EndDate";
                                 document.write(formatDate(startDate) + " - " + formatDate(endDate));
                             </script>
                         </p>
@@ -40,19 +40,69 @@
                         <p class="text-title">HAPPENING</p>
                         <p class="text-body">
                             <script>
-                                var startDate = "@Model.Event.EventDate.StartDate";
-                                var endDate = "@Model.Event.EventDate.EndDate";
+                                var startDate = "@Model.EventDate.StartDate";
+                                var endDate = "@Model.EventDate.EndDate";
                                 document.write(formatDate(startDate) + " - " + formatDate(endDate));
                             </script>
                         </p>
                     </div>
                     <div class="card-details">
                         <p class="text-title">Organiser</p>
-                        <p class="text-body" id="organiser">Plubby</p>
+                        <p class="text-body" id="organiser"></p>
                     </div>
-                    <button type="button" class="join-button" onclick="enrollEvent('@Model.Event.Id')">Join Event</button>
+                    <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join
+                        Event</button>
+                    <button id="unjoin-event" type="button" class="join-button" onclick="unenrollEvent('@Model.Id')">
+                        Unjoin Event</button>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const organiserId = "@Model.CreatedBy";
+        const user_id = localStorage.getItem('id');
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                document.getElementById('organiser').innerHTML = data.fullName;
+            }).catch(error => {
+                console.error(error);
+            });
+
+            const enrollment = fetch('https://kmitltangti.azurewebsites.net/api/enroll/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventId: "@Model.Id",
+                    userId: user_id
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                console.log('data : ', data);
+                if (data) {
+                    document.querySelector('.join-button').style.display = 'none';
+                    document.querySelector('#unjoin-event').style.display = 'block';
+                }
+                else {
+                    document.querySelector('.join-button').style.display = 'block';
+                    document.querySelector('#unjoin-event').style.display = 'none';
+                }
+            }).catch(error => {
+                console.error(error);
+            })
+        });
+    </script>
 </body>

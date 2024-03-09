@@ -46,7 +46,6 @@ namespace tangti.Models
         [BsonElement("EventDate")]
         public required StartEndDate EventDate { get; set; }
 
-
         [BsonElement("CreatedAt")]
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
@@ -61,15 +60,20 @@ namespace tangti.Models
         [BsonElement("Status")]
         public string Status { get; set; } = "Active";
 
-        [BsonElement("CreatedBy")]        
-        public string CreatedBy { get; set; }
+        [BsonElement("CreatedBy")]
+        public string? CreatedBy { get; set; }
+
+        [BsonElement("Type")]
+        //ต่อคิว
+        //เต็มแล้ว enroll ไม่ได้้
+        public string Type { get; set; }
+
 
         public Event()
         {
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
+            CreatedBy = null;
         }
-
-
     }
 }

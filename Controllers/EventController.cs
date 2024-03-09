@@ -2,7 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Diagnostics.CodeAnalysis;
 
 namespace tangti.Controllers;
 
@@ -20,19 +19,6 @@ public class EventController : Controller
         _enrollService = enrollService;
     }
 
-    // public async Task<IActionResult> Index()
-    // {
-    //     var events = _eventsService.GetAsync().Result;
-    // 	foreach (var curr_event in events)
-    // 	{
-    // 		if (! await _eventsService.isEnrollTime(curr_event.Id))
-    // 			Console.WriteLine(curr_event.Title + ": Notifination here");
-    // 		// is touch limit => Notification 
-
-    // 	}
-    // 	return View(events);
-    // }
-
     public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 5)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString, category);
@@ -41,12 +27,11 @@ public class EventController : Controller
 
         ViewBag.Category = category;
         ViewBag.Categories_list = categories_list;
-        ViewBag.SearchString = searchString; // Pass searchString to ViewBag for persistence
+        ViewBag.SearchString = searchString;
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
         ViewBag.TotalCount = await _eventsService.GetTotalCountAsync(searchString); // Assuming you have a method to get total count
 
-        // check is closeed or not => each event is close? for each event, check if the current date is greater than the end date of the event
         foreach (var curr_event in events)
         {
             if (curr_event.Id != null && !await _eventsService.isEnrollTime(curr_event.Id))
@@ -59,13 +44,7 @@ public class EventController : Controller
     public IActionResult Details(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
-
-        var viewModel = new EventEnroll
-        {
-            Event = events
-        };
-
-        return View(viewModel);
+        return View(events);
     }
     public async Task<IActionResult> Create()
     {
@@ -76,10 +55,20 @@ public class EventController : Controller
 
     public async Task<IActionResult> Edit(string id)
     {
-        var events = _eventsService.GetAsync(id).Result;
+        // Fetch event details
+        var events = await _eventsService.GetAsync(id);
+        
+        // Fetch category names
         var categories = await _categoryService.GetCategoryNamesAsync();
+        
+        // Set default values for dropdowns
         ViewBag.Categories = categories;
+        ViewBag.DefaultCategory = events.Category;
+        ViewBag.DefaultType = events.Type;
+        
+        // Log status if necessary
         Console.WriteLine(events.Status);
+        
         return View(events);
     }
 
@@ -117,7 +106,6 @@ public class EventController : Controller
     [HttpPost]
     public async Task<ActionResult> Create(Event events)
     {
-        Console.WriteLine("here1");
         try
         {
             string message_response;
@@ -130,6 +118,7 @@ public class EventController : Controller
                 }
                 else
                 {
+                    Console.WriteLine("Created By : ", events.CreatedBy);
                     events.Id = ObjectId.GenerateNewId().ToString();
                     await _eventsService.CreateAsync(events);
                     Enroll newEnroll = new Enroll
@@ -138,22 +127,15 @@ public class EventController : Controller
                         Id = ObjectId.GenerateNewId().ToString(),
                         Member = 0
                     };
-                    // Console.WriteLine(newEnroll.EventID);
-                    // Console.WriteLine(newEnroll.Id);
-                    // Console.WriteLine(newEnroll.Member);
-                    // Console.WriteLine(newEnroll.ToJson());
-                    try{
-                        
+                    try
+                    {
+                        await _enrollService.CreateAsync(newEnroll);
+                    }
+                    catch (Exception e)
+                    {
 
-                    await _enrollService.CreateAsync(newEnroll);
-                    }catch(Exception e){
-                        
                         Console.WriteLine(e.Message);
                     }
-                    
-
-
-
 
                     message_response = "Event created successfully";
                     ViewBag.Message = message_response;
@@ -183,6 +165,11 @@ public class EventController : Controller
         {
             return NotFound();
         }
+        if (events.CreatedBy == null)
+        {
+            ViewBag.Message = "You are not authorized to edit this event";
+            return View();
+        }
         if (UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate) != "")
         {
             ViewBag.Message = UtilsService.ValidateErrorTime(updateEvent.EventDate, updateEvent.EnrollDate);
@@ -196,12 +183,12 @@ public class EventController : Controller
     {
         var _event = await _eventsService.GetAsync(id);
 
-        if (_event == null) // Check if event is null
+        if (_event == null)
         {
             return NotFound();
         }
 
-        await _eventsService.DeleteAsync(id); // Delete using the provided id
+        await _eventsService.DeleteAsync(id);
 
         return RedirectToAction("Index");
     }
@@ -211,9 +198,10 @@ public class EventController : Controller
     {
         var events = await _eventsService.GetAsync(id);
 
-        // if status not in list => return ;
         if (new_status != "NOT_OPENED" || new_status != "ON_GOING" || new_status != "CLOSED" || new_status != "CANCELED" || new_status != "BANNED")
-            return (RedirectToAction("Index")); // can change
+        {
+            return NotFound();
+        }
         if (events is null)
         {
             return NotFound();
@@ -230,7 +218,7 @@ public class EventController : Controller
         report.EventId = id;
 
         await _reportService.CreateAsync(report);
-        // Redirect to the Details action of the Event controller
+
         return RedirectToAction("Details", "Event", new { id = id });
     }
 }
