@@ -1,3 +1,4 @@
+@model IEnumerable<tangti.Models.UserModel>
 @{
     ViewData["Title"] = "Profile Page";
 }
@@ -20,12 +21,16 @@
                                 onclick="showContainer('container1'); changeColor('option1'); hidepagination('option1')"
                                 onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Personal Info</button>
                         </li>
-                        <li><button class="option_button" id="option2"
+                        <li>
+                            <button class="option_button" id="option2"
                                 onclick="showContainer('container2'); changeColor('option2'); hidepagination('option2')"
-                                onmouseover="growButton(this)" onmouseout="shrinkButton(this)">My Project</button></li>
-                        <li><button class="option_button" id="option3"
+                                onmouseover="growButton(this)" onmouseout="shrinkButton(this)">My Project</button>
+                        </li>
+                        <li>
+                            <button class="option_button" id="option3"
                                 onclick="showContainer('container3'); changeColor('option3'); hidepagination('option2')"
-                                onmouseover="growButton(this)" onmouseout="shrinkButton(this)">My Libraly</button></li>
+                                onmouseover="growButton(this)" onmouseout="shrinkButton(this)">My Libraly</button>
+                        </li>
                     </div>
                     <select id="dropdownMenu" onchange="dropdownSelectionChanged()"></select>
                 </div>
@@ -55,6 +60,20 @@
 
                     <h2> Password </h2>
                     <input type="text" class="input" id="textInput5" value="11223344" readonly>
+                </div>
+                <div class="textlist">
+                    <h2> First name </h2>
+                    <div class="input" id="userFirstName"></div>
+
+                    <h2> Last name </h2>
+                    <div class="input" id="userLastName"></div>
+
+                    <h2> Email </h2>
+                    <div class="input" id="userEmail"></div>
+
+                    <h2> Telephone Number </h2>
+                    <div class="input" id="userPhone"></div>
+
                 </div>
                 <button class="button" id="editButton" onclick="toggleButtons()" onmouseover="growButton(this)"
                     onmouseout="shrinkButton(this)">Edit</button>
@@ -345,25 +364,27 @@
             prevButtonId = buttonId;
         }
 
-        function handlePagination() {
-            var buttons = document.querySelectorAll('.pagination .button');
-
-            buttons.forEach(function (button, index) {
-                button.addEventListener('click', function () {
-                    buttons.forEach(function (btn) {
-                        btn.classList.remove('active');
-                    });
-                    button.classList.add('active');
-                    loadData(index + 1);
-                });
-            });
-        }
-
-        function loadData(pageIndex) {
-            console.log('Loading data for page ' + pageIndex);
-        }
+        const user_id = localStorage.getItem('id');
         document.addEventListener('DOMContentLoaded', function () {
-            handlePagination();
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                console.log(data)
+                document.getElementById('userFirstName').innerHTML = data.firstName;
+                document.getElementById('userLastName').innerHTML = data.lastName;
+                document.getElementById('userEmail').innerHTML = data.email;
+                document.getElementById('userPhone').innerHTML = data.phone;
+            }).catch(error => {
+                console.error(error);
+            });
+
         });
     </script>
 
