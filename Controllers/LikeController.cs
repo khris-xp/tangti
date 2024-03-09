@@ -71,6 +71,8 @@ namespace LikeController
 
             like.Likes.Add(user.Id);
 
+            like.LikeAmount = like.Likes.Count;
+
             if (like.Id is null)
             {
                 return BadRequest("like Id is Null");
@@ -108,6 +110,8 @@ namespace LikeController
             }
 
             like.Likes.Remove(user.Id);
+
+            like.LikeAmount = like.Likes.Count;
 
             if (like.Id is null)
             {
