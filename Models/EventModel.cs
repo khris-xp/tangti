@@ -46,7 +46,6 @@ namespace tangti.Models
         [BsonElement("EventDate")]
         public required StartEndDate EventDate { get; set; }
 
-
         [BsonElement("CreatedAt")]
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
