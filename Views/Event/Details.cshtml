@@ -132,6 +132,11 @@
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
+                if (user_id === organiserId) {
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'You are the owner!';
+                }
+
 
             }).catch(error => {
                 console.error(error);
