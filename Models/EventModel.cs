@@ -70,5 +70,7 @@ namespace tangti.Models
             UpdatedAt = CreatedAt;
             CreatedBy = null;
         }
+
+		public int members{ get; set;}
     }
 }
