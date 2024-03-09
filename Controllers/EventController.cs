@@ -63,10 +63,20 @@ public class EventController : Controller
 
     public async Task<IActionResult> Edit(string id)
     {
-        var events = _eventsService.GetAsync(id).Result;
+        // Fetch event details
+        var events = await _eventsService.GetAsync(id);
+        
+        // Fetch category names
         var categories = await _categoryService.GetCategoryNamesAsync();
+        
+        // Set default values for dropdowns
         ViewBag.Categories = categories;
+        ViewBag.DefaultCategory = events.Category;
+        ViewBag.DefaultType = events.Type;
+        
+        // Log status if necessary
         Console.WriteLine(events.Status);
+        
         return View(events);
     }
 

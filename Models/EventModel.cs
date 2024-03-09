@@ -64,6 +64,12 @@ namespace tangti.Models
         [BsonElement("CreatedBy")]
         public string? CreatedBy { get; set; }
 
+        [BsonElement("Type")]
+        //ต่อคิว
+        //เต็มแล้ว enroll ไม่ได้้
+        public string Type { get; set; }
+
+
         public Event()
         {
             CreatedAt = DateTime.UtcNow;
