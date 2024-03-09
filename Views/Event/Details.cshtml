@@ -1,4 +1,5 @@
 @model tangti.Models.Event
+
 @using tangti.Models
 @{
     ViewBag.Title = "Details";
@@ -21,7 +22,7 @@
             <h5>@Html.DisplayFor(modelItem => Model.Category)</h5>
             <h2>@Html.DisplayFor(modelItem => Model.Title)</h2>
             <button class="event-status">
-                @Html.DisplayFor(modelItem => Model.Status)
+                @Html.DisplayFor(modelItem => Model.Status) [ <a id="Members"></a>/@Html.DisplayFor(modelItem => Model.EnrollLimit) ]
             </button>
             <div class="content-container">
                 <p>@Html.DisplayFor(modelItem => Model.Description)</p>
@@ -104,5 +105,30 @@
                 console.error(error);
             })
         });
+
+
+
+        
+        event_id = '@Model.Id'
+        console.log(event_id)
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                console.log(data)
+                document.getElementById('Members').innerHTML = data.member ;
+            }).catch(error => {
+                console.error(error);
+            });
+
+        });
+
     </script>
 </body>
