@@ -3,100 +3,104 @@
 @{
     ViewBag.Title = "All Events";
 }
-
+<head>
+	<link rel="stylesheet" href="~/css/event.css" asp-append-version="true" />
+</head>
+<body>
 <h2>All Events</h2>
 
 <p>
-    <a asp-action="Create">Create</a>
+    <a class="create-button" asp-action="Create">Create</a>
 </p>
 
 @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
 {
 
     <p>
-    Title: @Html.TextBox("SearchString")
-    <input type="submit" value="Search" />
+    Title: @Html.TextBox("SearchString", new { @class = "search-control" })
+    <input type="submit" value="Search" class="search-button"/>
     <br />
-    <label for="category" class="control-label">Category:</label>
-    <select id="category" name="category" class="form-control">
-        <option value="">All</option>
-        @foreach (var category in ViewBag.Categories_list)
-            {
-                <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
-            }
-        </select>
+    <label for="category" class="control-label">Category:
+
+		<select id="category" name="category" class="form-control">
+				<option value="">All</option>
+				@foreach (var category in ViewBag.Categories_list)   {
+					<option value="@category" selected="@(ViewBag.Category == category)">@category</option>
+				}
+
+		</select>
+
+	</label>
 
     </p>
 }
 
-<table class="table">
-    <thead>
-        <tr>
+ <div class="card-list">
+		@foreach (var item in @Model) {
+            <article class="card">
+                <figure class="card-image">
+                    <img src=@item.Image
+                        alt="An orange painted blue, cut in half laying on a blue background" />
+                </figure>
+                <div class="card-container">
+                    <div class="card-category">
+                        <div>UX/UI Design</div>
+                    </div>
+                    <div class="rate">
+                        <input type="radio" id="star5" name="rate" value="5" />
+                        <label for="star5" title="text">5 stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" />
+                        <label for="star4" title="text">4 stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3" title="text">3 stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2" title="text">2 stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" />
+                        <label for="star1" title="text">1 star</label>
+                    </div>
+                </div>
+                <div class="card-header">
+                    <a href="#">@item.Title</a>
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            display="block" id="Heart">
+                            <path
+                                d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="member-container">
+                    <div class="member">
+                        <div>@item.members / @item.EnrollLimit members</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta card-meta--views">
+                        <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
+                            alt="Avatar" class="avatar">
+                        <div class="user-profile">
+                            <div class="name">@item.CreatedBy</div>
+                            <div class="role">Host</div>
+                        </div>
+                        <div class="card-meta card-meta--date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" display="block" id="Calendar">
+                                <rect x="2" y="4" width="20" height="18" rx="4" />
+                                <path d="M8 2v4" />
+                                <path d="M16 2v4" />
+                                <path d="M2 10h20" />
+                            </svg>
+                            @item.EventDate.StartDate
+                        </div>
+                    </div>
+                    <button class="card-button">Join Event</button>
+                </div>
 
-            <th>
-                @Html.DisplayNameFor(model => model[0].Title)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Category)
-            </th>
-            <td>
-                @Html.DisplayNameFor(model => model[0].EnrollLimit)
-            </td>
-            <td>
-                Event start
-            </td>
-            <td>
-                Event end
-            </td>
-            <td>
-                Enroll start
-            </td>
-            <td>
-                Enroll end
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollLimit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.EndDate)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            </article>
+		}
+</div>
 
 <div>
     Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
@@ -105,6 +109,7 @@
             href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
     }
 </div>
+</body>
 
 
 <script>
