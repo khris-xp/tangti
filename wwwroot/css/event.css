@@ -42,6 +42,36 @@ body {
     }
 }
 
+
+.icon-button {
+    border: 0;
+    background: transparent;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    transition: .25s ease;
+    box-shadow: 0 0 0 1px rgba(#000, .05), 0 3px 8px 0 rgba(#000, .15);
+    z-index: 1;
+    cursor: pointer;
+    color: #565656;
+
+    svg {
+        width: 1em;
+        height: 1em;
+    }
+
+    &:hover,
+    &:focus {
+        background-color: #EC4646;
+        color: #FFF;
+    }
+}
+
 .card-container {
     display: flex;
     justify-content: space-between;
@@ -224,4 +254,25 @@ h2{
 
 .card-button:hover {
     background-color: #fc6005;
+}
+
+/* .form-control{
+	border-radius: 20px;
+}
+
+.form-control-content{
+	border-radius: 20px;
+	color: red
+} */
+
+.control-label select {
+  	font-size: 1.15rem;
+	border: 1px solid #caced1;
+	border-radius: 10px;
+	color: #000;
+	cursor: pointer;
+}
+
+.search-button{
+	padding: 5px 10px 5px 10px;
 }

@@ -6,30 +6,31 @@
 <head>
 	<link rel="stylesheet" href="~/css/event.css" asp-append-version="true" />
 </head>
-
+<body>
 <h2>All Events</h2>
 
 <p>
-    <a asp-action="Create">Create</a>
+    <a class="create-button" asp-action="Create">Create</a>
 </p>
 
 @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
 {
 
     <p>
-    Title: @Html.TextBox("SearchString")
-    <input type="submit" value="Search" />
+    Title: @Html.TextBox("SearchString", new { @class = "search-control" })
+    <input type="submit" value="Search" class="search-button"/>
     <br />
-    <label for="category" class="control-label">Category:</label>
-    <select id="category" name="category" class="form-control">
-		<div class="form-control-content">
-        	<option value="">All</option>
-        	@foreach (var category in ViewBag.Categories_list)   {
-                <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
-            }
+    <label for="category" class="control-label">Category:
 
-		</div>
-        </select>
+		<select id="category" name="category" class="form-control">
+				<option value="">All</option>
+				@foreach (var category in ViewBag.Categories_list)   {
+					<option value="@category" selected="@(ViewBag.Category == category)">@category</option>
+				}
+
+		</select>
+
+	</label>
 
     </p>
 }
@@ -99,75 +100,7 @@
 
             </article>
 		}
-@* 
-<table class="table">
-    <thead>
-        <tr>
-
-            <th>
-                @Html.DisplayNameFor(model => model[0].Title)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Category)
-            </th>
-            <td>
-                @Html.DisplayNameFor(model => model[0].EnrollLimit)
-            </td>
-            <td>
-                Event start
-            </td>
-            <td>
-                Event end
-            </td>
-            <td>
-                Enroll start
-            </td>
-            <td>
-                Enroll end
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollLimit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.EndDate)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@
+</div>
 
 <div>
     Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
@@ -176,6 +109,7 @@
             href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
     }
 </div>
+</body>
 
 
 <script>
