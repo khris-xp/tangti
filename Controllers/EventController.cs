@@ -2,7 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Diagnostics.CodeAnalysis;
 
 namespace tangti.Controllers;
 
@@ -49,13 +48,7 @@ public class EventController : Controller
     public IActionResult Details(string id)
     {
         var events = _eventsService.GetAsync(id).Result;
-
-        var viewModel = new EventEnroll
-        {
-            Event = events
-        };
-
-        return View(viewModel);
+        return View(events);
     }
     public async Task<IActionResult> Create()
     {
@@ -66,10 +59,20 @@ public class EventController : Controller
 
     public async Task<IActionResult> Edit(string id)
     {
-        var events = _eventsService.GetAsync(id).Result;
+        // Fetch event details
+        var events = await _eventsService.GetAsync(id);
+        
+        // Fetch category names
         var categories = await _categoryService.GetCategoryNamesAsync();
+        
+        // Set default values for dropdowns
         ViewBag.Categories = categories;
+        ViewBag.DefaultCategory = events.Category;
+        ViewBag.DefaultType = events.Type;
+        
+        // Log status if necessary
         Console.WriteLine(events.Status);
+        
         return View(events);
     }
 
@@ -184,12 +187,12 @@ public class EventController : Controller
     {
         var _event = await _eventsService.GetAsync(id);
 
-        if (_event == null) // Check if event is null
+        if (_event == null)
         {
             return NotFound();
         }
 
-        await _eventsService.DeleteAsync(id); // Delete using the provided id
+        await _eventsService.DeleteAsync(id);
 
         return RedirectToAction("Index");
     }
@@ -199,9 +202,10 @@ public class EventController : Controller
     {
         var events = await _eventsService.GetAsync(id);
 
-        // if status not in list => return ;
         if (new_status != "NOT_OPENED" || new_status != "ON_GOING" || new_status != "CLOSED" || new_status != "CANCELED" || new_status != "BANNED")
-            return (RedirectToAction("Index")); // can change
+        {
+            return NotFound();
+        }
         if (events is null)
         {
             return NotFound();
@@ -218,7 +222,7 @@ public class EventController : Controller
         report.EventId = id;
 
         await _reportService.CreateAsync(report);
-        // Redirect to the Details action of the Event controller
+
         return RedirectToAction("Details", "Event", new { id = id });
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
+using ZstdSharp.Unsafe;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -25,6 +26,8 @@ builder.Services.AddSingleton<CategoryService>();
 builder.Services.AddSingleton<ReportService>();
 builder.Services.AddTransient<EmailService>();
 builder.Services.AddSingleton<CommentService>();
+builder.Services.AddSingleton<LikeService>();
+builder.Services.AddSingleton<RatingService>();
 
 builder.Services.AddControllersWithViews();
 

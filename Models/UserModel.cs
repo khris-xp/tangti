@@ -20,6 +20,8 @@ namespace tangti.Models
         public List<string> Enrolled { get; set; }
         public List<string> EventCreated { get; set; }
 
+        public List<string> Liked { get; set; }
+
         [BsonElement("CreatedAt")]
         [BsonRepresentation(BsonType.DateTime)]
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
@@ -36,6 +38,7 @@ namespace tangti.Models
             UpdatedAt = CreatedAt;
             Enrolled = new List<string>();
             EventCreated = new List<string>();
+            Liked = new List<string>();
         }
     }
 }
