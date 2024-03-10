@@ -22,7 +22,8 @@
             <h5>@Html.DisplayFor(modelItem => Model.Category)</h5>
             <h2>@Html.DisplayFor(modelItem => Model.Title)</h2>
             <button class="event-status">
-                @Html.DisplayFor(modelItem => Model.Status) [ <a id="Members"></a>/@Html.DisplayFor(modelItem => Model.EnrollLimit) ]
+                @Html.DisplayFor(modelItem => Model.Status) [ <a id="Members"></a>/@Html.DisplayFor(modelItem =>
+                Model.EnrollLimit) ]
             </button>
             <div class="content-container">
                 <p>@Html.DisplayFor(modelItem => Model.Description)</p>
@@ -108,7 +109,7 @@
 
 
 
-        
+
         event_id = '@Model.Id'
         console.log(event_id)
         document.addEventListener('DOMContentLoaded', function () {
@@ -123,7 +124,20 @@
                 }
             }).then(data => {
                 console.log(data)
-                document.getElementById('Members').innerHTML = data.member ;
+                document.getElementById('Members').innerHTML = data.member;
+
+                // Check if the number of members is equal to the event's enrollment limit
+                const enrollmentLimit = "@Model.EnrollLimit"; // Assuming EnrollLimit is the enrollment limit
+                if (data.member >= enrollmentLimit) {
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Full';
+                }
+                if (user_id === organiserId) {
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'You are the owner!';
+                }
+
+
             }).catch(error => {
                 console.error(error);
             });
