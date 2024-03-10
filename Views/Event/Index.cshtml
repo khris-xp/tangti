@@ -4,8 +4,9 @@
     ViewBag.Title = "All Events";
 }
 <head>
-	<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/event.css" asp-append-version="true" />
 </head>
+
 <h2>All Events</h2>
 
 <p>
@@ -21,11 +22,13 @@
     <br />
     <label for="category" class="control-label">Category:</label>
     <select id="category" name="category" class="form-control">
-        <option value="">All</option>
-        @foreach (var category in ViewBag.Categories_list)
-            {
+		<div class="form-control-content">
+        	<option value="">All</option>
+        	@foreach (var category in ViewBag.Categories_list)   {
                 <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
             }
+
+		</div>
         </select>
 
     </p>
@@ -68,7 +71,7 @@
                 </div>
                 <div class="member-container">
                     <div class="member">
-                        <div>0 / @item.EnrollLimit members</div>
+                        <div>@item.members / @item.EnrollLimit members</div>
                     </div>
                 </div>
                 <div class="card-footer">

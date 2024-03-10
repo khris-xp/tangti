@@ -40,6 +40,8 @@ public class EventController : Controller
                 Console.WriteLine(curr_event.Title + ": Notifination (by time)");
 			if (await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
 				Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
+
+			curr_event.members = enroll_inst.Member;
         }
 
         return View(events);
