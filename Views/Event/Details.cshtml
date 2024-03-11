@@ -107,11 +107,7 @@
             })
         });
 
-
-
-
         event_id = '@Model.Id'
-        console.log(event_id)
         document.addEventListener('DOMContentLoaded', function () {
             const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
                 method: 'GET',
@@ -123,9 +119,7 @@
                     return response.json();
                 }
             }).then(data => {
-                console.log(data)
                 document.getElementById('Members').innerHTML = data.member;
-
                 // Check if the number of members is equal to the event's enrollment limit
                 const enrollmentLimit = "@Model.EnrollLimit"; // Assuming EnrollLimit is the enrollment limit
                 if (data.member >= enrollmentLimit) {

@@ -334,6 +334,16 @@ input[type="search"]::-webkit-search-results-decoration {
     background-color: #fc6005;
 }
 
+.card-button .disabled {
+    background-color: #5e5e5e;
+    color: #fff;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 96px;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -375,5 +385,22 @@ input[type="search"]::-webkit-search-results-decoration {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: 20px;
+}
+
+.create-event-button {
+    background-color: #FF7426;
+    color: #fff;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 96px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.top-right-button-container {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 20px;
 }
