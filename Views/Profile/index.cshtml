@@ -18,8 +18,7 @@
                 <div class="circular-image">
                     <input type="file" id="fileInput" style="display: none;" accept="image/*">
                     <label for="fileInput"></label>
-                    <img id="photo" src="https://pbs.twimg.com/profile_images/477371167880134657/wXovvyZB_400x400.jpeg"
-                        alt="Original Photo" onclick="changePhoto()">
+                    <img id="photo" alt="Original Photo" />
                 </div>
                 <h1> Personal Info </h1>
                 <div class="textlist">
@@ -47,21 +46,6 @@
     </div>
 
     <script>
-        function changePhoto() {
-            var photo = document.getElementById('photo');
-            var fileInput = document.getElementById('fileInput');
-            fileInput.onchange = function (event) {
-                var file = event.target.files[0];
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    photo.src = e.target.result;
-                    photo.alt = 'Selected Photo';
-                };
-                reader.readAsDataURL(file);
-            };
-            fileInput.click();
-        }
-
         function showContainer(containerId) {
             var containers = document.querySelectorAll('.tabShow');
             var pagination = document.getElementsByClassName('pagination');
@@ -143,6 +127,7 @@
                 document.getElementById('userLastName').innerHTML = data.lastName;
                 document.getElementById('userEmail').innerHTML = data.email;
                 document.getElementById('userPhone').innerHTML = data.phone;
+                document.getElementById('photo').src = data.imageProfile;
             }).catch(error => {
                 console.error(error);
             });

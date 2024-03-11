@@ -3,44 +3,43 @@
 @{
     ViewBag.Title = "All Events";
 }
+
 <head>
-	<link rel="stylesheet" href="~/css/event.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/event.css" asp-append-version="true" />
 </head>
+
 <body>
-<h2>All Events</h2>
-
-<p>
-    <a class="create-button" asp-action="Create">Create</a>
-</p>
-
-@using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
-{
+    <h2>All Events</h2>
 
     <p>
-    Title: @Html.TextBox("SearchString", new { @class = "search-control" })
-    <input type="submit" value="Search" class="search-button"/>
-    <br />
-    <label for="category" class="control-label">Category:
-
-		<select id="category" name="category" class="form-control">
-				<option value="">All</option>
-				@foreach (var category in ViewBag.Categories_list)   {
-					<option value="@category" selected="@(ViewBag.Category == category)">@category</option>
-				}
-
-		</select>
-
-	</label>
-
+        <a class="create-button" asp-action="Create">Create</a>
     </p>
-}
 
- <div class="card-list">
-		@foreach (var item in @Model) {
+    @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+    {
+        <p>
+            Title: @Html.TextBox("SearchString", new { @class = "search-control" })
+            <input type="submit" value="Search" class="search-button" />
+            <br />
+            <label for="category" class="control-label">Category:
+
+                <select id="category" name="category" class="form-control">
+                    <option value="">All</option>
+                    @foreach (var category in ViewBag.Categories_list)
+                    {
+                        <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
+                    }
+                </select>
+            </label>
+        </p>
+    }
+
+    <div class="card-list">
+        @foreach (var item in @Model)
+        {
             <article class="card">
                 <figure class="card-image">
-                    <img src=@item.Image
-                        alt="An orange painted blue, cut in half laying on a blue background" />
+                    <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
                 </figure>
                 <div class="card-container">
                     <div class="card-category">
@@ -81,12 +80,12 @@
                             alt="Avatar" class="avatar">
                         <div class="user-profile">
                             <div class="name">@item.CreatedBy</div>
-                            <div class="role">Host</div>
+                            <div class="role">organizers</div>
                         </div>
                         <div class="card-meta card-meta--date">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" display="block" id="Calendar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                display="block" id="Calendar">
                                 <rect x="2" y="4" width="20" height="18" rx="4" />
                                 <path d="M8 2v4" />
                                 <path d="M16 2v4" />
@@ -97,29 +96,22 @@
                     </div>
                     <button class="card-button">Join Event</button>
                 </div>
-
             </article>
-		}
-</div>
+        }
+    </div>
 
-<div>
-    Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
-    {
-        <a
-            href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
-    }
-</div>
+    <div>
+        Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
+        {
+            <a
+                href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
+        }
+    </div>
 </body>
 
-
 <script>
-    // Attach an event listener to the category select element
     document.getElementById("category").addEventListener("change", function (event) {
-        // Prevent the default form submission behavior
         event.preventDefault();
-        // Submit the form when category selection changes
         document.getElementById("searchForm").submit();
     });
-
-
 </script>
