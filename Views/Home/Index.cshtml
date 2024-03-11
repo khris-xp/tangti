@@ -24,10 +24,13 @@
                 facere assumenda dicta dolores.</p>
         </div>
 
-        <div class="search_input">
-            <input type="search" placeholder="Find Out More Event ..." />
-            <i class="fa fa-search"></i>
-        </div>
+        @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+        {
+            <div class="search_input">
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        }
 
         <div class="card-list">
             @foreach (var item in @Model)
@@ -140,10 +143,11 @@
         </div>
 
         <div class="pagination" id="pagination">
-            <div class="button active"></div>
-            <div class="button"></div>
-            <div class="button"></div>
-            <div class="button"></div>
+            @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
+            {
+                <a class="button active"
+                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+            }
         </div>
     </div>
     <script>
