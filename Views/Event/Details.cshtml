@@ -79,7 +79,7 @@
                 console.error(error);
             });
 
-            const enrollment = fetch('https://kmitltangti.azurewebsites.net/api/enroll/check', {
+            const enrollment = fetch('http://localhost:5040/api/enroll/check', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

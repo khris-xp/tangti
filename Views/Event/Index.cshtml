@@ -117,4 +117,18 @@
     });
 
 
+    var data = localStorage.getItem('id');
+    if(data == null){
+        // Hide Create button
+        document.querySelector('a[href="/Event/Create"]').style.display = 'none';
+        
+        //Hide details link
+        var details = document.querySelectorAll('a[href^="/Event/Edit"]');
+        for (var i = 0; i < details.length; i++) {
+            details[i].style.display = 'none';
+        }
+
+
+    }
+
 </script>
