@@ -24,10 +24,13 @@
                 facere assumenda dicta dolores.</p>
         </div>
 
-        <div class="search_input">
-            <input type="search" placeholder="Find Out More Event ..." />
-            <i class="fa fa-search"></i>
-        </div>
+        @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+        {
+            <div class="search_input">
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        }
 
         <div class="card-list">
             @foreach (var item in @Model)
@@ -54,7 +57,7 @@
                         </div>
                     </div>
                     <div class="card-header">
-                        <a href="#">@item.Title</a>
+                        <a href="/Event/Details/@item.Id">@item.Title</a>
                         <button class="icon-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -66,16 +69,16 @@
                     </div>
                     <div class="member-container">
                         <div class="member">
-                            <div>0 / @item.EnrollLimit members</div>
+                            <div>@item.members / @item.EnrollLimit members</div>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="card-meta card-meta--views">
                             <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
-                                alt="Avatar" class="avatar">
+                                alt="Avatar" class="avatar" id="profile-@item.Id">
                             <div class="user-profile">
-                                <div class="name" id="organiser"></div>
-                                <div class="role">Organiser</div>
+                                <div class="name" id="organiser-@item.Id"></div>
+                                <div class="role">organizers</div>
                             </div>
                             <div class="card-meta card-meta--date">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -86,7 +89,7 @@
                                     <path d="M16 2v4" />
                                     <path d="M2 10h20" />
                                 </svg>
-                                <div>
+                                <div class="date-format">
                                     <script>
                                         function formatDate(date) {
                                             const parts = date.split(' ');
@@ -110,8 +113,6 @@
 
                                         var startDate = "@item.EnrollDate.StartDate";
                                         var endDate = "@item.EnrollDate.EndDate";
-                                        console.log('startDate : ', startDate);
-                                        console.log('endDate : ', endDate);
                                         document.write(formatDate(startDate) + " - " + formatDate(endDate));
                                     </script>
                                 </div>
@@ -120,53 +121,49 @@
                         <button class="card-button">Join Event</button>
                     </div>
                     <script>
-                        const organiserId = '@item.CreatedBy';
-                        document.addEventListener('DOMContentLoaded', function () {
-                            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            }).then(response => {
-                                if (response.ok) {
-                                    return response.json();
-                                }
-                            }).then(data => {
-                                console.log('data : ', data);
-                                document.getElementById('organiser').innerHTML = data.fullName;
-                            }).catch(error => {
-                                console.error(error);
-                            });
+                        var organiserId = '@item.CreatedBy';
+                        fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                        }).then(data => {
+                            document.getElementById('organiser-@item.Id').innerHTML = data.fullName;
+                            document.getElementById('profile-@item.Id').src = data.imageProfile
+                        }).catch(error => {
+                            console.error(error);
                         });
                     </script>
                 </article>
             }
         </div>
 
-        <div class="pagination">
-            <div class="button active"></div>
-            <div class="button"></div>
-            <div class="button"></div>
-            <div class="button"></div>
+        <div class="pagination" id="pagination">
+            @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
+            {
+                <a class="button active"
+                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+            }
         </div>
-        <script>
-            function handlePagination() {
-                var buttons = document.querySelectorAll('.pagination .button');
+    </div>
+    <script>
+        function handlePagination() {
+            const pagination = document.getElementById('pagination');
+            const buttons = pagination.getElementsByClassName('button');
 
-                buttons.forEach(function (button, index) {
-                    button.addEventListener('click', function () {
-                        buttons.forEach(function (btn) {
-                            btn.classList.remove('active');
-                        });
-                        button.classList.add('active');
-                        loadData(index + 1);
-                    });
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function () {
+                    const current = pagination.getElementsByClassName('active');
+                    current[0].className = current[0].className.replace(' active', '');
+                    this.className += ' active';
                 });
             }
-
-            function loadData(pageIndex) {
-                console.log('Loading data for page ' + pageIndex);
-            }
-        </script>
-    </div>
+            buttons[0].click();
+        }
+        handlePagination();
+    </script>
 </body>

@@ -369,3 +369,11 @@ input[type="search"]::-webkit-search-results-decoration {
     font-size: 15px;
     margin-top: 0.5rem;
 }
+
+.input_type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}

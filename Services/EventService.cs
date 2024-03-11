@@ -22,7 +22,6 @@ namespace tangti.Services
 
             _eventCollections = mongoDatabase.GetCollection<Event>(
                 "events");
-
             _logger = logger;
         }
 

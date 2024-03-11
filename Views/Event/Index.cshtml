@@ -4,117 +4,172 @@
     ViewBag.Title = "All Events";
 }
 
-<h2>All Events</h2>
+<head>
+    <link rel="stylesheet" href="~/css/event.css" asp-append-version="true" />
+</head>
 
-<p>
-    <a asp-action="Create">Create</a>
-</p>
-
-@using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
-{
-
-    <p>
-    Title: @Html.TextBox("SearchString")
-    <input type="submit" value="Search" />
-    <br />
-    <label for="category" class="control-label">Category:</label>
-    <select id="category" name="category" class="form-control">
-        <option value="">All</option>
-        @foreach (var category in ViewBag.Categories_list)
-            {
-                <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
-            }
-        </select>
-
-    </p>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-
-            <th>
-                @Html.DisplayNameFor(model => model[0].Title)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Category)
-            </th>
-            <td>
-                @Html.DisplayNameFor(model => model[0].EnrollLimit)
-            </td>
-            <td>
-                Event start
-            </td>
-            <td>
-                Event end
-            </td>
-            <td>
-                Enroll start
-            </td>
-            <td>
-                Enroll end
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<body>
+    <div class="container">
+        <div class="banner">
+            <h1 class="title-banner">All Event</h1>
+            <p class="description-banner">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos corrupti
+                sequi
+                eum provident vitae aperiam nisi illo quasi itaque, reiciendis iure perspiciatis odit laboriosam
+                accusamus
+                quia
+                facere assumenda dicta dolores.</p>
+        </div>
+        @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollLimit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnrollDate.EndDate)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="search_input">
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+            <br />
+            <select id="category" name="category" class="form-control">
+                <option value="">All</option>
+                @foreach (var category in ViewBag.Categories_list)
+                {
+                    <option value="@category" selected="@(ViewBag.Category == category)">@category</option>
+                }
+            </select>
         }
-    </tbody>
-</table>
+        <div class="card-list">
+            @foreach (var item in @Model)
+            {
+                <article class="card">
+                    <figure class="card-image">
+                        <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                    </figure>
+                    <div class="card-container">
+                        <div class="card-category">
+                            <div>@item.Category</div>
+                        </div>
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5" />
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="text">1 star</label>
+                        </div>
+                    </div>
+                    <div class="card-header">
+                        <a href="/Event/Details/@item.Id">@item.Title</a>
+                        <button class="icon-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                display="block" id="Heart">
+                                <path
+                                    d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95 22 5.216 19.761 3 17 3s-5 3-5 3-2.239-3-5-3z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="member-container">
+                        <div class="member">
+                            <div>@item.members / @item.EnrollLimit members</div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta card-meta--views">
+                            <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709164800&semt=ais"
+                                alt="Avatar" class="avatar" id="profile-@item.Id">
+                            <div class="user-profile">
+                                <div class="name" id="organiser-@item.Id"></div>
+                                <div class="role">organizers</div>
+                            </div>
+                            <div class="card-meta card-meta--date">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" display="block" id="Calendar">
+                                    <rect x="2" y="4" width="20" height="18" rx="4" />
+                                    <path d="M8 2v4" />
+                                    <path d="M16 2v4" />
+                                    <path d="M2 10h20" />
+                                </svg>
+                                <div class="date-format">
+                                    <script>
+                                        function formatDate(date) {
+                                            const parts = date.split(' ');
+                                            const dateString = parts[0];
+                                            const timeString = parts[1] + ' ' + parts[2];
 
-<div>
-    Page: @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
-    {
-        <a
-            href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })">@i</a>
-    }
-</div>
+                                            const dateParts = dateString.split('/');
+                                            const month = parseInt(dateParts[0]) - 1;
+                                            const day = parseInt(dateParts[1]);
+                                            const year = parseInt(dateParts[2]);
 
+                                            let timeParts = timeString.split(':');
+                                            let hours = parseInt(timeParts[0]);
+                                            const minutes = parseInt(timeParts[1]);
+
+                                            const d = new Date(year, month, day, hours, minutes);
+
+                                            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+                                            return d.toLocaleDateString('en', options);
+                                        }
+
+                                        var startDate = "@item.EnrollDate.StartDate";
+                                        var endDate = "@item.EnrollDate.EndDate";
+                                        document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-button">Join Event</button>
+                    </div>
+                    <script>
+                        var organiserId = '@item.CreatedBy';
+                        fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                        }).then(data => {
+                            document.getElementById('organiser-@item.Id').innerHTML = data.fullName;
+                            document.getElementById('profile-@item.Id').src = data.imageProfile
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                    </script>
+                </article>
+            }
+        </div>
+        <div class="pagination" id="pagination">
+            @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
+            {
+                <a class="button active"
+                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+            }
+        </div>
+    </div>
+</body>
 
 <script>
-    // Attach an event listener to the category select element
     document.getElementById("category").addEventListener("change", function (event) {
-        // Prevent the default form submission behavior
         event.preventDefault();
-        // Submit the form when category selection changes
         document.getElementById("searchForm").submit();
     });
 
+    function handlePagination() {
+        const pagination = document.getElementById('pagination');
+        const buttons = pagination.getElementsByClassName('button');
 
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function () {
+                const current = pagination.getElementsByClassName('active');
+                current[0].className = current[0].className.replace(' active', '');
+                this.className += ' active';
+            });
+        }
+        buttons[0].click();
+    }
 </script>
