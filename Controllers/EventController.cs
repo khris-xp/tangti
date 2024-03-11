@@ -34,14 +34,21 @@ public class EventController : Controller
 
         foreach (var curr_event in events)
         {
-			var enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
+            Enroll? enroll_inst = null;
+            if (curr_event.Id != null)
+            {
+                enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
+            }
 
             if (curr_event.Id != null && await _eventsService.isTimeClose(curr_event.Id))
                 Console.WriteLine(curr_event.Title + ": Notifination (by time)");
-			if (await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
-				Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
+            if (curr_event.Id != null && enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
+                Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
 
-			curr_event.members = enroll_inst.Member;
+            if (enroll_inst != null)
+            {
+                curr_event.members = enroll_inst.Member;
+            }
         }
 
         return View(events);
@@ -214,7 +221,7 @@ public class EventController : Controller
     [HttpPost]
     public async Task<IActionResult> Report(string id, Report report)
     {
-      Console.WriteLine("Report: " + report.Description);
+        Console.WriteLine("Report: " + report.Description);
         report.Id = ObjectId.GenerateNewId().ToString();
         report.EventId = id;
 
