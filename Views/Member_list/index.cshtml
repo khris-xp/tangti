@@ -1,105 +1,105 @@
 @model tangti.Models.Event;
 @{
-    ViewData["Title"] = "Memberlist page";
+  ViewData["Title"] = "Memberlist page";
 }
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
-    <link rel="stylesheet" href="~/css/memberlist.css" asp-append-version="true" />
-    <title>@ViewData["Title"] - tangti</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
+  <link rel="stylesheet" href="~/css/memberlist.css" asp-append-version="true" />
+  <title>@ViewData["Title"] - tangti</title>
 </head>
-<body>
-    <div class="container">
-        <div class="member_header">
-            <h1> Memberlist (6/6)</h1>
-                <h2> Congratuations You are selected to be this team member</h2>
-                    <button class="button"> Contact </button>
-        </div>
-                <div class="card_list">
-                    <div class="card-list">
 
-                        <div class="card">
-                          <img src="https://via.placeholder.com/150" alt="Character 1">
-                          <div class="card-name">Character 1</div>
-                        </div>
-                      
-                        <div class="card">
-                          <img src="https://via.placeholder.com/150" alt="Character 2">
-                          <div class="card-name">Character 2</div>
-                        </div>
-                      
-                        <div class="card">
-                          <img src="https://via.placeholder.com/150" alt="Character 3">
-                          <div class="card-name">Character 3</div>
-                        </div>
-                      
-                        <div class="card">
-                          <img src="https://via.placeholder.com/150" alt="Character 4">
-                          <div class="card-name">Character 4</div>
-                        </div>
-            
-                        <div class="card">
-                          <img src="https://via.placeholder.com/150" alt="Character 5">
-                          <div class="card-name">Character 5</div>
-                        </div>
-                      
-                        <div class="card">
-                          <img src="https://via.placeholder.com/150" alt="Character 6">
-                          <div class="card-name">Character 6</div>
-                        </div>
-                      </div>
-                </div>
-                <div class="pagination">
-                    <div class="pagebutton active"></div>
-                    <div class="pagebutton"></div>
-                    <div class="pagebutton"></div>
-                    <div class="pagebutton"></div> 
-                </div>
-            
+<body>
+  <div class="container">
+    <div class="member_header">
+      <h1> Memberlist (6/6)</h1>
+      <h2> Congratuations You are selected to be this team member</h2>
+      <button class="button"> Contact </button>
     </div>
-    
+    <div class="card_list">
+      <div class="card-list">
+
+        <div class="card">
+          <img src="https://via.placeholder.com/150" alt="Character 1">
+          <div class="card-name">Character 1</div>
+        </div>
+
+        <div class="card">
+          <img src="https://via.placeholder.com/150" alt="Character 2">
+          <div class="card-name">Character 2</div>
+        </div>
+
+        <div class="card">
+          <img src="https://via.placeholder.com/150" alt="Character 3">
+          <div class="card-name">Character 3</div>
+        </div>
+
+        <div class="card">
+          <img src="https://via.placeholder.com/150" alt="Character 4">
+          <div class="card-name">Character 4</div>
+        </div>
+
+        <div class="card">
+          <img src="https://via.placeholder.com/150" alt="Character 5">
+          <div class="card-name">Character 5</div>
+        </div>
+
+        <div class="card">
+          <img src="https://via.placeholder.com/150" alt="Character 6">
+          <div class="card-name">Character 6</div>
+        </div>
+      </div>
+    </div>
+    <div class="pagination">
+      <div class="pagebutton active"></div>
+      <div class="pagebutton"></div>
+      <div class="pagebutton"></div>
+      <div class="pagebutton"></div>
+    </div>
+  </div>
+
 </body>
 
-<script> 
-    function handlePagination() {
-            var buttons = document.querySelectorAll('.pagination .pagebutton');
+<script>
+  function handlePagination() {
+    var buttons = document.querySelectorAll('.pagination .pagebutton');
 
-            buttons.forEach(function (button, index) {
-                button.addEventListener('click', function () {
-                    buttons.forEach(function (btn) {
-                        btn.classList.remove('active');
-                    });
-                    button.classList.add('active');
-                    loadData(index + 1);
-                });
-            });
-        }
-
-        function loadData(pageIndex) {
-            console.log('Loading data for page ' + pageIndex);
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            handlePagination();
+    buttons.forEach(function (button, index) {
+      button.addEventListener('click', function () {
+        buttons.forEach(function (btn) {
+          btn.classList.remove('active');
         });
-
-    function getData(){
-    fetch("https://kmitltangti.azurewebsites.net/api/enroll/getmember", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          eventId: eventId,
-        }),
-    })
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((error) => {
-        console.error(error);
+        button.classList.add('active');
+        loadData(index + 1);
+      });
     });
+  }
 
-    }
+  function loadData(pageIndex) {
+    console.log('Loading data for page ' + pageIndex);
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    handlePagination();
+  });
+
+  function getData() {
+    fetch("https://kmitltangti.azurewebsites.net/api/enroll/getmember", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        eventId: eventId,
+      }),
+    })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+  }
 </script>

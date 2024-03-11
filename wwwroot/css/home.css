@@ -96,7 +96,7 @@ input {
 
 .card-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 1.5rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -275,9 +275,10 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .avatar {
     vertical-align: middle;
-    width: 50px;
+    width: 65px;
     height: 50px;
     border-radius: 50%;
+    margin-right: 5px;
 }
 
 .user-profile {
@@ -361,4 +362,10 @@ input[type="search"]::-webkit-search-results-decoration {
     width: 40px;
     cursor: auto;
     background-color: #FF7426;
+}
+
+.date-format {
+    color: #8E8E8E;
+    font-size: 15px;
+    margin-top: 0.5rem;
 }

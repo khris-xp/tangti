@@ -24,7 +24,14 @@ public class HomeController : Controller
 		foreach (var curr_event in events)
 		{
 			Console.WriteLine(curr_event.Title);
-			curr_event.members = _enrollService.GetEventEnrollAsync(curr_event.Id).Result.Member;
+			if (curr_event.Id != null)
+            {
+                var enroll = _enrollService.GetEventEnrollAsync(curr_event.Id).Result;
+                if (enroll != null)
+                {
+                    curr_event.members = enroll.Member;
+                }
+            }
 			
 		}
         return View(events);
