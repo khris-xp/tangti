@@ -2,6 +2,7 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using MongoDB.Driver.Core.Operations;
 
 namespace tangti.Controllers;
 
@@ -90,6 +91,12 @@ public class EventController : Controller
         Console.WriteLine(id);
         var reports = _reportService.GetReportAsync(id).Result;
         return View(reports);
+    }
+
+    public ActionResult Memberlist(string id)
+    {
+        var events = _eventsService.GetAsync(id).Result;
+        return View(events);
     }
 
     [HttpGet]
