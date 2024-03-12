@@ -19,7 +19,7 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam illum quos distinctio, in nobis aliquid numquam
         architecto omnis unde incidunt. Repellat quis rem a illo magnam, doloremque facere aperiam nesciunt.</p>
     <p>
-        <a class='button-77' asp-action="Create">Create</a>
+        <a class='button-77' asp-action="Create" id='createBtn'>Create</a>
 </div>
 
 <div class="card-conatiner">
@@ -47,3 +47,11 @@
         }
     </div>
 </div>
+
+<script>
+    const user_id = localStorage.getItem('id');
+
+    if(user_id == null){
+        document.getElementById('createBtn').style.display = 'none';
+    }
+</script>
