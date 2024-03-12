@@ -229,11 +229,11 @@ namespace EnrollController
 
 
             //Send Email
-            _logger.LogInformation("Sending Email to " + user.Email);
+            // _logger.LogInformation("Sending Email to " + user.Email);
 
-            string subject = "Unenroll Success";
-            string body = "You have successfully unenrolled in " + enroll.EventID + ".";
-            await _emailService.SendEmail(user.Email, subject, body);
+            // string subject = "Unenroll Success";
+            // string body = "You have successfully unenrolled in " + enroll.EventID + ".";
+            // await _emailService.SendEmail(user.Email, subject, body);
 
 
             await _userService.UpdateUserAsync(enrollDto.userId, user);
