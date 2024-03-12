@@ -272,9 +272,9 @@ namespace EnrollController
                 return BadRequest("Enroll id is null");
             }
 
-            foreach(var member in enroll.MemberList)
+            foreach (var member in enroll.MemberList)
             {
-                if(member.UserID == UpdateStatusDto.userId)
+                if (member.UserID == UpdateStatusDto.userId)
                 {
                     member.enroll_status = UpdateStatusDto.status;
 
@@ -282,13 +282,13 @@ namespace EnrollController
 
                     return Ok(member);
                 }
-            } 
+            }
 
             return Ok("User Not in Enrollment");
         }
 
         [HttpPost("getmember")]
-        public  async Task<ActionResult> GetMember([FromBody] GetenrollMembersDto enrollDto)
+        public async Task<ActionResult> GetMember([FromBody] GetenrollMembersDto enrollDto)
         {
             var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
 
@@ -298,16 +298,17 @@ namespace EnrollController
             }
 
             var members = new List<Enroll.JoinUserData>();
-
+            // Check status
             foreach (var member in enroll.MemberList)
             {
-                if(member.enroll_status == true)
+                if (member.enroll_status == enrollDto.status)
                 {
                     members.Add(member);
                 }
             }
-
             enroll.MemberList = members;
+            
+            enroll.Member = enroll.MemberList.Count;
 
             return Ok(enroll);
         }
