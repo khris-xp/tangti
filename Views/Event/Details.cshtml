@@ -126,7 +126,7 @@
             }).then(data => {
                 document.getElementById('Members').innerHTML = data.member;
                 const enrollmentLimit = "@Model.EnrollLimit";
-                if (data.member >= enrollmentLimit) {
+                if (data.member >= enrollmentLimit && @Model.Type !== 'Queue') {
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
@@ -141,8 +141,6 @@
             }).catch(error => {
                 console.error(error);
             });
-
         });
-
     </script>
 </body>

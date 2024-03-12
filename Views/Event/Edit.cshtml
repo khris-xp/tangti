@@ -25,12 +25,125 @@
     }
 
     function closeProject() {
-        // Add your logic to close the project here
         alert("Project closed successfully!");
         closeModal();
     }
-</script>
 
+    document.addEventListener("DOMContentLoaded", async function () {
+        const response = await fetch('https://kmitltangti.azurewebsites.net/api/enroll/getmember', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "status": true
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const enrolled_member = data.memberList;
+            console.log('enrolled_member', enrolled_member)
+            const members = document.getElementById('enrolled-members');
+
+            for (const member of enrolled_member) {
+                try {
+                    const user_response = await fetch(`https://kmitltangti.azurewebsites.net/api/user/${member.userID}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (user_response.ok) {
+                        const userData = await user_response.json();
+                        const card = createCard(userData);
+                        members.appendChild(card);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        } else {
+            console.error('Error:', response.status);
+        }
+
+        const queue_response = await fetch('https://kmitltangti.azurewebsites.net/api/enroll/getmember', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "status": false
+            })
+        });
+
+        if (queue_response.ok) {
+            const data = await queue_response.json();
+            const queue_member = data.memberList;
+            console.log('queue_member', queue_member)
+            const members = document.getElementById('queued-members');
+
+            for (const member of queue_member) {
+                try {
+                    const user_response = await fetch(`https://kmitltangti.azurewebsites.net/api/user/${member.userID}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (user_response.ok) {
+                        const userData = await user_response.json();
+                        const card = createCard(userData);
+                        members.appendChild(card);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        } else {
+            console.error('Error:', queue_response.status);
+        }
+    });
+
+    function createCard(userData) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.style.setProperty('--background', '#FF7426');
+        card.style.setProperty('--text', 'white');
+        card.style.setProperty('width', '200px');
+        card.style.setProperty('height', '300px');
+        card.style.setProperty('border-radius', '10px');
+        card.style.setProperty('box-shadow', '0 4px 8px 0 rgba(0, 0, 0, 0.2)');
+        card.style.setProperty('display', 'flex');
+        card.style.setProperty('flex-direction', 'column');
+        card.style.setProperty('justify-content', 'center');
+        card.style.setProperty('align-items', 'center');
+
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = userData.imageProfile;
+        img.style.setProperty('width', '100px');
+        img.style.setProperty('height', '100px');
+        img.style.setProperty('border-radius', '50%');
+
+        const figcaption = document.createElement('figcaption');
+        const h3 = document.createElement('h3');
+        h3.innerText = userData.fullName;
+        h3.style.setProperty('margin-top', '10px');
+        h3.style.setProperty('font-size', '18px');
+
+        figcaption.appendChild(h3);
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        card.appendChild(figure);
+
+        return card;
+    }
+</script>
 
 <div class="heading">
     <h1>Edit Event</h1>
@@ -60,18 +173,17 @@
                 <select id="Category" name="Category" class="form-control">
                     @foreach (var category in ViewBag.Categories)
                     {
-                    <option value="@category" selected="@(category == ViewBag.DefaultCategory)">@category</option>
-
+                        <option value="@category" selected="@(category == ViewBag.DefaultCategory)">@category</option>
                     }
                 </select>
             </div>
             <div class="form-group">
-                    <label asp-for="Type" class="control-label">Type:</label>
-                    <select id="Type" name="Type" class="form-control">
-                        <option value="Qeueue">Queue</option>
-                        <option value="Close When full">Close When full</option>
-                    </select>
-                </div>
+                <label asp-for="Type" class="control-label">Type:</label>
+                <select id="Type" name="Type" class="form-control">
+                    <option value="Qeueue">Queue</option>
+                    <option value="Close When full">Close When full</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label asp-for="EnrollLimit" class="control-label"></label>
                 <input asp-for="EnrollLimit" class="form-control" />
@@ -113,103 +225,18 @@
 <h3>2. Selection & Closing</h3>
 <div class="container">
     <h4>Member</h4>
-    <div class="members">
-        <div class="card" style="--background:#FF7426; --text:white;">
-            <div class="multi-button">
-                <button class="fas fa-heart"></button>
-                <button class="fas fa-comment"></button>
-                <button class="fas fa-share-alt"></button>
-            </div>
-            <figure>
-                <img
-                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
-                <figcaption>
-                    <h3 class"username">John Doe</h3>
-                </figcaption>
-            </figure>
-        </div>
-        <div class="card" style="--background:#FF7426; --text:white;">
-            <div class="multi-button">
-                <button class="fas fa-heart"></button>
-                <button class="fas fa-comment"></button>
-                <button class="fas fa-share-alt"></button>
-            </div>
-            <figure>
-                <img
-                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
-                <figcaption>
-                    <h3 class"username">John Doe</h3>
-                </figcaption>
-            </figure>
-        </div>
-        <div class="card" style="--background:#FF7426; --text:white;">
-            <div class="multi-button">
-                <button class="fas fa-heart"></button>
-                <button class="fas fa-comment"></button>
-                <button class="fas fa-share-alt"></button>
-            </div>
-            <figure>
-                <img
-                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
-                <figcaption>
-                    <h3 class"username">John Doe</h3>
-                </figcaption>
-            </figure>
-        </div>
+    <div class="members" id="enrolled-members">
     </div>
     <h4>Registrator</h4>
-    <div class="members">
-        <div class="card" style="--background:#FF7426; --text:white;">
-            <div class="multi-button">
-                <button class="fas fa-heart"></button>
-                <button class="fas fa-comment"></button>
-                <button class="fas fa-share-alt"></button>
-            </div>
-            <figure>
-                <img
-                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
-                <figcaption>
-                    <h3 class"username">John Doe</h3>
-                </figcaption>
-            </figure>
-        </div>
-        <div class="card" style="--background:#FF7426; --text:white;">
-            <div class="multi-button">
-                <button class="fas fa-heart"></button>
-                <button class="fas fa-comment"></button>
-                <button class="fas fa-share-alt"></button>
-            </div>
-            <figure>
-                <img
-                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
-                <figcaption>
-                    <h3 class"username">John Doe</h3>
-                </figcaption>
-            </figure>
-        </div>
-        <div class="card" style="--background:#FF7426; --text:white;">
-            <div class="multi-button">
-                <button class="fas fa-heart"></button>
-                <button class="fas fa-comment"></button>
-                <button class="fas fa-share-alt"></button>
-            </div>
-            <figure>
-                <img
-                    src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1985&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></img>
-                <figcaption>
-                    <h3 class"username">John Doe</h3>
-                </figcaption>
-            </figure>
-        </div>
+    <div class="members" id="queued-members">
     </div>
-    <h4>Dangerous Zone! Cannot be undone</h4>
+    <h4>Dangerous Zone! Cannot be undo</h4>
     <button class="button-24" role="button" onclick="openConfirmationModal()">Close Project</button>
     <div id="warningMessage" class="warning" style="display: none;">
         Please enter a valid project name!
     </div>
 </div>
 
-<!-- The Modal -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>

@@ -1,5 +1,3 @@
-using tangti.Models;
-
 namespace tangti.DTOs
 {
     public class EnrollDto
@@ -17,6 +15,7 @@ namespace tangti.DTOs
 
     public class GetenrollMembersDto
     {
-        public required string eventId { get; set;}
+        public required string eventId { get; set; }
+        public required bool status { get; set; }
     }
 }
