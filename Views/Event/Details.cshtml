@@ -57,8 +57,7 @@
                         <p class="text-title">Organiser</p>
                         <p class="text-body" id="organiser"></p>
                     </div>
-                    <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join
-                        Event</button>
+                    <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join Event</button>
                     <button id="unjoin-event" type="button" class="join-button" onclick="unenrollEvent('@Model.Id')">
                         Unjoin Event</button>
                 </div>
@@ -141,10 +140,13 @@
             }).then(data => {
                 document.getElementById('Members').innerHTML = data.member;
                 const enrollmentLimit = "@Model.EnrollLimit";
-                if (data.member >= enrollmentLimit && @Model.Type !== 'Queue') {
+
+                if (data.member >= enrollmentLimit && "@Model.Type" !== 'Queue') {
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
+       
+
                 if (user_id === organiserId) {
                     document.querySelector('.join-button').disabled = true;
                     document.getElementById('edit-button').style.display = 'flex';
