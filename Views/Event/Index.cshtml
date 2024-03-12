@@ -10,6 +10,11 @@
 
 <body>
     <div class="container">
+        <div class="top-right-button-container">
+            <a href="/Event/Create" class="create-event-button">
+                Create Event
+            </a>
+        </div>
         <div class="banner">
             <h1 class="title-banner">All Event</h1>
             <p class="description-banner">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos corrupti
@@ -22,7 +27,7 @@
         @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
         {
             <div class="search_input">
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search..." })
                 <button type="submit"><i class="fa fa-search"></i></button>
             </div>
             <br />
@@ -120,10 +125,12 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="card-button">Join Event</button>
+                        <button class="card-button" id="event-button-@item.Id"></button>
                     </div>
                     <script>
                         var organiserId = '@item.CreatedBy';
+                        var event_id = '@item.Id';
+                        var user_id = localStorage.getItem('id');
                         fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
                             method: 'GET',
                             headers: {
@@ -139,6 +146,32 @@
                         }).catch(error => {
                             console.error(error);
                         });
+
+                        fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                        }).then(data => {
+                            const enrollmentLimit = "@item.EnrollLimit";
+                            if (data.member >= enrollmentLimit) {
+                                document.querySelector('.card-button').disabled = true;
+                                document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
+                            }
+                            else if (user_id === organiserId) {
+                                document.querySelector('.card-button').disabled = true;
+                                document.getElementById('event-button-@item.Id').innerHTML = 'View Your Event';
+                            }
+                            else {
+                                document.getElementById('event-button-@item.Id').innerHTML = 'Join Event';
+                            }
+                        }).catch(error => {
+                            console.error(error);
+                        })
                     </script>
                 </article>
             }
