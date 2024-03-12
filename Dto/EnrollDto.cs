@@ -17,6 +17,6 @@ namespace tangti.DTOs
 
     public class GetenrollMembersDto
     {
-        public required string eventId { get; set; }
+        public required string eventId { get; set;}
     }
 }
