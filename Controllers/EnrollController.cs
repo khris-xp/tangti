@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using tangti.DTOs;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 
 namespace EnrollController
 {
@@ -44,7 +45,7 @@ namespace EnrollController
 
             if (_enroll is null)
             {
-                return NotFound();
+                return BadRequest("Enroll is null");
             }
 
             return Ok(_enroll);
@@ -67,7 +68,7 @@ namespace EnrollController
                 else
                 {
                     message_response = "invalid model state";
-                    return NotFound();
+                    return BadRequest(message_response);
                 }
             }
             catch (Exception ex)
@@ -84,7 +85,7 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return NotFound();
+                return BadRequest("Enroll is null");
             }
 
             await _enrollService.UpdateAsync(id, enrollIn);
@@ -99,7 +100,7 @@ namespace EnrollController
 
             if (enroll == null)
             {
-                return NotFound();
+                return BadRequest("Enroll is null");
             }
 
             await _enrollService.DeleteAsync(id);
@@ -110,14 +111,18 @@ namespace EnrollController
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] EnrollDto enrollDto)
         {
+            if (enrollDto.userId is null)
+            {
+                return BadRequest("User Id is null");
+            }
 
             var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
 
-
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll is null");
             }
+
 
             if (enroll.MemberList.Any(member => member.UserID == enrollDto.userId))
             {
@@ -129,7 +134,7 @@ namespace EnrollController
 
             if (user is null)
             {
-                return BadRequest();
+                return BadRequest("User is null");
             }
 
             user.Enrolled.Add(enroll.EventID);
@@ -138,7 +143,7 @@ namespace EnrollController
 
             if (_event is null)
             {
-                return BadRequest();
+                return BadRequest("Event is null");
             }
 
             bool status = enroll.Member < _event.EnrollLimit;
@@ -161,13 +166,13 @@ namespace EnrollController
 
 
             //Email Here
-            _logger.LogInformation("Sending Email to " + user.Email);
+            // _logger.LogInformation("Sending Email to " + user.Email);
 
-            string subject = "Enroll Success";
-            string body = "You have successfully enrolled in " + _event.Title + "." +
-            "That will start on " + _event.EventDate.StartDate + "to " + _event.EventDate.EndDate + ".";
+            // string subject = "Enroll Success";
+            // string body = "You have successfully enrolled in " + _event.Title + "." +
+            // "That will start on " + _event.EventDate.StartDate + "to " + _event.EventDate.EndDate + ".";
 
-            await _emailService.SendEmail(user.Email, subject, body);
+            // await _emailService.SendEmail(user.Email, subject, body);
 
 
 
@@ -179,11 +184,17 @@ namespace EnrollController
         [HttpPost("unenroll")]
         public async Task<IActionResult> Unenroll([FromBody] EnrollDto enrollDto)
         {
+            if (enrollDto.userId is null)
+            {
+                return BadRequest("User Id is null");
+            }
+
+
             var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll is null");
             }
 
             if (!enroll.MemberList.Any(member => member.UserID == enrollDto.userId))
@@ -196,7 +207,7 @@ namespace EnrollController
 
             if (user is null)
             {
-                return BadRequest();
+                return BadRequest("User is null");
             }
 
             user.Enrolled.Remove(enroll.EventID);
@@ -237,7 +248,7 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll not Found");
             }
 
             bool Result = enroll.MemberList.Any(member => member.UserID == enrollDto.userId);
@@ -253,7 +264,12 @@ namespace EnrollController
 
             if (enroll is null)
             {
-                return BadRequest();
+                return BadRequest("Enroll not Found");
+            }
+
+            if (enroll.Id is null)
+            {
+                return BadRequest("Enroll id is null");
             }
 
             foreach(var member in enroll.MemberList)
@@ -261,11 +277,52 @@ namespace EnrollController
                 if(member.UserID == UpdateStatusDto.userId)
                 {
                     member.enroll_status = UpdateStatusDto.status;
+
+                    await _enrollService.UpdateAsync(enroll.Id, enroll);
+
                     return Ok(member);
                 }
             } 
 
-            return Ok("Not in Enrollment");
+            return Ok("User Not in Enrollment");
+        }
+
+        [HttpPost("getmember")]
+        public  async Task<ActionResult> GetMember([FromBody] GetenrollMembersDto enrollDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(enrollDto.eventId);
+
+            if (enroll is null)
+            {
+                return BadRequest("Enroll is null");
+            }
+
+            var members = new List<Enroll.JoinUserData>();
+
+            foreach (var member in enroll.MemberList)
+            {
+                if(member.enroll_status == true)
+                {
+                    members.Add(member);
+                }
+            }
+
+            enroll.MemberList = members;
+
+            return Ok(enroll);
+        }
+
+        [HttpGet("event/{eventid:length(24)}")]
+        public async Task<ActionResult> GetEnrollByEventId(string eventid)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(eventid);
+
+            if (enroll is null)
+            {
+                return BadRequest("Enroll is null");
+            }
+
+            return Ok(enroll);
         }
     }
 }

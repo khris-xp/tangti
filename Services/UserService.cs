@@ -8,6 +8,7 @@ namespace tangti.Services;
 public class UserService
 {
     private readonly IMongoCollection<UserModel> _usersCollection;
+    private readonly IMongoCollection<Event> _eventCollection;
 
     public UserService(
         IOptions<TangtiDatabaseSetting> userDatabaseSettings)
@@ -20,6 +21,8 @@ public class UserService
 
         _usersCollection = mongoDatabase.GetCollection<UserModel>(
             "users");
+        _eventCollection = mongoDatabase.GetCollection<Event>(
+            "events");
     }
 
     public async Task<List<UserModel>> GetUsersAsync() =>
@@ -35,6 +38,8 @@ public class UserService
         await _usersCollection.InsertOneAsync(user);
         return user;
     }
+    public async Task<Event> GetUserEventsAsync(string id) =>
+        await _eventCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
     public async Task UpdateUserAsync(string id, UserModel userIn) =>
         await _usersCollection.ReplaceOneAsync(x => x.Id == id, userIn);

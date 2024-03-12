@@ -1,3 +1,4 @@
+@model IEnumerable<tangti.Models.UserModel>
 @{
     ViewData["Title"] = "Profile Page";
 }
@@ -12,44 +13,28 @@
 
 <body>
     <div class="container">
-        <div class="option">
-            <nav>
-                <div class="nav-con">
-                    <ul class="menu">
-                        <li><button class="button" onclick="showContainer('container1')" onmouseover="growButton(this)"
-                                onmouseout="shrinkButton(this)">Personal Info</button></li>
-                        <li><button class="button" onclick="showContainer('container2')" onmouseover="growButton(this)"
-                                onmouseout="shrinkButton(this)">My Project</button></li>
-                        <li><button class="button" onclick="showContainer('container3')" onmouseover="growButton(this)"
-                                onmouseout="shrinkButton(this)">My Libraly</button></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
         <div class="tabShow" id="container1">
             <ul>
                 <div class="circular-image">
                     <input type="file" id="fileInput" style="display: none;" accept="image/*">
                     <label for="fileInput"></label>
-                    <img id="photo" src="https://pbs.twimg.com/profile_images/477371167880134657/wXovvyZB_400x400.jpeg"
-                        alt="Original Photo" onclick="changePhoto()">
+                    <img id="photo" alt="Original Photo" />
                 </div>
                 <h1> Personal Info </h1>
-                <h2> First name </h2>
-                <input type="text" class="input" id="textInput1" value="Bak" readonly>
+                <div class="textlist">
+                    <h2> First name </h2>
+                    <div class="input" id="userFirstName"></div>
 
-                <h2> Last name </h2>
-                <input type="text" class="input" id="textInput2" value="Som" readonly>
+                    <h2> Last name </h2>
+                    <div class="input" id="userLastName"></div>
 
-                <h2> Email </h2>
-                <input type="text" class="input" id="textInput3" value="555@gmail.com" readonly>
+                    <h2> Email </h2>
+                    <div class="input" id="userEmail"></div>
 
-                <h2> Telephone Number </h2>
-                <input type="text" class="input" id="textInput4" value="0987654321" readonly>
+                    <h2> Telephone Number </h2>
+                    <div class="input" id="userPhone"></div>
 
-                <h2> Password </h2>
-                <input type="text" class="input" id="textInput5" value="11223344" readonly>
-
+                </div>
                 <button class="button" id="editButton" onclick="toggleButtons()" onmouseover="growButton(this)"
                     onmouseout="shrinkButton(this)">Edit</button>
                 <button class="button" id="saveButton" onclick="saveChanges()" style="background-color: green;"
@@ -58,33 +43,12 @@
                     onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Cancel</button>
             </ul>
         </div>
-        <div class="tabShow" id="container2">
-            <h1>My project</h1>
-        </div>
-
-        <div class="tabShow" id="container3">
-            <h1>My Libraly</h1>
-        </div>
     </div>
+
     <script>
-        function changePhoto() {
-            var photo = document.getElementById('photo');
-            var fileInput = document.getElementById('fileInput');
-            fileInput.onchange = function (event) {
-                var file = event.target.files[0];
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    photo.src = e.target.result;
-                    photo.alt = 'Selected Photo';
-                };
-                reader.readAsDataURL(file);
-            };
-            fileInput.click();
-        }
-
-
         function showContainer(containerId) {
             var containers = document.querySelectorAll('.tabShow');
+            var pagination = document.getElementsByClassName('pagination');
             containers.forEach(function (tabShow) {
                 if (tabShow.id !== containerId) {
                     tabShow.style.display = 'none';
@@ -92,7 +56,22 @@
             });
 
             var containerToShow = document.getElementById(containerId);
-            containerToShow.style.display = 'flex';
+            if (containerId === 'container1')
+                containerToShow.style.display = 'flex';
+
+            else
+                containerToShow.style.display = 'flex';
+
+        }
+
+        function hidepagination(option) {
+            var pagination = document.getElementById('pagination');
+            if (option === 'option1') {
+                pagination.style.display = 'none';
+            }
+            else {
+                pagination.style.display = 'flex';
+            }
         }
 
         function toggleButtons() {
@@ -107,8 +86,8 @@
 
             if (editButton.style.display !== 'none') {
                 editButton.style.display = 'none';
-                saveButton.style.display = 'inline-block';
-                cancelButton.style.display = 'inline-block';
+                saveButton.style.display = 'flex';
+                cancelButton.style.display = 'flex';
 
                 textInput1.readOnly = false;
                 textInput2.readOnly = false;
@@ -118,7 +97,7 @@
                 document.getElementById('buttonContainer').style.textAlign = 'center';
             }
             else {
-                editButton.style.display = 'inline-block';
+                editButton.style.display = 'flex';
                 saveButton.style.display = 'none';
                 cancelButton.style.display = 'none';
 
@@ -131,22 +110,34 @@
             }
         }
 
-        function saveChanges() {
-            alert('Changes saved!');
-            toggleButtons();
-        }
+        const user_id = localStorage.getItem('id');
 
-        function cancelChanges() {
-            alert('Changes canceled!');
-            toggleButtons();
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                document.getElementById('userFirstName').innerHTML = data.firstName;
+                document.getElementById('userLastName').innerHTML = data.lastName;
+                document.getElementById('userEmail').innerHTML = data.email;
+                document.getElementById('userPhone').innerHTML = data.phone;
+                document.getElementById('photo').src = data.imageProfile;
+            }).catch(error => {
+                console.error(error);
+            });
+        });
 
-        function growButton(button) {
-            button.style.transform = "scale(1.1)";
-        }
-
-        function shrinkButton(button) {
-            button.style.transform = "scale(1)";
+        
+         // check cookie
+        console.log(user_id);
+        if (user_id == null) {
+        window.location.href = '/Login';
         }
     </script>
 

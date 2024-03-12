@@ -44,5 +44,16 @@ namespace UserController
 
             return user;
         }
+
+        [HttpGet("event")]
+        public async Task<ActionResult<List<Event>>> GetEvents([FromBody] string id)
+        {
+            var events = await _userService.GetUserEventsAsync(id);
+            if (events is null)
+            {
+                return BadRequest("No events found.");
+            }
+            return Ok(events);
+        }
     }
 }

@@ -66,6 +66,13 @@ public class BlogController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
+                if(blog.CreatedBy is null)
+                {
+                    message_response = "User id is null";
+                    ViewBag.Message = message_response;
+                    return View();
+                }
+
                 blog.Id = ObjectId.GenerateNewId().ToString();
                 await _blogsService.CreateAsync(blog);
                 message_response = "Blog created successfully";
