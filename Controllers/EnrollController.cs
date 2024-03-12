@@ -267,27 +267,16 @@ namespace EnrollController
 
             var members = new List<Enroll.JoinUserData>();
             // Check status
-            if (enrollDto.status)
+            foreach (var member in enroll.MemberList)
             {
-                foreach (var member in enroll.MemberList)
+                if (member.enroll_status == enrollDto.status)
                 {
-                    if (member.enroll_status)
-                    {
-                        members.Add(member);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var member in enroll.MemberList)
-                {
-                    if (!member.enroll_status)
-                    {
-                        members.Add(member);
-                    }
+                    members.Add(member);
                 }
             }
             enroll.MemberList = members;
+            
+            enroll.Member = enroll.MemberList.Count;
 
             return Ok(enroll);
         }
