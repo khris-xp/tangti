@@ -150,3 +150,20 @@ body {
         margin-right: .5em;
     }
 }
+
+.top-right-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+}
+
+.create-event-button {
+    background-color: #FF7426;
+    color: #fff;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 96px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}

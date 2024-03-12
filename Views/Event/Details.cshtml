@@ -18,6 +18,11 @@
     <div class="box-area">
         <div class="banner-area" style="background-image: url('@Html.DisplayFor(modelItem => Model.Image)');">
         </div>
+        <div class="top-right-button-container" id="edit-button">
+            <a href="/Event/Edit/@Model.Id" class="create-event-button">
+                Edit Event
+            </a>
+        </div>
         <div class="content-area">
             <h5>@Html.DisplayFor(modelItem => Model.Category)</h5>
             <h2>@Html.DisplayFor(modelItem => Model.Title)</h2>
@@ -120,23 +125,22 @@
                 }
             }).then(data => {
                 document.getElementById('Members').innerHTML = data.member;
-                // Check if the number of members is equal to the event's enrollment limit
-                const enrollmentLimit = "@Model.EnrollLimit"; // Assuming EnrollLimit is the enrollment limit
-                if (data.member >= enrollmentLimit) {
+                const enrollmentLimit = "@Model.EnrollLimit";
+                if (data.member >= enrollmentLimit && @Model.Type !== 'Queue') {
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
                 if (user_id === organiserId) {
                     document.querySelector('.join-button').disabled = true;
+                    document.getElementById('edit-button').style.display = 'flex';
                     document.querySelector('.join-button').innerText = 'You are the owner!';
                 }
-
-
+                else {
+                    document.getElementById('edit-button').style.display = 'none';
+                }
             }).catch(error => {
                 console.error(error);
             });
-
         });
-
     </script>
 </body>
