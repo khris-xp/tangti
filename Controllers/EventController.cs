@@ -50,6 +50,16 @@ public class EventController : Controller
             {
                 curr_event.members = enroll_inst.Member;
             }
+
+			// change status
+
+			Console.WriteLine("Event type:" + curr_event.Type);
+			if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
+				await _eventsService.changeStatus(curr_event.Id, "CLOSED");
+			if (curr_event.Status != "NOT_OPENED" && await _eventsService.isTimeNotOpen(curr_event.Id))
+				await _eventsService.changeStatus(curr_event.Id, "NOT_OPENED");
+			if (curr_event.Status != "ON_GOING" && await _eventsService.isEnrollTime(curr_event.Id))
+				await _eventsService.changeStatus(curr_event.Id, "ON_GOING");
         }
 
         return View(events);
