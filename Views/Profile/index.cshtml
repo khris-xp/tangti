@@ -132,6 +132,13 @@
                 console.error(error);
             });
         });
+
+        
+         // check cookie
+        console.log(user_id);
+        if (user_id == null) {
+        window.location.href = '/Login';
+        }
     </script>
 
 </body>

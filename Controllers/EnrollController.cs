@@ -3,6 +3,7 @@ using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using tangti.DTOs;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 
 namespace EnrollController
@@ -15,11 +16,18 @@ namespace EnrollController
         private readonly UserService _userService;
         private readonly EventService _eventService;
 
-        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService)
+        private readonly EmailService _emailService;
+
+        // add logger
+        private readonly ILogger<EnrollController> _logger;
+
+        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService,EmailService emailService, ILogger<EnrollController> logger)
         {
             _enrollService = enrollService;
             _userService = userService;
             _eventService = eventService;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -144,6 +152,9 @@ namespace EnrollController
                 new Enroll.JoinUserData(enrollDto.userId, status)
             );
 
+
+ 
+
             enroll.Member = enroll.MemberList.Count;
 
             if (enroll.Id == null)
@@ -152,6 +163,18 @@ namespace EnrollController
             }
 
             await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+
+            //Email Here
+            // _logger.LogInformation("Sending Email to " + user.Email);
+
+            // string subject = "Enroll Success";
+            // string body = "You have successfully enrolled in " + _event.Title + "." +
+            // "That will start on " + _event.EventDate.StartDate + "to " + _event.EventDate.EndDate + ".";
+
+            // await _emailService.SendEmail(user.Email, subject, body);
+
+
 
             await _userService.UpdateUserAsync(enrollDto.userId, user);
 
@@ -203,6 +226,15 @@ namespace EnrollController
                 return BadRequest("Enroll Id is null");
             }
             await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+
+            //Send Email
+            // _logger.LogInformation("Sending Email to " + user.Email);
+
+            // string subject = "Unenroll Success";
+            // string body = "You have successfully unenrolled in " + enroll.EventID + ".";
+            // await _emailService.SendEmail(user.Email, subject, body);
+
 
             await _userService.UpdateUserAsync(enrollDto.userId, user);
 

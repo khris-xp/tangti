@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <div class="top-right-button-container">
+        <div class="top-right-button-container" id="createBtn">
             <a href="/Event/Create" class="create-event-button">
                 Create Event
             </a>
@@ -162,12 +162,18 @@
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                             }
+                            
                             else if (user_id === organiserId) {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'View Your Event';
                             }
                             else {
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Join Event';
+                            }
+
+                            if (user_id == null) {
+                                var btn = document.getElementById('event-button-@item.Id')
+                                btn.href = "/login";
                             }
                         }).catch(error => {
                             console.error(error);
@@ -205,4 +211,15 @@
         }
         buttons[0].click();
     }
+
+    
+    if(user_id == null){
+        
+        var createBtn = document.getElementById("createBtn");
+        createBtn.style.visibility = "hidden";
+
+    }
+
+
+   
 </script>
