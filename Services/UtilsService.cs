@@ -1,5 +1,3 @@
-using tangti.Models;
-
 namespace tangti.Services;
 
 public class UtilsService

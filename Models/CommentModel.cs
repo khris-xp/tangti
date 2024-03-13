@@ -1,4 +1,3 @@
-using Amazon.SecurityToken.Model;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
