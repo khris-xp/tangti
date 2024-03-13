@@ -24,12 +24,17 @@
                 quia
                 facere assumenda dicta dolores.</p>
         </div>
+        <div class="search-container">
+            @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+            {
+                <div class="search-bar">
+                    @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            }
+        </div>
         @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
         {
-            <div class="search_input">
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search..." })
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
             <br />
             <select id="category" name="category" class="form-control">
                 <option value="">All</option>
@@ -44,7 +49,9 @@
             {
                 <article class="card">
                     <figure class="card-image">
-                        <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                        <a href="/Event/Details/@item.Id">
+                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                        </a>
                     </figure>
                     <div class="card-container">
                         <div class="card-category">
@@ -161,8 +168,9 @@
                             if (data.member >= enrollmentLimit) {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
+                                document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
                             }
-                            
+
                             else if (user_id === organiserId) {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'View Your Event';
@@ -185,8 +193,16 @@
         <div class="pagination" id="pagination">
             @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
             {
-                <a class="button active"
-                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                if (i == ViewBag.Page)
+                {
+                    <a class="button active"
+                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                }
+                else
+                {
+                    <a class="button"
+                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                }
             }
         </div>
     </div>
@@ -204,22 +220,23 @@
 
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', function () {
-                const current = pagination.getElementsByClassName('active');
-                current[0].className = current[0].className.replace(' active', '');
-                this.className += ' active';
+                const current = document.querySelector('.button.active');
+                if (current) {
+                    current.classList.remove('active');
+                }
+                this.classList.add('active');
             });
         }
-        buttons[0].click();
     }
+    handlePagination();
 
-    
-    if(user_id == null){
-        
+    if (user_id == null) {
+
         var createBtn = document.getElementById("createBtn");
         createBtn.style.visibility = "hidden";
 
     }
 
 
-   
+
 </script>
