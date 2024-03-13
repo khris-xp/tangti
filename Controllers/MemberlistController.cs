@@ -27,7 +27,7 @@ namespace MemberListController
         {
             var enrolls = await _enrollService.GetEventEnrollAsync(eventId);
 
-            if(enrolls is null)
+            if (enrolls is null)
             {
                 return BadRequest("Enroll is null");
             }
@@ -36,10 +36,10 @@ namespace MemberListController
 
             foreach (var member in enrolls.MemberList)
             {
-                if(member.enroll_status == true)
+                if (member.enroll_status == true)
                 {
                     var user = await _userService.GetUserAsync(member.UserID);
-                    if(user is not null)
+                    if (user is not null)
                     {
                         users.Add(user);
                     }
@@ -53,7 +53,8 @@ namespace MemberListController
                 return BadRequest("Event is null");
             }
 
-            var response_data = new {
+            var response_data = new
+            {
                 limit = events.EnrollLimit,
                 num_enrolls = enrolls.Member,
                 users = users

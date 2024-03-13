@@ -21,7 +21,7 @@ namespace EnrollController
         // add logger
         private readonly ILogger<EnrollController> _logger;
 
-        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService,EmailService emailService, ILogger<EnrollController> logger)
+        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService, EmailService emailService, ILogger<EnrollController> logger)
         {
             _enrollService = enrollService;
             _userService = userService;
@@ -153,7 +153,7 @@ namespace EnrollController
             );
 
 
- 
+
 
             enroll.Member = enroll.MemberList.Count;
 
@@ -307,7 +307,7 @@ namespace EnrollController
                 }
             }
             enroll.MemberList = members;
-            
+
             enroll.Member = enroll.MemberList.Count;
 
             return Ok(enroll);
@@ -321,6 +321,33 @@ namespace EnrollController
             if (enroll is null)
             {
                 return BadRequest("Enroll is null");
+            }
+
+            return Ok(enroll);
+        }
+
+        [HttpPost("kick")]
+        public async Task<ActionResult> KickMember([FromBody] KickEnrollMemberDto kickEnrollMemberDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(kickEnrollMemberDto.eventId);
+
+            if (enroll is null)
+            {
+                return BadRequest("Enroll is null");
+            }
+
+            foreach (var member in enroll.MemberList)
+            {
+                if (member.UserID == kickEnrollMemberDto.userId)
+                {
+                    enroll.MemberList.Remove(member);
+
+                    enroll.Member = enroll.MemberList.Count;
+
+                    await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+                    return Ok(enroll);
+                }
             }
 
             return Ok(enroll);
