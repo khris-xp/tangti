@@ -6,7 +6,8 @@ img {
 .card-container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
   align-items: center;
   margin: 0% 0%;
 }
@@ -14,7 +15,7 @@ img {
 .card-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem; /* Increase the gap between cards to 2rem */
+  gap: 1rem; /* Increase the gap between cards to 2rem */
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   max-width: 100%; /* Ensure the grid doesn't exceed the width of its parent container */
@@ -22,9 +23,10 @@ img {
 
 .card {
   flex: 1 0 300px; /* Each card can grow, but won't shrink below 300px */
-  max-width: calc(33.33% - 2rem); /* 33.33% minus the increased gap to ensure cards wrap */
+  max-width: calc(33.33% - 2rem); /*33.33% minus the increased gap to ensure cards wrap */
   height: 400px;
   box-sizing: border-box;
+  border: none;
 }
 
 
@@ -34,7 +36,7 @@ figure {
   overflow: hidden;
   cursor: pointer;
   width: 300px;
-  height: 400%;
+  height: 100%;
 }
 
 figure>* {
