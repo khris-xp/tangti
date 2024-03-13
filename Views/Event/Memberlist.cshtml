@@ -11,12 +11,11 @@
     <title>@ViewData["Title"] - tangti</title>
 </head>
 
-
-
 <body>
     <script>
         const EventId = "@Model.Id";
-        const memberdata = fetch(`http://localhost:5040/api/memberlist/${EventId}`, {
+        console.log('Event id : ', EventId);
+        const memberdata = fetch(`https://kmitltangti.azurewebsites.net/api/memberlist/${EventId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,28 +25,23 @@
                 return response.json();
             }
         }).then(data => {
-        @* console.log(data); *@
-                document.getElementById("member-list-number").innerHTML = `All Members (${data.num_enrolls} / ${data.limit})`
-
+            document.getElementById("member-list-number").innerHTML = `All Members (${data.num_enrolls} / ${data.limit})`
             var container = document.getElementById("memberList");
             data.users.forEach((element, index) => {
-                console.log(element, index);
-                console.log(element);
-                var cardDiv = document.createElement('div');
-                cardDiv.classList.add('card');
-
-                var imageElement = document.createElement('img');
-                imageElement.src = element.imageProfile;
-                imageElement.alt = element.fullName;
-
-                var cardNameDiv = document.createElement('div');
-                cardNameDiv.classList.add('card-name');
-                cardNameDiv.textContent = element.fullName;
-
-                cardDiv.appendChild(imageElement);
-                cardDiv.appendChild(cardNameDiv);
-
-                container.appendChild(cardDiv);
+                var member = document.createElement("div");
+                member.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+                member.innerHTML = `
+                    <div class="our-team">
+                        <div class="picture">
+                            <img class="img-fluid" src=${element.imageProfile}>
+                        </div>
+                        <div class="team-content">
+                            <h3 class="name">${element.fullName}</h3>
+                            <h4 class="title">${element.phone}</h4>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(member);
             });
         })
     </script>
@@ -58,57 +52,6 @@
             <h2> Congratuations You are selected to be this team member</h2>
             <button class="button"> Contact </button>
         </div>
-        <div class="card_list">
-            <div id="memberList" class="card-list">
-            </div>
-        </div>
-        <div class="pagination">
-            <div class="pagebutton active"></div>
-            <div class="pagebutton"></div>
-            <div class="pagebutton"></div>
-            <div class="pagebutton"></div>
-        </div>
+        <div class="container" id="memberList"></div>
     </div>
 </body>
-
-<script>
-    function handlePagination() {
-        var buttons = document.querySelectorAll('.pagination .pagebutton');
-
-        buttons.forEach(function (button, index) {
-            button.addEventListener('click', function () {
-                buttons.forEach(function (btn) {
-                    btn.classList.remove('active');
-                });
-                button.classList.add('active');
-                loadData(index + 1);
-            });
-        });
-    }
-
-    function loadData(pageIndex) {
-        console.log('Loading data for page ' + pageIndex);
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-        handlePagination();
-    });
-
-    function getData() {
-        fetch("https://kmitltangti.azurewebsites.net/api/enroll/getmember", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                eventId: eventId,
-            }),
-        })
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-
-    }
-</script>
