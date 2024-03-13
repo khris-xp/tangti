@@ -68,10 +68,11 @@ namespace RatingController
                 return BadRequest("Rating is Null");
             }
 
-            rating.RatingScore = updateRatingDto.ratingScore;
-
-            await _ratingService.UpdateAsync(rating.Id, rating);
-
+			if (rating.Id != null)
+			{
+            	rating.RatingScore = updateRatingDto.ratingScore;
+            	await _ratingService.UpdateAsync(rating.Id, rating);
+			}
             return Ok(rating);
         }
 
@@ -84,8 +85,8 @@ namespace RatingController
             {
                 return BadRequest("Rating is null");
             }
-
-            await _ratingService.DeleteAsync(rating.Id);
+			if (rating.Id != null)
+            	await _ratingService.DeleteAsync(rating.Id);
 
             return Ok(rating);
         }
