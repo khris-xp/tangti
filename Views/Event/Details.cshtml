@@ -83,7 +83,7 @@
                 console.error(error);
             });
 
-            const enrollment = fetch('http://localhost:5040/api/enroll/check', {
+            const enrollment = fetch('https://kmitltangti.azurewebsites.net/api/enroll/check', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -97,7 +97,6 @@
                     return response.json();
                 }
             }).then(data => {
-                console.log('data : ', data);
                 if (data) {
                     document.querySelector('.join-button').style.display = 'none';
                     document.querySelector('#unjoin-event').style.display = 'block';
