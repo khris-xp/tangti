@@ -66,7 +66,7 @@ namespace tangti.Models
         [BsonElement("Type")]
         //ต่อคิว
         //เต็มแล้ว enroll ไม่ได้้
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
 
         public Event()
@@ -74,7 +74,6 @@ namespace tangti.Models
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
             CreatedBy = null;
-			Type = "Queue";
         }
 		
 		public int members { get; set;}
