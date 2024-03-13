@@ -69,7 +69,7 @@
                     </div>
                     <div class="card-header">
                         <a href="/Event/Details/@item.Id">@item.Title</a>
-                        <button class="icon-button">
+                        <button class="icon-button" id="Heart-'@item.Id'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 display="block" id="Heart">
@@ -78,6 +78,79 @@
                             </svg>
                         </button>
                     </div>
+                    <script>
+                        var Heart = document.getElementById("Heart-'@item.Id'");
+                        var user_id = localStorage.getItem('id');
+                        var event_id = '@item.Id';
+                        var check_like = fetch('http://localhost:5040/api/like/check', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                userId: user_id,
+                                eventId: event_id
+                            })
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                        }).then(data => {
+                            console.log(Heart);
+                            console.log(data);
+                            if(data) {
+                                Heart.classList.add("active");
+                            }
+                        })
+
+                        Heart.addEventListener('click', function () {
+                            console.log(this);
+                            if (!this.classList.contains("active")) {
+                                console.log("like");
+                                const like_response = fetch('http://localhost:5040/api/like/userlike', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        userId: user_id,
+                                        eventId: event_id
+                                    })
+                                }).then(response => {
+                                    if (response.ok) {
+                                        return response.json();
+                                    }
+                                }).then(data => {
+                                    console.log(data);
+                                    this.classList.add("active");
+                                }).catch(error => {
+                                    console.error(error);
+                                })
+                            }
+                            else {
+                                console.log("dislike");
+                                const like_response = fetch('http://localhost:5040/api/like/dislike', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        userId: user_id,
+                                        eventId: event_id
+                                    })
+                                }).then(response => {
+                                    if (response.ok) {
+                                        return response.json();
+                                    }
+                                }).then(data => {
+                                    this.classList.remove('active');
+                                    console.log(data);
+                                }).catch(error => {
+                                    console.error(error);
+                                })
+                            }
+                        })
+                    </script>
                     <div class="member-container">
                         <div class="member">
                             <div>@item.members / @item.EnrollLimit members</div>
