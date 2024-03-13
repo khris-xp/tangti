@@ -125,30 +125,32 @@ namespace tangti.Services
 
         }
 
-		public async Task<bool> changeStatus(string id, string status)
-		{
-			var target_event = await GetAsync(id);
-			if (target_event == null)
-				return (false);
-			target_event.Status = status;
-			await UpdateAsync(id, target_event);
-			return (true);
-		}
+        public async Task<bool> changeStatus(string id, string status)
+        {
+            var target_event = await GetAsync(id);
+            if (target_event == null)
+                return (false);
+            target_event.Status = status;
+            await UpdateAsync(id, target_event);
+            return (true);
+        }
 
-		public async Task<bool> checkStatus(Event events)
-		{
-			if (events.Type == "CANCELED" || events.Status == "CLOSED" || events == null || events.Id == null)
-				return (false);
-			if (events.Type != "Queue" && events.Status != "CLOSED")
-				await changeStatus(events.Id, "CLOSED");
-			if (events.Status != "NOT OPENED" && await isTimeNotOpen(events.Id))
-			{
-				Console.WriteLine("Event:" + events.Title + " hereee");
-				await changeStatus(events.Id, "NOT OPENED");
-			}
-			if (events.Status != "ON GOING" && await isEnrollTime(events.Id))
-				await changeStatus(events.Id, "ON GOING");
-			return (true);
-		}
+        public async Task<bool> checkStatus(Event events)
+        {
+            if (events.Status == "BANNED" || events.Status == "CANCELED" || events.Status == "CLOSED" || events == null || events.Id == null)
+            {
+                return (false);
+            }
+            if (events.Type != "Queue" && events.Status != "CLOSED")
+                await changeStatus(events.Id, "CLOSED");
+            if (events.Status != "NOT OPENED" && await isTimeNotOpen(events.Id))
+            {
+                Console.WriteLine("Event:" + events.Title + " hereee");
+                await changeStatus(events.Id, "NOT OPENED");
+            }
+            if (events.Status != "ON GOING" && await isEnrollTime(events.Id))
+                await changeStatus(events.Id, "ON GOING");
+            return (true);
+        }
     }
 }
