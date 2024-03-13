@@ -52,17 +52,23 @@
 </div>
 
 <script>
-    var user_id = localStorage.getItem("user_id");
+    var user_id = localStorage.getItem("id");
 
-    //show only table where UserId == user_id
-    var table = document.getElementsByClassName("table");
-    for (var i = 0; i < table.length; i++) {
-        var tr = table[i].getElementsByTagName("tr");
-        for (var j = 0; j < tr.length; j++) {
-            var td = tr[j].getElementsByTagName("td");
-            if (td[3].innerText != user_id) {
-                tr[j].style.display = "none";
-            }
-        }
+
+    if(!user_id){
+        //to login page
+        window.location.href = "/Login";
     }
+
+    $(document).ready(function() {
+        
+        // Hide rows where UserId does not match user_id
+        $('#dataTable tr').each(function() {
+            var userId = $(this).find('td:eq(1)').text().trim();
+
+            if (userId !== user_id) {
+                $(this).hide();
+            }
+        });
+    });
 </script>

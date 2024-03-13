@@ -2,7 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using MongoDB.Driver.Core.Operations;
 
 namespace tangti.Controllers;
 
@@ -232,9 +231,17 @@ public class EventController : Controller
     [HttpPost]
     public async Task<IActionResult> Report(string id, Report report)
     {
+        var events = await _eventsService.GetAsync(id);
+
+        if (events is null)
+        {
+            return BadRequest("Event is null");
+        }
+
         Console.WriteLine("Report: " + report.Description);
         report.Id = ObjectId.GenerateNewId().ToString();
         report.EventId = id;
+        report.EventName = events.Title;
 
         await _reportService.CreateAsync(report);
 
