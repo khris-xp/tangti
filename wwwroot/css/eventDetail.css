@@ -147,6 +147,26 @@ body {
     margin: 20px;
 }
 
+
+.report-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0 10px;
+    border-radius: 1rem;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    margin-right: 5px;
+}
+
+.report-button a {
+    text-decoration: none;
+    color: white;
+}
+
 .card-meta {
     display: flex;
     align-items: center;
