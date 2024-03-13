@@ -15,7 +15,7 @@
         <div class="logo">
             <a href="/">Tangti</a>
         </div>
-        <ul class="links">
+        <ul class="links" id='links'>
             <li><a href="/">Home</a></li>
             <li><a href="/About">About us</a></li>
             <li><a href="/Event">Events</a></li>
@@ -28,9 +28,8 @@
             <button class="action_btn" id="logoutBtn" onclick="logout()">Logout</button>
         </div>
         <div class="toggle_btn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
         </div>
 
@@ -39,7 +38,8 @@
             <li><a href="/About">About us</a></li>
             <li><a href="/Event">Events</a></li>
             <li><a href="/">History</a></li>
-            <li><a href="/">Login</a></li>
+            <li><a href="/Blog">Blogs</a></li>
+           
         </div>
     </div>
     <div class="body-text">
@@ -78,13 +78,42 @@
                 document.getElementById('loginBtn').classList.add('action_btn_hidden');
                 document.getElementById('profileLink').classList.remove('action_btn_hidden');
                 document.getElementById('logoutBtn').classList.remove('action_btn_hidden');
+                document.getElementById('loginDropdown').style.display = "none";
             }
             else {
+                
+
                 document.getElementById('loginBtn').classList.remove('action_btn_hidden');
                 document.getElementById('profileLink').classList.add('action_btn_hidden');
                 document.getElementById('logoutBtn').classList.add('action_btn_hidden');
             }
         }
+
+        //get profile by id fetch
+        fetch('/api/user/' + localStorage.getItem('id'))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.role);
+                if (data.role == "Admin") {
+                    // Add link where id = links
+                    var link = document.getElementById('links')
+                    
+                    var reportLink = document.createElement('li');
+                    //hide bullet
+                    reportLink.style.listStyleType = "none";
+
+                    reportLink.innerHTML = '<a b-f4e90i3eyj href="/Report">Report</a>';
+                    link.appendChild(reportLink);
+
+                    var adminPath = document.getElementById('adminPath');
+                    adminPath.href = "/Report";
+
+                    console.log('role admin');
+
+                }
+            
+            });
+
 
         function logout() {
             localStorage.removeItem('id');
