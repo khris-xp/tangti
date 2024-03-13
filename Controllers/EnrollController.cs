@@ -293,5 +293,30 @@ namespace EnrollController
 
             return Ok(enroll);
         }
+
+        [HttpPost("kick")]
+        public async Task<ActionResult> KickMember([FromBody] KickEnrollMemberDto kickEnrollMemberDto)
+        {
+            var enroll = await _enrollService.GetEventEnrollAsync(kickEnrollMemberDto.eventId);
+
+            if(enroll is null)
+            {
+                return BadRequest("Enroll is null");
+            }
+
+            foreach (var member in enroll.MemberList)
+            {
+                if (member.UserID == kickEnrollMemberDto.userId)
+                {
+                    enroll.MemberList.Remove(member);
+
+                    await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+                    return Ok(enroll);
+                }
+            }
+
+            return Ok(enroll);
+        }
     }
 }
