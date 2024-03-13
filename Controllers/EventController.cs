@@ -39,17 +39,17 @@ public class EventController : Controller
             if (curr_event.Id != null)
             {
                 enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
-                // change status
-
                 await _eventsService.checkStatus(curr_event);
-                Console.WriteLine("Event:" + curr_event.Title + " type:" + curr_event.Type + " status: " + curr_event.Status);
                 if (await _eventsService.isTimeClose(curr_event.Id))
-                    Console.WriteLine(curr_event.Title + ": Notifination (by time)");
+                {
+                    await _eventsService.changeStatus(curr_event.Id, "CLOSED");
+                }
                 if (enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
                 {
-                    Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
                     if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
+                    {
                         await _eventsService.changeStatus(curr_event.Id, "CLOSED");
+                    }
                 }
                 if (enroll_inst != null)
                 {
@@ -132,8 +132,8 @@ public class EventController : Controller
             {
                 if (UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
                 {
-					Console.WriteLine("Error Time");
-        			ViewBag.Categories = await _categoryService.GetCategoryNamesAsync();
+                    Console.WriteLine("Error Time");
+                    ViewBag.Categories = await _categoryService.GetCategoryNamesAsync();
                     ViewBag.Message = UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
                     return View();
                 }
