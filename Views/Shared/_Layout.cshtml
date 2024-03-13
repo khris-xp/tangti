@@ -81,15 +81,12 @@
                 document.getElementById('loginDropdown').style.display = "none";
             }
             else {
-                
-
                 document.getElementById('loginBtn').classList.remove('action_btn_hidden');
                 document.getElementById('profileLink').classList.add('action_btn_hidden');
                 document.getElementById('logoutBtn').classList.add('action_btn_hidden');
             }
         }
 
-        //get profile by id fetch
         fetch('/api/user/' + localStorage.getItem('id'))
             .then(response => response.json())
             .then(data => {
@@ -108,15 +105,9 @@
                     reportlink2.innerHTML = '<a b-f4e90i3eyj href="/Report">Report</a>';
                     var link2 = document.getElementById('dropdown_menu')
                     link2.appendChild(reportlink2);
-
-
-
                     console.log('role admin');
-
                 }
-            
             });
-
 
         function logout() {
             localStorage.removeItem('id');

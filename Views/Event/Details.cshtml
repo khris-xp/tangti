@@ -156,8 +156,7 @@
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
 
-
-                if (user_id === organiserId || user_response.role == "Admin") {
+                if (user_id === organiserId || user_response.role === "Admin") {
                     document.querySelector('.join-button').disabled = true;
                     document.getElementById('edit-button').style.display = 'flex';
                     document.querySelector('.join-button').innerText = 'You are the owner!';
