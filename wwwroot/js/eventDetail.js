@@ -2,12 +2,16 @@ function updateEnrollmentUI(enrolled) {
   const joinButton = document.querySelector('#join-event');
   const unjoinButton = document.querySelector('#unjoin-event');
 
+  let member = document.getElementById('Members');
+
   if (enrolled) {
     joinButton.style.display = 'none';
     unjoinButton.style.display = 'block';
+    member.innerText = parseInt(member.innerText) + 1 ;
   } else {
     joinButton.style.display = 'block';
     unjoinButton.style.display = 'none';
+    member.innerText = parseInt(member.innerText) - 1 ;
   }
 }
 
