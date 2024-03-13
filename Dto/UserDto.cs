@@ -17,4 +17,13 @@ namespace tangti.DTOs
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
+
+    public class UpdateDto
+    {
+        public required string userId { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Email { get; set; }
+        public required string TelephoneNumber { get; set; }
+    }
 }

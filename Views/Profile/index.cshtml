@@ -41,14 +41,21 @@
                 </div>
                 <div id="buttonContainer">
                     <button class="button" id="editButton" onclick="toggleButtons()">Edit</button>
-                    <button class="button" id="saveButton" onclick="saveChanges()" style="display: none; background-color: green;">Save</button>
-                    <button class="button" id="cancelButton" onclick="cancelChanges()" style="display: none; background-color: red;">Cancel</button>
+                    <button class="button" id="saveButton" onclick="saveChanges()"
+                        style="display: none; background-color: green;">Save</button>
+                    <button class="button" id="cancelButton" onclick="cancelChanges()"
+                        style="display: none; background-color: red;">Cancel</button>
                 </div>
             </ul>
         </div>
     </div>
 
     <script>
+        var userLastName = "";
+        var userFirstName = "";
+        var userEmail = "";
+        var userPhone = "";
+
         function showContainer(containerId) {
             var containers = document.querySelectorAll('.tabShow');
             containers.forEach(function (tabShow) {
@@ -72,55 +79,93 @@
                 saveButton.style.display = 'flex';
                 cancelButton.style.display = 'flex';
 
-                inputs.forEach(function(input) {
+                inputs.forEach(function (input) {
                     input.removeAttribute('readonly');
                 });
 
+                userLastName = document.getElementById("userLastName").value;
+                userFirstName = document.getElementById("userFirstName").value;
+                userEmail = document.getElementById("userEmail").value;
+                userPhone = document.getElementById("userPhone").value;
                 document.getElementById('buttonContainer').style.textAlign = 'center';
             } else {
                 editButton.style.display = 'flex';
                 saveButton.style.display = 'none';
                 cancelButton.style.display = 'none';
 
-                inputs.forEach(function(input) {
+                inputs.forEach(function (input) {
                     input.setAttribute('readonly', 'true');
                 });
 
                 document.getElementById('buttonContainer').style.textAlign = 'center';
             }
+            
+            return {
+                userLastName : userLastName,
+                userFirstName : userFirstName,
+                userEmail : userEmail,
+                userPhone : userPhone
+            }
         }
 
-function saveChanges() {
-var inputs = document.querySelectorAll('.input');
-var labels = ["firstName", "lastName", "email", "phone"];
-inputs.forEach(function(input, index) {
-    var value = input.value;
-    console.log(labels[index] + ":", value);
-    labels[index] = value;
-    
-    if (index === 0) {
-        var userIDInput = document.getElementById("userIDInput");
-        if (userIDInput) {
-            userIDInput.value = value;
-        } else {
-            console.error("Element with ID 'userIDInput' not found.");
-        }
-    }
-    document.getElementById("userFirstName").value = labels[0];
-    document.getElementById("userLastName").value = labels[1];
-    document.getElementById("userEmail").value = labels[2];
-    document.getElementById("userPhone").value = labels[3];
-    console.log("resss",document.getElementById("userFirstName").value)
-    // Setting the readonly attribute to true for the current input element
-    input.setAttribute('readonly', 'true');
-});
+        function saveChanges() {
+            var user_id = localStorage.getItem('id');
+            var inputs = document.querySelectorAll('.input');
+            var labels = ["firstName", "lastName", "email", "phone"];
+            inputs.forEach(function (input, index) {
+                var value = input.value;
+                @* console.log(labels[index] + ":", value); *@
+                labels[index] = value;
+
+                // Setting the readonly attribute to true for the current input element
+                input.setAttribute('readonly', 'true');
+            });
+                document.getElementById("userLastName").value = labels[1];
+                document.getElementById("userFirstName").value = labels[0];
+                document.getElementById("userEmail").value = labels[2];
+                document.getElementById("userPhone").value = labels[3];
+
+            @* console.log(labels); *@
+
+            const user_update = fetch('http://localhost:5040/api/user/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user_id,
+                    FirstName: labels[0],
+                    LastName: labels[1],
+                    Email: labels[2],
+                    TelephoneNumber: labels[3]
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                @* console.log(data); *@
+                toggleButtons();
+            }).catch(error => {
+                console.error(error);
+            })
         }
 
         function cancelChanges() {
+            @* console.log("cancel"); *@
             var inputs = document.querySelectorAll('.input');
-            inputs.forEach(function(input) {
+            var labels = ["firstName", "lastName", "email", "phone"];
+            inputs.forEach(function (input, index) {
+                var value = input.value;
+                labels[index] = value;
+                // Setting the readonly attribute to true for the current input element
                 input.setAttribute('readonly', 'true');
             });
+            toggleButtons();
+            document.getElementById("userLastName").value = userLastName;
+            document.getElementById("userFirstName").value = userFirstName;
+            document.getElementById("userEmail").value = userEmail;
+            document.getElementById("userPhone").value = userPhone;
 
             // Add code to revert changes here
             // You might want to reload the original data or discard changes made
