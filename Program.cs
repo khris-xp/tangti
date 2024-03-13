@@ -28,6 +28,7 @@ builder.Services.AddTransient<EmailService>();
 builder.Services.AddSingleton<CommentService>();
 builder.Services.AddSingleton<LikeService>();
 builder.Services.AddSingleton<RatingService>();
+builder.Services.AddSingleton<HistoryService>();
 
 builder.Services.AddControllersWithViews();
 

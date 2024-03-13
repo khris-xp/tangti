@@ -1,0 +1,61 @@
+@model List<tangti.Models.History>
+@using tangti.Models
+@{
+    ViewBag.Title = "All Historys";
+}
+
+<h2>All Historys</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Id)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model[0].EventName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model[0].JoinDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+
+                <td>
+                    <a href="Event/Details/@item.EventId"@Html.DisplayFor(modelItem => item.EventName)>@item.EventName</a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.JoinDate)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    var user_id = localStorage.getItem("user_id");
+
+    //show only table where UserId == user_id
+    var table = document.getElementsByClassName("table");
+    for (var i = 0; i < table.length; i++) {
+        var tr = table[i].getElementsByTagName("tr");
+        for (var j = 0; j < tr.length; j++) {
+            var td = tr[j].getElementsByTagName("td");
+            if (td[3].innerText != user_id) {
+                tr[j].style.display = "none";
+            }
+        }
+    }
+</script> 
