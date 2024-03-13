@@ -33,7 +33,7 @@
             </svg>
         </div>
 
-        <div class="dropdown_menu">
+        <div class="dropdown_menu" id="dropdown_menu">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About us</a></li>
             <li><a href="/Event">Events</a></li>
@@ -99,14 +99,17 @@
                     var link = document.getElementById('links')
                     
                     var reportLink = document.createElement('li');
-                    //hide bullet
                     reportLink.style.listStyleType = "none";
-
                     reportLink.innerHTML = '<a b-f4e90i3eyj href="/Report">Report</a>';
                     link.appendChild(reportLink);
 
-                    var adminPath = document.getElementById('adminPath');
-                    adminPath.href = "/Report";
+                    var reportlink2 = document.createElement('li');
+                    reportlink2.style.listStyleType = "none";
+                    reportlink2.innerHTML = '<a b-f4e90i3eyj href="/Report">Report</a>';
+                    var link2 = document.getElementById('dropdown_menu')
+                    link2.appendChild(reportlink2);
+
+
 
                     console.log('role admin');
 

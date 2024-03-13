@@ -14,7 +14,6 @@
 <body>
     <script>
         const EventId = "@Model.Id";
-        console.log('Event id : ', EventId);
         const memberdata = fetch(`https://kmitltangti.azurewebsites.net/api/memberlist/${EventId}`, {
             method: 'GET',
             headers: {
