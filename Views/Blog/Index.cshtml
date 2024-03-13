@@ -34,24 +34,19 @@
                         <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
                         <a class="btn btn-delete" href='/Blog/Delete/@item.Id'>Delete</a>
                     </div>
-                </figcaption>
-                <div class="txt">
-                    <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
-                    <p class="card-description">@Html.DisplayFor(modelItem => item.Description)</p>
-                </div>
-            </figure>
-            <script>
-                console.log(localStorage.getItem('id'))
-                console.log("@(item.CreatedBy)")
-                if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
-                    const editBtn = document.querySelector('.btn-edit');
-                    const deleteBtn = document.querySelector('.btn-delete');
-                    if (editBtn) editBtn.style.display = 'none';
-                    if (deleteBtn) deleteBtn.style.display = 'none';
-                }
-            </script>
+                </figure>
+                <script>
+                    console.log(localStorage.getItem('id'))
+                    console.log("@(item.CreatedBy)")
+                    if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
+                        const editBtn = document.querySelector('.btn-edit');
+                        const deleteBtn = document.querySelector('.btn-delete');
+                        if (editBtn) editBtn.style.display = 'none';
+                        if (deleteBtn) deleteBtn.style.display = 'none';
+                    }
+                </script>
+            </div>
         </div>
-    </div>
     }
 </div>
 
