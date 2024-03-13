@@ -12,6 +12,7 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 10%;
   }
 
 #photo {
@@ -160,23 +161,19 @@ nav .menu{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2.5%;
+    font-size: 15px;
 }
 
 #container2 {
     display: inline-block;
 }
 
-/* .textlist {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 50px;
-} */
 
 .input{
     color: #6f6f6f;
     margin: 0;
     padding: 0;
-    height: 25%;
+    height: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
