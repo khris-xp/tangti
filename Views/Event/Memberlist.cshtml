@@ -16,7 +16,7 @@
 <body>
     <script>
         const EventId = "@Model.Id";
-        const memberdata = fetch(`http://localhost:5040/api/memberlist/${EventId}`, {
+        const memberdata = fetch(`https://kmitltangti.azurewebsites.net/api/memberlist/${EventId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

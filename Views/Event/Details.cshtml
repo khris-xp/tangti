@@ -88,7 +88,7 @@
             }).catch(error => {
                 console.error(error);
             });
-
+            
             const enrollment = fetch('https://kmitltangti.azurewebsites.net/api/enroll/check', {
                 method: 'POST',
                 headers: {
@@ -133,7 +133,7 @@
 
         event_id = '@Model.Id'
         document.addEventListener('DOMContentLoaded', function () {
-            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
+            const user_response2 = fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -152,7 +152,7 @@
                 }
        
 
-                if (user_id === organiserId) {
+                if (user_id === organiserId || user_response.role == "Admin") {
                     document.querySelector('.join-button').disabled = true;
                     document.getElementById('edit-button').style.display = 'flex';
                     document.querySelector('.join-button').innerText = 'You are the owner!';
