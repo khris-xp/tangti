@@ -69,44 +69,40 @@
         });
 
         function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email = $('#loginEmail').val();
+            const password = $('#loginPassword').val();
 
-            const loginResponse = fetch('https://kmitltangti.azurewebsites.net/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            $.ajax({
+                url: 'https://kmitltangti.azurewebsites.net/api/user/login',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
                     email: email,
                     password: password
-                })
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
+                }),
+                success: function (data) {
+                    localStorage.setItem('id', data.id);
+                    window.location.href = '/';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
                 }
-                throw new Error('Invalid email or password');
-            }).then(data => {
-                localStorage.setItem('id', data.id);
-                window.location.href = '/';
-            }).catch(error => {
-                console.error(error);
             });
         }
 
-        function register() {
-            const firstName = document.getElementById('registerFirstName').value;
-            const lastName = document.getElementById('registerLastName').value;
-            const phone = document.getElementById('registerPhone').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
 
-            const registerResponse = fetch('https://kmitltangti.azurewebsites.net/api/user/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+        function register() {
+            const firstName = $('#registerFirstName').val();
+            const lastName = $('#registerLastName').val();
+            const phone = $('#registerPhone').val();
+            const email = $('#registerEmail').val();
+            const password = $('#registerPassword').val();
+
+            $.ajax({
+                url: 'https://kmitltangti.azurewebsites.net/api/user/register',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
                     firstname: firstName,
                     lastname: lastName,
                     phone: phone,
@@ -115,18 +111,16 @@
                     imageProfile: "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg",
                     enrolled: [],
                     eventCreated: []
-                })
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
+                }),
+                success: function (data) {
+                    localStorage.setItem('id', data.id);
+                    window.location.href = '/';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
                 }
-                throw new Error('Invalid email or password');
-            }).then(data => {
-                localStorage.setItem('id', data.id);
-                window.location.href = '/';
-            }).catch(error => {
-                console.error(error);
             });
         }
+
     </script>
 </body>
