@@ -24,10 +24,10 @@
 @foreach (var item in Model)
 {
     <div class="card-grid">
-        <div class="card" onclick="showDetails('@item.Id')">
+        <div class="card" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">
             <figure>
-                <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg" alt="Room">
-                <figcaption>
+                <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg"
+                    alt="Room" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">                <figcaption>
                     @Html.DisplayFor(modelItem => item.Title)
                     <div class="buttons">
                         <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
