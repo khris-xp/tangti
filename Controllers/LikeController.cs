@@ -37,11 +37,12 @@ namespace LikeController
         [HttpPost("create")]
         public async Task<ActionResult> Create([FromBody] CreateLikeDto createLikeDto)
         {
-            var newLike = new Like{
+            var newLike = new Like
+            {
                 Id = ObjectId.GenerateNewId().ToString(),
                 EventId = createLikeDto.eventId
             };
-            
+
             await _likeService.CreateAsync(newLike);
 
             return Ok(newLike);

@@ -24,17 +24,14 @@
                 quia
                 facere assumenda dicta dolores.</p>
         </div>
-        <div class="search-container">
-            @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
-            {
+        @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+        {
+            <div class="search-container">
                 <div class="search-bar">
                     @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
-            }
-        </div>
-        @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
-        {
+            </div>
             <br />
             <select id="category" name="category" class="form-control">
                 <option value="">All</option>
