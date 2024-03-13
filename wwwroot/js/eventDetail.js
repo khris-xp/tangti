@@ -53,14 +53,14 @@ function updateEnrollment(endpointUrl, eventId) {
 }
 
 function enrollEvent(eventId) {
-  const endpointUrl = 'https://kmitltangti.azurewebsites.net/api/enroll/update';
+  const endpointUrl = 'http://localhost:5040/api/enroll/update';
   updateEnrollment(endpointUrl, eventId);
   updateEnrollmentUI(true);
 }
 
 function unenrollEvent(eventId) {
   const endpointUrl =
-    'https://kmitltangti.azurewebsites.net/api/enroll/unenroll';
+    'http://localhost:5040/api/enroll/unenroll';
   updateEnrollment(endpointUrl, eventId);
   updateEnrollmentUI(false);
 }

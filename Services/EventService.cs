@@ -124,5 +124,15 @@ namespace tangti.Services
             return (false);
 
         }
+
+		public async Task<bool> changeStatus(string id, string status)
+		{
+			var target_event = await GetAsync(id);
+			if (target_event == null)
+				return (false);
+			target_event.Status = status;
+			await UpdateAsync(id, target_event);
+			return (true);
+		}
     }
 }

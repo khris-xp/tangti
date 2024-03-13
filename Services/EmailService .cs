@@ -43,7 +43,12 @@ public class EmailService
         mailMessage.Subject = subject;
         mailMessage.Body = body;
         mailMessage.IsBodyHtml = true;
-
+        Console.WriteLine("Sending email...");
+        Console.WriteLine("From: " + mailMessage.From);
+        Console.WriteLine("To: " + mailMessage.To);
+        Console.WriteLine("Subject: " + mailMessage.Subject);
+        Console.WriteLine("Body: " + mailMessage.Body);
+        
         try
         {
             await smtpClient.SendMailAsync(mailMessage);
