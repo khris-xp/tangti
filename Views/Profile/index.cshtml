@@ -24,27 +24,26 @@
                 <div class="textlist">
                     <div>
                         <h2> First name : </h2>
-                        <div class="input" id="userFirstName"readOnly></div>
+                        <input type="text" class="input" id="userFirstName" readonly />
                     </div>
                     <div>
                         <h2> Last name : </h2>
-                        <div class="input" id="userLastName"readOnly></div>
+                        <input type="text" class="input" id="userLastName" readonly />
                     </div>
                     <div>
                         <h2> Email : </h2>
-                        <div class="input" id="userEmail"readOnly></div>
+                        <input type="text" class="input" id="userEmail" readonly />
                     </div>
                     <div>
                         <h2> Telephone Number : </h2>
-                        <div class="input" id="userPhone"readOnly></div>
+                        <input type="text" class="input" id="userPhone" readonly />
                     </div>
                 </div>
-                <button class="button" id="editButton" onclick="toggleButtons()" onmouseover="growButton(this)"
-                    onmouseout="shrinkButton(this)">Edit</button>
-                <button class="button" id="saveButton" onclick="toggleButtons();saveChanges();" style="background-color: green;"
-                    onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Save</button>
-                <button class="button" id="cancelButton" onclick="toggleButtons();cancelChanges();" style="background-color: red;"
-                    onmouseover="growButton(this)" onmouseout="shrinkButton(this)">Cancel</button>
+                <div id="buttonContainer">
+                    <button class="button" id="editButton" onclick="toggleButtons()">Edit</button>
+                    <button class="button" id="saveButton" onclick="saveChanges()" style="display: none; background-color: green;">Save</button>
+                    <button class="button" id="cancelButton" onclick="cancelChanges()" style="display: none; background-color: red;">Cancel</button>
+                </div>
             </ul>
         </div>
     </div>
@@ -52,7 +51,6 @@
     <script>
         function showContainer(containerId) {
             var containers = document.querySelectorAll('.tabShow');
-            var pagination = document.getElementsByClassName('pagination');
             containers.forEach(function (tabShow) {
                 if (tabShow.id !== containerId) {
                     tabShow.style.display = 'none';
@@ -60,63 +58,72 @@
             });
 
             var containerToShow = document.getElementById(containerId);
-            if (containerId === 'container1')
-                containerToShow.style.display = 'flex';
-
-            else
-                containerToShow.style.display = 'flex';
-
-        }
-
-        function hidepagination(option) {
-            var pagination = document.getElementById('pagination');
-            if (option === 'option1') {
-                pagination.style.display = 'none';
-            }
-            else {
-                pagination.style.display = 'flex';
-            }
+            containerToShow.style.display = 'flex';
         }
 
         function toggleButtons() {
             var editButton = document.getElementById('editButton');
             var saveButton = document.getElementById('saveButton');
             var cancelButton = document.getElementById('cancelButton');
-            var textInput1 = document.getElementById('userFirstName');
-            var textInput2 = document.getElementById('userLastName');
-            var textInput3 = document.getElementById('userEmail');
-            var textInput4 = document.getElementById('userPhone');
+            var inputs = document.querySelectorAll('.input');
 
             if (editButton.style.display !== 'none') {
                 editButton.style.display = 'none';
                 saveButton.style.display = 'flex';
                 cancelButton.style.display = 'flex';
 
-                textInput1.readOnly = false;
-                textInput2.readOnly = false;
-                textInput3.readOnly = false;
-                textInput4.readOnly = false;
+                inputs.forEach(function(input) {
+                    input.removeAttribute('readonly');
+                });
+
                 document.getElementById('buttonContainer').style.textAlign = 'center';
-            }
-            else {
+            } else {
                 editButton.style.display = 'flex';
                 saveButton.style.display = 'none';
                 cancelButton.style.display = 'none';
 
-                textInput1.readOnly = true;
-                textInput2.readOnly = true;
-                textInput3.readOnly = true;
-                textInput4.readOnly = true;
+                inputs.forEach(function(input) {
+                    input.setAttribute('readonly', 'true');
+                });
+
                 document.getElementById('buttonContainer').style.textAlign = 'center';
             }
         }
 
-        function saveChanges() {
-
+function saveChanges() {
+var inputs = document.querySelectorAll('.input');
+var labels = ["firstName", "lastName", "email", "phone"];
+inputs.forEach(function(input, index) {
+    var value = input.value;
+    console.log(labels[index] + ":", value);
+    labels[index] = value;
+    
+    if (index === 0) {
+        var userIDInput = document.getElementById("userIDInput");
+        if (userIDInput) {
+            userIDInput.value = value;
+        } else {
+            console.error("Element with ID 'userIDInput' not found.");
+        }
+    }
+    document.getElementById("userFirstName").value = labels[0];
+    document.getElementById("userLastName").value = labels[1];
+    document.getElementById("userEmail").value = labels[2];
+    document.getElementById("userPhone").value = labels[3];
+    console.log("resss",document.getElementById("userFirstName").value)
+    // Setting the readonly attribute to true for the current input element
+    input.setAttribute('readonly', 'true');
+});
         }
 
         function cancelChanges() {
+            var inputs = document.querySelectorAll('.input');
+            inputs.forEach(function(input) {
+                input.setAttribute('readonly', 'true');
+            });
 
+            // Add code to revert changes here
+            // You might want to reload the original data or discard changes made
         }
 
         const user_id = localStorage.getItem('id');
@@ -132,21 +139,20 @@
                     return response.json();
                 }
             }).then(data => {
-                document.getElementById('userFirstName').innerHTML = data.firstName;
-                document.getElementById('userLastName').innerHTML = data.lastName;
-                document.getElementById('userEmail').innerHTML = data.email;
-                document.getElementById('userPhone').innerHTML = data.phone;
+                document.getElementById('userFirstName').value = data.firstName;
+                document.getElementById('userLastName').value = data.lastName;
+                document.getElementById('userEmail').value = data.email;
+                document.getElementById('userPhone').value = data.phone;
                 document.getElementById('photo').src = data.imageProfile;
+                console.log(data.firstName)
             }).catch(error => {
                 console.error(error);
             });
         });
 
-        
-         // check cookie
-        console.log(user_id);
+        // check cookie
         if (user_id == null) {
-        window.location.href = '/Login';
+            window.location.href = '/Login';
         }
     </script>
 
