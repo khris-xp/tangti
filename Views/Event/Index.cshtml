@@ -47,7 +47,7 @@
         <div class="card-list">
             @foreach (var item in @Model)
             {
-                <article class="card">
+                <article class="card" id="card-@item.Id">
                     <figure class="card-image">
                         <a href="/Event/Details/@item.Id">
                             <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
@@ -154,38 +154,32 @@
                             console.error(error);
                         });
 
-                        fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        }).then(response => {
-                            if (response.ok) {
-                                return response.json();
-                            }
-                        }).then(data => {
-                            const enrollmentLimit = "@item.EnrollLimit";
-                            if (data.member >= enrollmentLimit) {
-                                document.querySelector('.card-button').disabled = true;
-                                document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
-                                document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
-                            }
-
-                            else if (user_id === organiserId) {
-                                document.querySelector('.card-button').disabled = true;
-                                document.getElementById('event-button-@item.Id').innerHTML = 'View Your Event';
-                            }
-                            else {
-                                document.getElementById('event-button-@item.Id').innerHTML = 'Join Event';
-                            }
-
-                            if (user_id == null) {
-                                var btn = document.getElementById('event-button-@item.Id')
-                                btn.href = "/login";
-                            }
-                        }).catch(error => {
-                            console.error(error);
-                        })
+                        const enrollmentLimit = "@item.EnrollLimit";
+                        const eventStatus = "@item.Status";
+                        if (data.member >= enrollmentLimit || "@item.Type" !== 'Queue') {
+                            document.querySelector('.card-button').disabled = true;
+                            document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
+                            document.getElementById('card-@item.Id').style.opacity = '0.5';
+                            document.getElementById('card-@item.Id').style.pointerEvents = 'none';
+                            document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
+                        }
+                        else if (eventStatus === 'Closed' || eventStatus === 'NOT OPENED') {
+                            document.querySelector('.card-button').disabled = true;
+                            document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
+                            document.getElementById('card-@item.Id').style.opacity = '0.5';
+                            document.getElementById('card-@item.Id').style.pointerEvents = 'none';
+                            document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
+                        }
+                        else if (user_id === organiserId) {
+                            document.querySelector('.card-button').disabled = true;
+                            document.getElementById('event-button-@item.Id').innerHTML = 'View Your Event';
+                        }
+                        else {
+                            document.getElementById('event-button-@item.Id').innerHTML = 'Detail';
+                            document.getElementById('event-button-@item.Id').addEventListener('click', function () {
+                                window.location.href = `/Event/Details/${'@item.Id'}`;
+                            });
+                        }
                     </script>
                 </article>
             }
@@ -193,15 +187,15 @@
         <div class="pagination" id="pagination">
             @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
             {
-                if(i == @ViewBag.page)
+                if (i == @ViewBag.page)
                 {
                     <a class="button active"
-                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
+                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
                 }
                 else
                 {
                     <a class="button"
-                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
+                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
                 }
             }
         </div>
