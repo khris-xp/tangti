@@ -193,15 +193,15 @@
         <div class="pagination" id="pagination">
             @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
             {
-                if (i == ViewBag.Page)
+                if(i == @ViewBag.page)
                 {
                     <a class="button active"
-                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
                 }
                 else
                 {
                     <a class="button"
-                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
                 }
             }
         </div>
