@@ -4,58 +4,59 @@
     ViewBag.Title = "All Historys";
 }
 
-<h2>All Historys</h2>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/history.css" asp-append-version="true" />
 </head>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].EventName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].JoinDate)
-            </th>
-        </tr>
-    </thead>
-    <tbody id="dataTable">
-        @foreach (var item in Model)
-        {
+<div class="heading">
+    <h1>History</h1>
+</div>
+<div class="containers">
+    <table class="customers">
+        <thead>
             <tr>
-                <td>
-                    <a href="Event/Details/@item.EventId">@Html.DisplayFor(modelItem => item.EventName)</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JoinDate)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].EventName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].UserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].JoinDate)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody id="dataTable">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="Event/Details/@item.EventId">@Html.DisplayFor(modelItem => item.EventName)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JoinDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <script>
     var user_id = localStorage.getItem("id");
-
-
-    if(!user_id){
-        //to login page
+    if (!user_id) {
         window.location.href = "/Login";
     }
 
-    $(document).ready(function() {
-        
-        // Hide rows where UserId does not match user_id
-        $('#dataTable tr').each(function() {
+    $(document).ready(function () {
+        $('#dataTable tr').each(function () {
             var userId = $(this).find('td:eq(1)').text().trim();
-
+            console.log(userId);
+            console.log(user_id)
             if (userId !== user_id) {
                 $(this).hide();
             }
