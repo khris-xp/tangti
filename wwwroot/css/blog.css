@@ -1,24 +1,32 @@
 img {
   width: 100%;
   height: 300px;
-  display: block;
 }
 
 .card-container {
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 0% 0%;
 }
 
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem; /* Increase the gap between cards to 2rem */
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  max-width: 100%; /* Ensure the grid doesn't exceed the width of its parent container */
 }
+
+.card {
+  flex: 1 0 300px; /* Each card can grow, but won't shrink below 300px */
+  max-width: calc(33.33% - 2rem); /* 33.33% minus the increased gap to ensure cards wrap */
+  height: 400px;
+  box-sizing: border-box;
+}
+
 
 figure {
   display: grid;
@@ -26,10 +34,7 @@ figure {
   overflow: hidden;
   cursor: auto;
   width: 300px;
-  /* Set the width of the card */
-  height: 400px;
-  /* Set the height of the card */
-  margin-left: 10%;
+  height: 400%;
 }
 
 figure>* {
@@ -40,9 +45,7 @@ figure>* {
 figure img {
   object-fit: cover;
   width: 100%;
-  /* Ensure the image takes up the full width of the figure */
   height: 100%;
-  /* Ensure the image takes up the full height of the figure */
 }
 
 figure figcaption {
@@ -180,105 +183,4 @@ figure:hover .buttons {
   /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
-}
-
-.button-77 {
-  align-items: center;
-  appearance: none;
-  background-clip: padding-box;
-  background-color: initial;
-  background-image: none;
-  border-style: none;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  flex-direction: row;
-  flex-shrink: 0;
-  font-family: Eina01, sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  justify-content: center;
-  line-height: 24px;
-  margin: 0;
-  min-height: 64px;
-  outline: none;
-  overflow: visible;
-  padding: 19px 26px;
-  pointer-events: auto;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  text-transform: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: middle;
-  width: auto;
-  word-break: keep-all;
-  z-index: 0;
-}
-
-@media (min-width: 768px) {
-  .button-77 {
-    padding: 19px 32px;
-  }
-}
-
-.button-77:before,
-.button-77:after {
-  border-radius: 80px;
-}
-
-.button-77:before {
-  background-color: rgba(249, 58, 19, .32);
-  content: "";
-  display: block;
-  height: 100%;
-  left: 0;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: -2;
-}
-
-.button-77:after {
-  background-color: initial;
-  background-image: linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
-  bottom: 4px;
-  content: "";
-  display: block;
-  left: 4px;
-  overflow: hidden;
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  transition: all 100ms ease-out;
-  z-index: -1;
-}
-
-.button-77:hover:not(:disabled):after {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  transition-timing-function: ease-in;
-}
-
-.button-77:active:not(:disabled) {
-  color: #ccc;
-}
-
-.button-77:active:not(:disabled):after {
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
-  bottom: 4px;
-  left: 4px;
-  right: 4px;
-  top: 4px;
-}
-
-.button-77:disabled {
-  cursor: default;
-  opacity: .24;
 }

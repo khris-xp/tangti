@@ -8,7 +8,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - tangti</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/blog.css" asp-append-version="true" />
 </head>
 
@@ -19,48 +18,51 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam illum quos distinctio, in nobis aliquid numquam
         architecto omnis unde incidunt. Repellat quis rem a illo magnam, doloremque facere aperiam nesciunt.</p>
     <p>
-        <a class='button-77' asp-action="Create" id='createBtn'>Create</a>
+        <a class='button' asp-action="Create" id='createBtn'>Create</a>
 </div>
-@foreach (var item in Model)
-{
-    <div class="card-conatiner">
-        <div class="card-grid">
-            <div class="col-md-4">
-                <figure>
-                    <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg"
-                        alt="Room">
-                    <figcaption>
-                        @Html.DisplayFor(modelItem => item.Title)
-                        <div class="buttons">
-                            <a class="btn btn-details" href='/Blog/Details/@item.Id'>Details</a>
-                            <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
-                            <a class="btn btn-delete" href='/Blog/Delete/@item.Id'>Delete</a>
-                        </div>
-                    </figcaption>
-                    <div class="txt">
-                        <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
-                        <p class="card-description">@Html.DisplayFor(modelItem => item.Description)</p>
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+    <div class="card-grid">
+        <div class="card">
+            <figure>
+                <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg"
+                    alt="Room" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">
+                <figcaption>
+                    @Html.DisplayFor(modelItem => item.Title)
+                    <div class="buttons">
+                        <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
+                        <a class="btn btn-delete" href='/Blog/Delete/@item.Id'>Delete</a>
                     </div>
-                </figure>
-            </div>
+                </figcaption>
+                <div class="txt">
+                    <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <p class="card-description">@Html.DisplayFor(modelItem => item.Description)</p>
+                </div>
+            </figure>
             <script>
+                console.log(localStorage.getItem('id'))
+                console.log("@(item.CreatedBy)")
                 if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
-                    const detailsBtn = document.querySelector('.btn-details');
                     const editBtn = document.querySelector('.btn-edit');
                     const deleteBtn = document.querySelector('.btn-delete');
-                    if (detailsBtn) detailsBtn.style.display = 'none';
                     if (editBtn) editBtn.style.display = 'none';
                     if (deleteBtn) deleteBtn.style.display = 'none';
                 }
             </script>
-
         </div>
     </div>
-}
+    }
+</div>
 
 <script>
     const user_id = localStorage.getItem('id');
     if (user_id == null) {
         document.getElementById('createBtn').style.display = 'none';
+    }
+
+    function showDetails(blogId) {
+        // Navigate to the details page for the clicked blog
+        window.location.href = '/Blog/Details/' + blogId;
     }
 </script>
