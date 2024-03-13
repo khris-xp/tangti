@@ -18,7 +18,7 @@ public class HomeController : Controller
 		_enrollService = enrollService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
 		var events = _eventsService.GetAsync().Result;
 		foreach (var curr_event in events)
@@ -32,6 +32,12 @@ public class HomeController : Controller
                     curr_event.members = enroll.Member;
                 }
             }
+			if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
+				await _eventsService.changeStatus(curr_event.Id, "CLOSED");
+			if (curr_event.Status != "NOT_OPENED" && await _eventsService.isTimeNotOpen(curr_event.Id))
+				await _eventsService.changeStatus(curr_event.Id, "NOT_OPENED");
+			if (curr_event.Status != "ON_GOING" && await _eventsService.isEnrollTime(curr_event.Id))
+				await _eventsService.changeStatus(curr_event.Id, "ON_GOING");
 			
 		}
         return View(events);
