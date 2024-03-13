@@ -31,7 +31,7 @@ public class HomeController : Controller
                 {
                     curr_event.members = enroll.Member;
                 }
-                _eventsService.checkStatus(curr_event);
+                await _eventsService.checkStatus(curr_event);
             }
 
         }
