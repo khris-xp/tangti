@@ -66,7 +66,7 @@ public class BlogController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-                if(blog.CreatedBy is null)
+                if (blog.CreatedBy is null)
                 {
                     message_response = "User id is null";
                     ViewBag.Message = message_response;

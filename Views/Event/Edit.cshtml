@@ -143,6 +143,10 @@
 
         return card;
     }
+    document.getElementById('sendDataButton').addEventListener('click', function () {
+        var data = localStorage.getItem('id');
+        document.getElementById("userIDInput").value = data;
+    });
 </script>
 
 <div class="heading">
@@ -215,6 +219,7 @@
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
+            <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" id="sendDataButton"/>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

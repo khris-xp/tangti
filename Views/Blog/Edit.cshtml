@@ -43,15 +43,17 @@
                     <input asp-for="Content" class="form-control" />
                     <span asp-validation-for="Content" class="text-danger"></span>
                 </div>
+                <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" />
                 <div class="form-group">
-                    <label asp-for="CreatedBy" class="control-label"></label>
-                    <input asp-for="CreatedBy" class="form-control" />
-                    <span asp-validation-for="CreatedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Save" class="btn btn-primary" id="sendDataButton"  />
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('sendDataButton').addEventListener('click', function () {
+        var data = localStorage.getItem('id');
+        document.getElementById("userIDInput").value = data;
+    });
+</script>
