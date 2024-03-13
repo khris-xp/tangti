@@ -109,6 +109,47 @@
         }
     });
 
+    const handleKickUser = (userid) => {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/kick', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "userId": userid
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('User has been kicked');
+                location.reload();
+            } else {
+                alert('Error:', response.status);
+            }
+        });
+    }
+
+    const handleInviteUser = (userid) => {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/updatestatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "userId": userid,
+                "status": true
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('User has been invited');
+                location.reload();
+            } else {
+                alert('Error:', response.status);
+            }
+        });
+    }
+
     function createCard(userData) {
         const card = document.createElement('div');
         card.classList.add('card');
@@ -136,10 +177,47 @@
         h3.style.setProperty('margin-top', '10px');
         h3.style.setProperty('font-size', '18px');
 
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.setProperty('display', 'flex');
+        buttonContainer.style.setProperty('justify-content', 'space-between');
+        buttonContainer.style.setProperty('margin-top', '10px');
+        buttonContainer.style.setProperty('gap', '10px');
+
+        const inviteButton = document.createElement('button');
+        inviteButton.innerText = 'Invite';
+        inviteButton.style.setProperty('background-color', 'green');
+        inviteButton.style.setProperty('color', 'white');
+        inviteButton.style.setProperty('border', 'none');
+        inviteButton.style.setProperty('padding', '10px 20px');
+        inviteButton.style.setProperty('text-align', 'center');
+        inviteButton.style.setProperty('text-decoration', 'none');
+        inviteButton.style.setProperty('display', 'inline-block');
+        inviteButton.style.setProperty('font-size', '16px');
+        inviteButton.style.setProperty('border-radius', '5px');
+        inviteButton.style.setProperty('cursor', 'pointer');
+        kickButton.addEventListener('click', () => handleKickUser(userData.id));
+
+        const kickButton = document.createElement('button');
+        kickButton.innerText = 'Kick';
+        kickButton.style.setProperty('background-color', 'red');
+        kickButton.style.setProperty('color', 'white');
+        kickButton.style.setProperty('border', 'none');
+        kickButton.style.setProperty('padding', '10px 20px');
+        kickButton.style.setProperty('text-align', 'center');
+        kickButton.style.setProperty('text-decoration', 'none');
+        kickButton.style.setProperty('display', 'inline-block');
+        kickButton.style.setProperty('font-size', '16px');
+        kickButton.style.setProperty('border-radius', '5px');
+        kickButton.style.setProperty('cursor', 'pointer');
+        kickButton.addEventListener('click', () => handleKickUser(userData.id));
+
         figcaption.appendChild(h3);
         figure.appendChild(img);
         figure.appendChild(figcaption);
         card.appendChild(figure);
+        card.appendChild(buttonContainer);
+        buttonContainer.appendChild(inviteButton);
+        buttonContainer.appendChild(kickButton);
 
         return card;
     }
@@ -219,7 +297,7 @@
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
-            <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" id="sendDataButton"/>
+            <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" id="sendDataButton" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
