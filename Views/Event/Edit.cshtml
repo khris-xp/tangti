@@ -211,7 +211,7 @@
 
         kickButton.addEventListener('click', () => handleKickUser(userData.id));
 
-        inviteButton.addEventListener('click', () => handleInviteUser(userData.id)); // Here we register the event listener for inviteButton
+        inviteButton.addEventListener('click', () => handleInviteUser(userData.id));
 
         buttonContainer.appendChild(inviteButton);
         buttonContainer.appendChild(kickButton);
@@ -268,7 +268,7 @@
             <div class="form-group">
                 <label asp-for="Type" class="control-label">Type:</label>
                 <select id="Type" name="Type" class="form-control">
-                    <option value="Qeueue">Queue</option>
+                    <option value="Queue">Queue</option>
                     <option value="Close When full">Close When full</option>
                 </select>
             </div>
@@ -300,7 +300,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <select id="Status" name="Status" class="form-control">
+                    <option value="NOT OPENED">Not Opened</option>
+                    <option value="ON GOING">On Going</option>
+                    <option value="CLOSED">Closed</option>
+                    <option value="CANCELLED">Cancelled</option>
+                    <option value="BANNED">Banned</option>
+                </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" id="sendDataButton" />
