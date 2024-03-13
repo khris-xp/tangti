@@ -21,39 +21,38 @@
         <a class='button' asp-action="Create" id='createBtn'>Create</a>
 </div>
 <div class="card-container">
-@foreach (var item in Model)
-{
-    <div class="card-grid">
-        <div class="card" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">
-            <figure>
-                <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg"
-                    alt="Room" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">                <figcaption>
-                    @Html.DisplayFor(modelItem => item.Title)
-                    <div class="buttons">
-                        <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
-                        <a class="btn btn-delete" href='/Blog/Delete/@item.Id'>Delete</a>
+    @foreach (var item in Model)
+    {
+        <div class="card-grid">
+            <div class="card" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">
+                <figure>
+                    <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg"
+                        alt="Room">
+                    <figcaption>
+                        @Html.DisplayFor(modelItem => item.Title)
+                        <div class="buttons">
+                            <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
+                            <a class="btn btn-delete" href='/Blog/Delete/@item.Id'>Delete</a>
+                        </div>
+                    </figcaption>
+                    <div class="txt">
+                        <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+                        <p class="card-description">@Html.DisplayFor(modelItem => item.Description)</p>
                     </div>
-                </figcaption>
-                <div class="txt">
-                    <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
-                    <p class="card-description">@Html.DisplayFor(modelItem => item.Description)</p>
-                </div>
-            </figure>
+                </figure>
+                <script>
+                    console.log(localStorage.getItem('id'))
+                    console.log("@(item.CreatedBy)")
+                    if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
+                        const editBtn = document.querySelector('.btn-edit');
+                        const deleteBtn = document.querySelector('.btn-delete');
+                        if (editBtn) editBtn.style.display = 'none';
+                        if (deleteBtn) deleteBtn.style.display = 'none';
+                    }
+                </script>
+            </div>
         </div>
-        <script>
-            console.log("@(item.CreatedBy)")
-            if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
-                const card = document.querySelector('.card-grid:last-child');
-                const editBtn = card.querySelector('.btn-edit');
-                const deleteBtn = card.querySelector('.btn-delete');
-                if (editBtn) editBtn.style.display = 'none';
-                if (deleteBtn) deleteBtn.style.display = 'none';
-            }
-        </script>
-    </div>
-}
-
-</div>
+    }
 </div>
 
 <script>

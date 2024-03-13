@@ -66,7 +66,7 @@ namespace tangti.Models
         [BsonElement("Type")]
         //ต่อคิว
         //เต็มแล้ว enroll ไม่ได้้
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
 
         public Event()
