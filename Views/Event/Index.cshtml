@@ -151,8 +151,8 @@
                             console.error(error);
                         });
 
-                        const enrollmentLimit = "@item.EnrollLimit";
-                        const eventStatus = "@item.Status";
+                        var enrollmentLimit = "@item.EnrollLimit";
+                        var eventStatus = "@item.Status";
                         if (data.member >= enrollmentLimit || "@item.Type" !== 'Queue') {
                             document.querySelector('.card-button').disabled = true;
                             document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
