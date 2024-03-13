@@ -20,6 +20,26 @@
         }
     }
 
+    const handleKickUser = (userid) => {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/kick', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "userId": userid
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('User has been kicked');
+                location.reload();
+            } else {
+                alert('Error:', response.status);
+            }
+        });
+    }
+
     function closeModal() {
         document.getElementById("myModal").style.display = "none";
     }
@@ -109,26 +129,6 @@
         }
     });
 
-    const handleKickUser = (userid) => {
-        fetch('https://kmitltangti.azurewebsites.net/api/enroll/kick', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "eventId": '@Model.Id',
-                "userId": userid
-            })
-        }).then(response => {
-            if (response.ok) {
-                alert('User has been kicked');
-                location.reload();
-            } else {
-                alert('Error:', response.status);
-            }
-        });
-    }
-
     const handleInviteUser = (userid) => {
         fetch('https://kmitltangti.azurewebsites.net/api/enroll/updatestatus', {
             method: 'POST',
@@ -195,7 +195,6 @@
         inviteButton.style.setProperty('font-size', '16px');
         inviteButton.style.setProperty('border-radius', '5px');
         inviteButton.style.setProperty('cursor', 'pointer');
-        kickButton.addEventListener('click', () => handleKickUser(userData.id));
 
         const kickButton = document.createElement('button');
         kickButton.innerText = 'Kick';
@@ -209,7 +208,14 @@
         kickButton.style.setProperty('font-size', '16px');
         kickButton.style.setProperty('border-radius', '5px');
         kickButton.style.setProperty('cursor', 'pointer');
+
         kickButton.addEventListener('click', () => handleKickUser(userData.id));
+
+        inviteButton.addEventListener('click', () => handleInviteUser(userData.id)); // Here we register the event listener for inviteButton
+
+        buttonContainer.appendChild(inviteButton);
+        buttonContainer.appendChild(kickButton);
+
 
         figcaption.appendChild(h3);
         figure.appendChild(img);
