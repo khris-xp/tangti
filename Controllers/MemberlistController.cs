@@ -1,9 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tangti.Services;
 using tangti.Models;
-using tangti.DTOs;
-
 
 namespace MemberListController
 {

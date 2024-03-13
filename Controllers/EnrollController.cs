@@ -359,9 +359,9 @@ namespace EnrollController
                     enroll.MemberList.Remove(member);
 
                     enroll.Member = enroll.MemberList.Count;
-					
-					if (enroll.Id != null)
-                    	await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+                    if (enroll.Id != null)
+                        await _enrollService.UpdateAsync(enroll.Id, enroll);
 
                     return Ok(enroll);
                 }
