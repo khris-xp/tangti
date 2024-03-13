@@ -89,14 +89,6 @@ body {
   background-color: #FF7426;
 }
 
-.edit {
-  background-color: #FF7426;
-}
-
-.delete {
-  background-color: red;
-}
-
 .btn-danger {
   padding: 8px 24px;
   border: none;
@@ -107,8 +99,6 @@ body {
   font-size: 14px;
   transition: background-color 0.3s ease;
   margin-top: 30px;
-  margin-left: 10%;
-
 }
 
 .btn-danger:hover {
