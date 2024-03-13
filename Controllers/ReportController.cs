@@ -9,10 +9,11 @@ public class ReportController : Controller
 {
     private readonly ReportService _reportService;
 
-    public ReportController(ReportService reportService){
+    public ReportController(ReportService reportService)
+    {
         _reportService = reportService;
     }
-    
+
     public IActionResult Index()
     {
         var report = _reportService.GetReportsAsync().Result;
@@ -45,7 +46,7 @@ public class ReportController : Controller
     [HttpGet]
     public async Task<ActionResult<List<Report>>> Get()
     {
-        return await  _reportService.GetReportsAsync();
+        return await _reportService.GetReportsAsync();
     }
 
     [HttpGet("{id:length(24)}")]
@@ -53,7 +54,8 @@ public class ReportController : Controller
     {
         var _report = await _reportService.GetReportAsync(id);
 
-        if (_report is null){
+        if (_report is null)
+        {
             return NotFound();
         }
 
@@ -68,7 +70,7 @@ public class ReportController : Controller
             string message_response;
             if (ModelState.IsValid)
             {
-                if(report.Createdby is null)
+                if (report.Createdby is null)
                 {
                     message_response = "User id is null";
                     ViewBag.Message = message_response;

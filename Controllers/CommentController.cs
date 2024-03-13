@@ -39,7 +39,8 @@ namespace CommentController
                 }
 
                 Console.WriteLine("Create");
-                var newComment = new Comment{
+                var newComment = new Comment
+                {
                     EventId = commentDto.eventId,
                     CreatedBy = commentDto.userId,
                     Content = commentDto.content
@@ -65,7 +66,7 @@ namespace CommentController
             {
                 return BadRequest("Comment not Found");
             }
-            
+
             await _commentService.DeleteAsync(deleteCommentDto.id);
 
             return Ok("Comment has been Deleted");
@@ -97,7 +98,7 @@ namespace CommentController
             {
                 return BadRequest("Comment not Found");
             }
-            
+
             return Ok(comments);
         }
     }

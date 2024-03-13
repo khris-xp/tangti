@@ -39,28 +39,24 @@ public class EventController : Controller
             if (curr_event.Id != null)
             {
                 enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
-				// change status
-				_eventsService.checkStatus(curr_event);
-				Console.WriteLine("Event:" + curr_event.Title + " type:" + curr_event.Type + " status: " + curr_event.Status);
-            	if (await _eventsService.isTimeClose(curr_event.Id))
-             	   Console.WriteLine(curr_event.Title + ": Notifination (by time)");
-            	if (enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
-				{
-             	   Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
-				   if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
-				   {
-					   _eventsService.changeStatus(curr_event.Id, "CLOSED");
-				   }
-				}
-            	if (enroll_inst != null)
-            	{	
-             	   curr_event.members = enroll_inst.Member;
-            	}
+                // change status
+                _eventsService.checkStatus(curr_event);
+                Console.WriteLine("Event:" + curr_event.Title + " type:" + curr_event.Type + " status: " + curr_event.Status);
+                if (await _eventsService.isTimeClose(curr_event.Id))
+                    Console.WriteLine(curr_event.Title + ": Notifination (by time)");
+                if (enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
+                {
+                    Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
+                    if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
+                    {
+                        _eventsService.changeStatus(curr_event.Id, "CLOSED");
+                    }
+                }
+                if (enroll_inst != null)
+                {
+                    curr_event.members = enroll_inst.Member;
+                }
             }
-
-
-
-			
         }
 
         return View(events);
@@ -77,7 +73,6 @@ public class EventController : Controller
         ViewBag.Categories = categories;
         return View();
     }
-
     public async Task<IActionResult> Edit(string id)
     {
         var events = await _eventsService.GetAsync(id);

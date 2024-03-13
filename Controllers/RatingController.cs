@@ -16,7 +16,7 @@ namespace RatingController
         public RatingController(RatingService ratingService)
         {
             _ratingService = ratingService;
-        }  
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Rating>>> Get()
@@ -45,7 +45,8 @@ namespace RatingController
                 return BadRequest("Event id is null");
             }
 
-            var newRating = new Rating{
+            var newRating = new Rating
+            {
                 Id = ObjectId.GenerateNewId().ToString(),
                 EventId = createRatingDto.eventId,
                 UserId = createRatingDto.userId,
@@ -88,5 +89,5 @@ namespace RatingController
 
             return Ok(rating);
         }
-    } 
+    }
 }
