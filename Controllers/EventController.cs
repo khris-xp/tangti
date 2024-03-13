@@ -40,7 +40,8 @@ public class EventController : Controller
             {
                 enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
                 // change status
-                _eventsService.checkStatus(curr_event);
+
+                await _eventsService.checkStatus(curr_event);
                 Console.WriteLine("Event:" + curr_event.Title + " type:" + curr_event.Type + " status: " + curr_event.Status);
                 if (await _eventsService.isTimeClose(curr_event.Id))
                     Console.WriteLine(curr_event.Title + ": Notifination (by time)");
@@ -48,9 +49,7 @@ public class EventController : Controller
                 {
                     Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
                     if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
-                    {
-                        _eventsService.changeStatus(curr_event.Id, "CLOSED");
-                    }
+                        await _eventsService.changeStatus(curr_event.Id, "CLOSED");
                 }
                 if (enroll_inst != null)
                 {

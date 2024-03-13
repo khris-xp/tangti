@@ -137,7 +137,7 @@ namespace tangti.Services
 
 		public async Task<bool> checkStatus(Event events)
 		{
-			if (events.Type == "CANCELED" || events.Status == "CLOSED")
+			if (events.Type == "CANCELED" || events.Status == "CLOSED" || events == null || events.Id == null)
 				return (false);
 			if (events.Type != "Queue" && events.Status != "CLOSED")
 				await changeStatus(events.Id, "CLOSED");

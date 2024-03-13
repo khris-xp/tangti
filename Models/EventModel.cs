@@ -74,6 +74,7 @@ namespace tangti.Models
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
             CreatedBy = null;
+			Type = "Queue";
         }
 		
 		public int members { get; set;}
