@@ -16,16 +16,19 @@ namespace EnrollController
 
         private readonly EmailService _emailService;
 
+        private readonly HistoryService _historyService;
         // add logger
         private readonly ILogger<EnrollController> _logger;
 
-        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService, EmailService emailService, ILogger<EnrollController> logger)
+        public EnrollController(EnrollService enrollService, UserService userService, EventService eventService, EmailService emailService, ILogger<EnrollController> logger,
+        HistoryService historyService)
         {
             _enrollService = enrollService;
             _userService = userService;
             _eventService = eventService;
             _emailService = emailService;
             _logger = logger;
+           _historyService = historyService;
         }
 
         [HttpGet]
@@ -153,6 +156,7 @@ namespace EnrollController
 
 
 
+
             enroll.Member = enroll.MemberList.Count;
 
             if (enroll.Id == null)
@@ -161,6 +165,16 @@ namespace EnrollController
             }
 
             await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+            await _historyService.CreateAsync(
+                new History
+                {
+                    EventId = enrollDto.eventId,
+                    EventName = _event.Title,
+                    UserId = enrollDto.userId,
+                    JoinDate = DateTime.Now
+                }
+            );
 
 
             //Email Here
@@ -225,6 +239,8 @@ namespace EnrollController
             }
             await _enrollService.UpdateAsync(enroll.Id, enroll);
 
+
+            await _historyService.DeleteByEventIdAndUserIdAsync(enrollDto.eventId, enrollDto.userId);
 
             //Send Email
             // _logger.LogInformation("Sending Email to " + user.Email);
@@ -341,9 +357,9 @@ namespace EnrollController
                     enroll.MemberList.Remove(member);
 
                     enroll.Member = enroll.MemberList.Count;
-					
-					if (enroll.Id != null)
-                    	await _enrollService.UpdateAsync(enroll.Id, enroll);
+
+                    if (enroll.Id != null)
+                        await _enrollService.UpdateAsync(enroll.Id, enroll);
 
                     return Ok(enroll);
                 }

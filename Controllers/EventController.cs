@@ -131,17 +131,15 @@ public class EventController : Controller
             {
                 if (UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
                 {
-                    Console.WriteLine("Error Time");
                     ViewBag.Categories = await _categoryService.GetCategoryNamesAsync();
                     ViewBag.Message = UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
                     return View();
                 }
                 else
                 {
-                    Console.WriteLine("Created By : ", events.CreatedBy);
                     events.Id = ObjectId.GenerateNewId().ToString();
                     await _eventsService.CreateAsync(events);
-                    Enroll newEnroll = new Enroll
+                    Enroll newEnroll = new()
                     {
                         EventID = events.Id,
                         Id = ObjectId.GenerateNewId().ToString(),
@@ -153,7 +151,6 @@ public class EventController : Controller
                     }
                     catch (Exception e)
                     {
-
                         Console.WriteLine(e.Message);
                     }
 
