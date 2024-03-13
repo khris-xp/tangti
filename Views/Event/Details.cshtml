@@ -31,7 +31,7 @@
                 Model.EnrollLimit) ]
             </button>
             <div class="content-container">
-                <p>@Html.DisplayFor(modelItem => Model.Description)</p>
+                <p class="description-container">@Html.DisplayFor(modelItem => Model.Description)</p>
                 <div class="card">
                     <div class="card-details">
                         <p class="text-title">RUNS FROM</p>
@@ -53,9 +53,15 @@
                             </script>
                         </p>
                     </div>
-                    <div class="card-details">
-                        <p class="text-title">Organiser</p>
-                        <p class="text-body" id="organiser"></p>
+                    <div class="card-details-container">
+                        <div class="card-details">
+                            <p class="text-title">Organiser</p>
+                            <p class="text-body" id="organiser"></p>
+                        </div>
+                        <div class="card-details">
+                            <p class="text-title">Event Type</p>
+                            <p class="text-body" id="eventType">@Model.Type</p>
+                        </div>
                     </div>
                     <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join Event</button>
                     <button id="unjoin-event" type="button" class="join-button" onclick="unenrollEvent('@Model.Id')">
