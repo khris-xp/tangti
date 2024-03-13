@@ -2,7 +2,6 @@ using tangti.Models;
 using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using MongoDB.Driver.Core.Operations;
 
 namespace tangti.Controllers;
 
@@ -132,17 +131,15 @@ public class EventController : Controller
             {
                 if (UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
                 {
-                    Console.WriteLine("Error Time");
                     ViewBag.Categories = await _categoryService.GetCategoryNamesAsync();
                     ViewBag.Message = UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
                     return View();
                 }
                 else
                 {
-                    Console.WriteLine("Created By : ", events.CreatedBy);
                     events.Id = ObjectId.GenerateNewId().ToString();
                     await _eventsService.CreateAsync(events);
-                    Enroll newEnroll = new Enroll
+                    Enroll newEnroll = new()
                     {
                         EventID = events.Id,
                         Id = ObjectId.GenerateNewId().ToString(),
@@ -154,7 +151,6 @@ public class EventController : Controller
                     }
                     catch (Exception e)
                     {
-
                         Console.WriteLine(e.Message);
                     }
 
@@ -235,9 +231,17 @@ public class EventController : Controller
     [HttpPost]
     public async Task<IActionResult> Report(string id, Report report)
     {
+        var events = await _eventsService.GetAsync(id);
+
+        if (events is null)
+        {
+            return BadRequest("Event is null");
+        }
+
         Console.WriteLine("Report: " + report.Description);
         report.Id = ObjectId.GenerateNewId().ToString();
         report.EventId = id;
+        report.EventName = events.Title;
 
         await _reportService.CreateAsync(report);
 

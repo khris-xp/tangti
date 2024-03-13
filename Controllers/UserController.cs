@@ -55,5 +55,31 @@ namespace UserController
             }
             return Ok(events);
         }
+
+        [HttpPost("update")]
+        public async Task<ActionResult> Update([FromBody] UpdateDto updateDto)
+        {
+            var user = await _userService.GetUserAsync(updateDto.userId);
+
+            if(user is null)
+            {
+                return BadRequest("No User found.");
+            }
+
+            user.FirstName = updateDto.FirstName;
+            user.LastName = updateDto.LastName;
+            user.Email = updateDto.Email;
+            user.Phone = updateDto.TelephoneNumber;
+            user.FullName = user.FirstName + " " + user.LastName;
+
+            if (user.Id is null)
+            {
+                return BadRequest("User ID is null.");
+            }
+
+            await _userService.UpdateUserAsync(user.Id, user);
+
+            return Ok(user);
+        }
     }
 }

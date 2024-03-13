@@ -1,8 +1,6 @@
-using System;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using tangti.Configs;
 
 namespace tangti.Services;

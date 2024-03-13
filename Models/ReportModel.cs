@@ -12,6 +12,7 @@ namespace tangti.Models
         public string? Description { get; set; }
         public string? Content { get; set; }
         public string? EventId { get; set; }
+        public string? EventName { get; set; }
         public string? Createdby { get; set; }
 
         [BsonElement("CreateAt")]
