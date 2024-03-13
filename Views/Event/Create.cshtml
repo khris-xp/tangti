@@ -24,9 +24,16 @@
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
+                
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div> 
+                
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
+                    <input asp-for="Description" class="form-control" required  />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -53,25 +60,26 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="EnrollLimit" class="control-label"></label>
-                    <input asp-for="EnrollLimit" class="form-control" />
+                    <input asp-for="EnrollLimit" class="form-control" required min="1" value = "1"/>
                     <span asp-validation-for="EnrollLimit" class="text-danger"></span>
                 </div>
+               
                 <div class="form-group">
                     <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
-                    <input asp-for="EnrollDate.StartDate" class="form-control" />
+                    <input asp-for="EnrollDate.StartDate" class="form-control" required  />
                 </div>
                 <div class="form-group">
                     <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
-                    <input asp-for="EnrollDate.EndDate" class="form-control" />
+                    <input asp-for="EnrollDate.EndDate" class="form-control" required />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
-                    <input asp-for="EventDate.StartDate" class="form-control" />
+                    <input asp-for="EventDate.StartDate" class="form-control" required  />
                 </div>
                 <div class="form-group">
                     <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
-                    <input asp-for="EventDate.EndDate" class="form-control"  />
+                    <input asp-for="EventDate.EndDate" class="form-control" required   />
                 </div>
                 <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" />
                 <div class="form-group">
@@ -84,5 +92,40 @@
     document.getElementById('sendDataButton').addEventListener('click', function () {
         var data = localStorage.getItem('id');
         document.getElementById("userIDInput").value = data;
+
+
+
+        //if image is null random base on category 
+        var image = document.getElementById("Image").value;
+        if (image == "") {
+            var category = document.getElementById("Category").value;
+            var image = document.getElementById("Image");
+            switch (category) {
+                case "✈️Travel and Outdoor":
+                    image.value = "https://img.freepik.com/premium-photo/time-vacation-travel-travel-tourism-hiking-camping-outdoor-recreation-baggage-luggage-equipment_930683-3666.jpg";
+                    break;
+                case "🎉Social Activities":
+                    image.value = "https://www.thegaragesociety.com/sites/default/files/blog-imgs/image1-2.png";
+                    break;
+                case "🚴Sports and Fitness":
+                    image.value = "https://www.training.com.au/wp-content/uploads/Sports-Fitness-1.jpg";
+                    break;
+                case "🥬Health and Wellbeing":
+                    image.value = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7CtB_kThLlueFbIAxUCCAKSReW_c8E7rOVIytmhu2M6Ws__5TwCrCEckLf11x9NJYMqQ&usqp=CAU";
+                    break;
+                case "💻Technology":
+                    image.value = "https://www.columbiasouthern.edu/media/gtfbso4a/business-information-technology.jpg";
+                    break;
+                case "🎨Art and Culture":
+                    image.value = "https://miro.medium.com/v2/resize:fit:960/1*8NSCzeT91w52QfFSpMYaVw.jpeg";
+                    break;
+                case "Others...":
+                    image.value = "https://www.21kschool.com/th/wp-content/uploads/sites/2/2022/09/Top-5-Benefits-of-Co-Curricular-Activities-for-Students.png";
+                    break;
+                
+            }
+        }
     });
+
+    
 </script>

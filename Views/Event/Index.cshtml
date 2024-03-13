@@ -161,12 +161,14 @@
                             document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                             document.getElementById('card-@item.Id').style.opacity = '0.5';
                             document.getElementById('card-@item.Id').style.pointerEvents = 'none';
+                            document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
                         }
                         else if (eventStatus === 'Closed' || eventStatus === 'NOT OPENED') {
                             document.querySelector('.card-button').disabled = true;
                             document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                             document.getElementById('card-@item.Id').style.opacity = '0.5';
                             document.getElementById('card-@item.Id').style.pointerEvents = 'none';
+                            document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
                         }
                         else if (user_id === organiserId) {
                             document.querySelector('.card-button').disabled = true;
@@ -185,8 +187,16 @@
         <div class="pagination" id="pagination">
             @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
             {
-                <a class="button active"
-                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                if (i == @ViewBag.page)
+                {
+                    <a class="button active"
+                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
+                }
+                else
+                {
+                    <a class="button"
+                        href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
+                }
             }
         </div>
     </div>
@@ -204,14 +214,15 @@
 
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', function () {
-                const current = pagination.getElementsByClassName('active');
-                current[0].className = current[0].className.replace(' active', '');
-                this.className += ' active';
+                const current = document.querySelector('.button.active');
+                if (current) {
+                    current.classList.remove('active');
+                }
+                this.classList.add('active');
             });
         }
-        buttons[0].click();
     }
-
+    handlePagination();
 
     if (user_id == null) {
 

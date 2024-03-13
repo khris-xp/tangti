@@ -39,27 +39,28 @@ public class EventController : Controller
             if (curr_event.Id != null)
             {
                 enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
+				// change status
+				_eventsService.checkStatus(curr_event);
+				Console.WriteLine("Event:" + curr_event.Title + " type:" + curr_event.Type + " status: " + curr_event.Status);
+            	if (await _eventsService.isTimeClose(curr_event.Id))
+             	   Console.WriteLine(curr_event.Title + ": Notifination (by time)");
+            	if (enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
+				{
+             	   Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
+				   if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
+				   {
+					   _eventsService.changeStatus(curr_event.Id, "CLOSED");
+				   }
+				}
+            	if (enroll_inst != null)
+            	{	
+             	   curr_event.members = enroll_inst.Member;
+            	}
             }
 
-            if (curr_event.Id != null && await _eventsService.isTimeClose(curr_event.Id))
-                Console.WriteLine(curr_event.Title + ": Notifination (by time)");
-            if (curr_event.Id != null && enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
-                Console.WriteLine(curr_event.Title + ": Notifination (by members limit)");
 
-            if (enroll_inst != null)
-            {
-                curr_event.members = enroll_inst.Member;
-            }
 
-			// change status
-
-			Console.WriteLine("Event type:" + curr_event.Type);
-			if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
-				await _eventsService.changeStatus(curr_event.Id, "CLOSED");
-			if (curr_event.Status != "NOT_OPENED" && await _eventsService.isTimeNotOpen(curr_event.Id))
-				await _eventsService.changeStatus(curr_event.Id, "NOT_OPENED");
-			if (curr_event.Status != "ON_GOING" && await _eventsService.isEnrollTime(curr_event.Id))
-				await _eventsService.changeStatus(curr_event.Id, "ON_GOING");
+			
         }
 
         return View(events);
