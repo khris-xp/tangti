@@ -133,6 +133,8 @@ public class EventController : Controller
             {
                 if (UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate) != "")
                 {
+					Console.WriteLine("Error Time");
+        			ViewBag.Categories = await _categoryService.GetCategoryNamesAsync();
                     ViewBag.Message = UtilsService.ValidateErrorTime(events.EventDate, events.EnrollDate);
                     return View();
                 }
