@@ -24,12 +24,17 @@
                 quia
                 facere assumenda dicta dolores.</p>
         </div>
+        <div class="search-container">
+            @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+            {
+                <div class="search-bar">
+                    @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            }
+        </div>
         @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
         {
-            <div class="search_input">
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search..." })
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
             <br />
             <select id="category" name="category" class="form-control">
                 <option value="">All</option>
@@ -44,7 +49,9 @@
             {
                 <article class="card">
                     <figure class="card-image">
-                        <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                        <a href="/Event/Details/@item.Id">
+                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                        </a>
                     </figure>
                     <div class="card-container">
                         <div class="card-category">
@@ -221,7 +228,6 @@
             });
         }
     }
-
     handlePagination();
 
     if (user_id == null) {
