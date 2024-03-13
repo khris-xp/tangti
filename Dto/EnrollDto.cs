@@ -18,4 +18,10 @@ namespace tangti.DTOs
         public required string eventId { get; set; }
         public required bool status { get; set; }
     }
+
+    public class KickEnrollMemberDto
+    {
+        public required string eventId { get; set; }
+        public required string userId { get; set; } 
+    } 
 }
