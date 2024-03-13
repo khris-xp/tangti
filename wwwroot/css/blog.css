@@ -13,27 +13,42 @@ body {
   background-color: #fbf0d4;
   background: #fbf0d4;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
   align-items: center;
-  margin: 0% 0%;
+  justify-content: center;
+  flex-direction: column;
+}
+
+img {
+  width: 100%;
+  text-align: center;
+  /* max-height: 300px; */
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: auto;
+  height: 400px;
+}
+
+.card {
+  background-color: #000;
+  box-shadow: 0 0 0 1px rgba(#000, .05), 0 20px 50px 0 rgba(#000, .1);
+  border-radius: 15px;
+  padding: 0rem;
+  position: relative;
+  transition: .15s ease-in;
+  height: auto;
 }
 
 .card-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem; /* Increase the gap between cards to 2rem */
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-  max-width: 100%; /* Ensure the grid doesn't exceed the width of its parent container */
-}
-
-.card {
-  flex: 1 0 300px; /* Each card can grow, but won't shrink below 300px */
-  max-width: calc(33.33% - 2rem); /*33.33% minus the increased gap to ensure cards wrap */
+  justify-content: space-between;
   height: 400px;
-  box-sizing: border-box;
-  border: none;
+  justify-content: center; 
 }
 
 

@@ -7,7 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - tangti</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/handleEvent.css" asp-append-version="true" />
 </head>
 
@@ -241,77 +240,88 @@
     <div class="form-container">
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Title" type="text" required />
+                    <div class="underline"></div>
+                    <label asp-for="Title"></label>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="input-data">
+                    <input asp-for="Image" type="text" required />
+                    <div class="underline"></div>
+                    <label asp-for="Image"></label>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-row">
+                <div class="input-data textarea">
+                    <textarea rows="8" cols="80" required asp-for="Description"></textarea>
+                    <br />
+                    <div class="underline"></div>
+                    <label asp-for="Description"></label>
+                    <br />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+            <div class="form-row">
+                <div class="select-data">
+                    <label asp-for="Category" class="control-label">Category:</label>
+                    <select id="Category" name="Category" class="form-control">
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                </div>
+                <div class="select-data">
+                    <label asp-for="Type" class="control-label">Type:</label>
+                    <select id="Type" name="Type" class="form-control">
+                        <option value="Queue">Queue</option>
+                        <option value="Close When full">Close When full</option>
+                    </select>
+                </div>
+                <div class="select-data">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select id="Status" name="Status" class="form-control">
+                        <option value="NOT OPENED">Not Opened</option>
+                        <option value="ON GOING">On Going</option>
+                        <option value="CLOSED">Closed</option>
+                        <option value="CANCELED">Canceled</option>
+                        <option value="BANNED">Banned</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label">Category:</label>
-                <select id="Category" name="Category" class="form-control">
-                    @foreach (var category in ViewBag.Categories)
-                    {
-                        <option value="@category" selected="@(category == ViewBag.DefaultCategory)">@category</option>
-                    }
-                </select>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="EnrollLimit" type="number" min="1" value="1" required />
+                    <div class="underline"></div>
+                    <label asp-for="EnrollLimit"></label>
+                    <span asp-validation-for="EnrollLimit" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label">Type:</label>
-                <select id="Type" name="Type" class="form-control">
-                    <option value="Queue">Queue</option>
-                    <option value="Close When full">Close When full</option>
-                </select>
+            <div class="form-row">
+                <div class="select-data">
+                    <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
+                    <input asp-for="EnrollDate.StartDate" class="form-control" required />
+                </div>
+                <div class="select-data">
+                    <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
+                    <input asp-for="EnrollDate.EndDate" class="form-control" required />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="EnrollLimit" class="control-label"></label>
-                <input asp-for="EnrollLimit" class="form-control" />
-                <span asp-validation-for="EnrollLimit" class="text-danger"></span>
+            <div class="form-row">
+                <div class="select-data">
+                    <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
+                    <input asp-for="EventDate.StartDate" class="form-control" required />
+                </div>
+                <div class="select-data">
+                    <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
+                    <input asp-for="EventDate.EndDate" class="form-control" required />
+                </div>
             </div>
+            <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" />
             <div class="form-group">
-                <label for="EnrollDate_StartDate" class="control-label">Enroll Start date</label>
-                <input asp-for="EnrollDate.StartDate" class="form-control" />
-                <span asp-validation-for="EnrollDate.StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="EnrollDate_EndDate" class="control-label">Enroll end date</label>
-                <input asp-for="EnrollDate.EndDate" class="form-control" />
-                <span asp-validation-for="EnrollDate.EndDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="EventDate_StartDate" class="control-label">Event Start Date</label>
-                <input asp-for="EventDate.StartDate" class="form-control" />
-                <span asp-validation-for="EventDate.StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="EventDate_EndDate" class="control-label">Event End Date</label>
-                <input asp-for="EventDate.EndDate" class="form-control" />
-                <span asp-validation-for="EventDate.EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select id="Status" name="Status" class="form-control">
-                    <option value="NOT OPENED">Not Opened</option>
-                    <option value="ON GOING">On Going</option>
-                    <option value="CLOSED">Closed</option>
-                    <option value="CANCELLED">Cancelled</option>
-                    <option value="BANNED">Banned</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" id="sendDataButton" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-primary" id="sendDataButton" />
             </div>
         </form>
     </div>
@@ -319,16 +329,16 @@
 
 <h3>2. Selection & Closing</h3>
 <div class="container">
-    <h4>Member</h4>
-    <div class="members" id="enrolled-members">
-    </div>
-    <h4>Registrator</h4>
-    <div class="members" id="queued-members">
-    </div>
-    <h4>Dangerous Zone! Cannot be undo</h4>
-    <button class="button-24" role="button" onclick="openConfirmationModal()">Close Project</button>
-    <div id="warningMessage" class="warning" style="display: none;">
-        Please enter a valid project name!
+    <div class="form-container">
+        <h4>Member</h4>
+        <div class="members" id="enrolled-members">
+        </div>
+        <h4>Registrator</h4>
+        <div class="members" id="queued-members">
+        </div>
+        <div id="warningMessage" class="warning" style="display: none;">
+            Please enter a valid project name!
+        </div>
     </div>
 </div>
 
