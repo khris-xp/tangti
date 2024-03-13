@@ -186,7 +186,7 @@
             @for (int i = 1; i <= ViewBag.TotalCount / ViewBag.PageSize + 1; i++)
             {
                 <a class="button active"
-                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString })"></a>
+                    href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, searchString = ViewBag.SearchString , category= ViewBag.Category})"></a>
             }
         </div>
     </div>
