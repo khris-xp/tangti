@@ -12,74 +12,80 @@
 
 <div class="heading">
     <h1>Create Event</h1>
-	<h3 style="color:red">@ViewBag.Message</h3>
+    <h3 style="color:red">@ViewBag.Message</h3>
 </div>
 <div class="container">
     <section class="form">
         <div class="form-container">
             <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
+                <div class="form-row">
+                    <div class="input-data">
+                        <input asp-for="Title" type="text" required />
+                        <div class="underline"></div>
+                        <label asp-for="Title"></label>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="input-data">
+                        <input asp-for="Image" type="text" required />
+                        <div class="underline"></div>
+                        <label asp-for="Image"></label>
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label asp-for="Image" class="control-label"></label>
-                    <input asp-for="Image" class="form-control" />
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                </div> 
-                
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" required  />
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                <div class="form-row">
+                    <div class="input-data textarea">
+                        <textarea rows="8" cols="80" required asp-for="Description"></textarea>
+                        <br />
+                        <div class="underline"></div>
+                        <label asp-for="Description"></label>
+                        <br />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Image" class="control-label"></label>
-                    <input asp-for="Image" class="form-control" />
-                    <span asp-validation-for="Image" class="text-danger"></span>
+                <div class="form-row">
+                    <div class="select-data">
+                        <label asp-for="Category" class="control-label">Category:</label>
+                        <select id="Category" name="Category" class="form-control">
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category">@category</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <label asp-for="Type" class="control-label">Type:</label>
+                        <select id="Type" name="Type" class="form-control">
+                            <option value="Queue">Queue</option>
+                            <option value="Close When full">Close When full</option>
+                        </select>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="Category" class="control-label">Category:</label>
-                    <select id="Category" name="Category" class="form-control">
-                        @foreach (var category in ViewBag.Categories)
-                        {
-                            <option value="@category">@category</option>
-                        }
-                    </select>
+                <div class="form-row">
+                    <div class="input-data">
+                        <input asp-for="EnrollLimit" type="number" min="1" value="1" required />
+                        <div class="underline"></div>
+                        <label asp-for="EnrollLimit"></label>
+                        <span asp-validation-for="EnrollLimit" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Type" class="control-label">Type:</label>
-                    <select id="Type" name="Type" class="form-control">
-                        <option value="Queue">Queue</option>
-                        <option value="Close When full">Close When full</option>
-                    </select>
+                <div class="form-row">
+                    <div class="select-data">
+                        <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
+                        <input asp-for="EnrollDate.StartDate" class="form-control" required />
+                    </div>
+                    <div class="select-data">
+                        <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
+                        <input asp-for="EnrollDate.EndDate" class="form-control" required />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="EnrollLimit" class="control-label"></label>
-                    <input asp-for="EnrollLimit" class="form-control" required min="1" value = "1"/>
-                    <span asp-validation-for="EnrollLimit" class="text-danger"></span>
-                </div>
-               
-                <div class="form-group">
-                    <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
-                    <input asp-for="EnrollDate.StartDate" class="form-control" required  />
-                </div>
-                <div class="form-group">
-                    <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
-                    <input asp-for="EnrollDate.EndDate" class="form-control" required />
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
-                    <input asp-for="EventDate.StartDate" class="form-control" required  />
-                </div>
-                <div class="form-group">
-                    <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
-                    <input asp-for="EventDate.EndDate" class="form-control" required   />
+                <div class="form-row">
+                    <div class="select-data">
+                        <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
+                        <input asp-for="EventDate.StartDate" class="form-control" required />
+                    </div>
+                    <div class="select-data">
+                        <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
+                        <input asp-for="EventDate.EndDate" class="form-control" required />
+                    </div>
                 </div>
                 <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" />
                 <div class="form-group">
@@ -93,9 +99,6 @@
         var data = localStorage.getItem('id');
         document.getElementById("userIDInput").value = data;
 
-
-
-        //if image is null random base on category 
         var image = document.getElementById("Image").value;
         if (image == "") {
             var category = document.getElementById("Category").value;
@@ -122,10 +125,10 @@
                 case "Others...":
                     image.value = "https://www.21kschool.com/th/wp-content/uploads/sites/2/2022/09/Top-5-Benefits-of-Co-Curricular-Activities-for-Students.png";
                     break;
-                
+
             }
         }
     });
 
-    
+
 </script>
