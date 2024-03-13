@@ -21,14 +21,15 @@
                 conference, a wedding, a music festival, or a community fundraiser, Eventify provides users with the
                 tools they need to plan and execute successful events from start to finish.</p>
         </div>
-
-        @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
-        {
-            <div class="search_input">
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
-        }
+        <div class="search-container">
+            @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+            {
+                <div class="search-bar">
+                    @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            }
+        </div>
 
         <div class="card-list">
             @foreach (var item in @Model)

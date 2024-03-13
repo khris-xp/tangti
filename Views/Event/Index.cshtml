@@ -24,12 +24,17 @@
                 quia
                 facere assumenda dicta dolores.</p>
         </div>
+        <div class="search-container">
+            @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
+            {
+                <div class="search-bar">
+                    @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search events..." })
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            }
+        </div>
         @using (Html.BeginForm("Index", "Event", FormMethod.Get, new { id = "searchForm" }))
         {
-            <div class="search_input">
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { placeholder = "Search..." })
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
             <br />
             <select id="category" name="category" class="form-control">
                 <option value="">All</option>
@@ -162,7 +167,7 @@
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                             }
-                            
+
                             else if (user_id === organiserId) {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'View Your Event';
@@ -212,14 +217,14 @@
         buttons[0].click();
     }
 
-    
-    if(user_id == null){
-        
+
+    if (user_id == null) {
+
         var createBtn = document.getElementById("createBtn");
         createBtn.style.visibility = "hidden";
 
     }
 
 
-   
+
 </script>
