@@ -10,8 +10,8 @@
     <title>@ViewData["Title"] - tangti</title>
     <link rel="stylesheet" href="~/css/blog.css" asp-append-version="true" />
 </head>
-
-<img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
+<div class="container">
+    <img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
     alt="Room">
 <div class="heading">
     <h1>Blogs</h1>
@@ -21,37 +21,44 @@
         <a class='button' asp-action="Create" id='createBtn'>Create</a>
 </div>
 <div class="card-container">
-    @foreach (var item in Model)
-    {
+@foreach (var item in Model)
+{
     <div class="card-grid">
         <div class="card" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">
             <figure>
                 <img src="https://img.freepik.com/premium-photo/interior-background-technology-desk-wooden-lifestyle-workspace-contemporary-stylish-style-laptop-decor-generative-ai_163305-172173.jpg"
-                    alt="Room" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">
-                <figcaption>
+                    alt="Room" href='/Blog/Details/@item.Id' onclick="showDetails('@item.Id')">                <figcaption>
                     @Html.DisplayFor(modelItem => item.Title)
                     <div class="buttons">
                         <a class="btn btn-edit" href='/Blog/Edit/@item.Id'>Edit</a>
                         <a class="btn btn-delete" href='/Blog/Delete/@item.Id'>Delete</a>
                     </div>
-                </figure>
-                <script>
-                    console.log(localStorage.getItem('id'))
-                    console.log("@(item.CreatedBy)")
-                    if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
-                        const editBtn = document.querySelector('.btn-edit');
-                        const deleteBtn = document.querySelector('.btn-delete');
-                        if (editBtn) editBtn.style.display = 'none';
-                        if (deleteBtn) deleteBtn.style.display = 'none';
-                    }
-                </script>
-            </div>
+                </figcaption>
+                <div class="txt">
+                    <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <p class="card-description">@Html.DisplayFor(modelItem => item.Description)</p>
+                </div>
+            </figure>
         </div>
-    }
+        <script>
+            console.log("@(item.CreatedBy)")
+            if (localStorage.getItem('id') !== "@(item.CreatedBy)") {
+                const card = document.querySelector('.card-grid:last-child');
+                const editBtn = card.querySelector('.btn-edit');
+                const deleteBtn = card.querySelector('.btn-delete');
+                if (editBtn) editBtn.style.display = 'none';
+                if (deleteBtn) deleteBtn.style.display = 'none';
+            }
+        </script>
+    </div>
+}
+
+</div>
 </div>
 
 <script>
     const user_id = localStorage.getItem('id');
+    console.log("user:", user_id)
     if (user_id == null) {
         document.getElementById('createBtn').style.display = 'none';
     }
