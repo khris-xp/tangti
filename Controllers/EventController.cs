@@ -20,7 +20,7 @@ public class EventController : Controller
         _enrollService = enrollService;
     }
 
-    public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 5)
+    public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 6)
     {
         var events = await _eventsService.GetPaganationAsync(page, pageSize, searchString, category);
 
