@@ -158,6 +158,11 @@
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
+                
+                if("@Model.Status" === 'CLOSED' || "@Model.Status" === 'BANNED'){
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Closed';
+                }
 
                 if (user_id === organiserId) {
                     document.querySelector('.join-button').disabled = true;
@@ -166,6 +171,11 @@
                 }
                 else {
                     document.getElementById('edit-button').style.display = 'none';
+                }
+                
+                if("@Model.Status" === 'CLOSED' || "@Model.Status" === 'BANNED'){
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Closed';
                 }
             }).catch(error => {
                 console.error(error);
