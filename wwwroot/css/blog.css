@@ -21,17 +21,17 @@ body {
 img {
   width: 100%;
   text-align: center;
-  max-height: 300px;
+  /* max-height: 300px; */
 }
 
-.card-container{
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-gap: 1.5rem;
-margin-top: 1.5rem;
-margin-bottom: 1.5rem;
-width: auto;
-height: 400px;
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: auto;
+  height: 400px;
 }
 
 .card {
@@ -44,10 +44,11 @@ height: 400px;
   height: auto;
 }
 
-.card-grid{
+.card-grid {
   display: flex;
   justify-content: space-between;
   height: 400px;
+  justify-content: center; 
 }
 
 
@@ -57,7 +58,7 @@ figure {
   overflow: hidden;
   cursor: pointer;
   width: 300px;
-  height: 400%;
+  height: 100%;
 }
 
 figure>* {

@@ -33,15 +33,18 @@
             <div class="content-container">
                 <p class="description-container">@Html.DisplayFor(modelItem => Model.Description)</p>
                 <div class="card">
-                    <div class="card-details">
-                        <p class="text-title">RUNS FROM</p>
-                        <p class="text-body">
-                            <script>
-                                var startDate = "@Model.EnrollDate.StartDate";
-                                var endDate = "@Model.EnrollDate.EndDate";
-                                document.write(formatDate(startDate) + " - " + formatDate(endDate));
-                            </script>
-                        </p>
+                    <div class="card-details-container">
+                        <div class="card-details">
+                            <p class="text-title">RUNS FROM</p>
+                            <p class="text-body">
+                                <script>
+                                    var startDate = "@Model.EnrollDate.StartDate";
+                                    var endDate = "@Model.EnrollDate.EndDate";
+                                    document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                                </script>
+                            </p>
+                        </div>
+                        <button id="report-event" type="button" class="report-button" onclick=""><a href=/Event/Report/@Model.Id>Report</a></button>
                     </div>
                     <div class="card-details">
                         <p class="text-title">HAPPENING</p>
@@ -63,11 +66,13 @@
                             <p class="text-body" id="eventType">@Model.Type</p>
                         </div>
                     </div>
-                    <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join Event</button>
+                    <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join
+                        Event</button>
                     <button id="unjoin-event" type="button" class="join-button" onclick="unenrollEvent('@Model.Id')">
                         Unjoin Event</button>
                 </div>
             </div>
+
         </div>
     </div>
     <script>
@@ -112,7 +117,7 @@
                     document.querySelector('#unjoin-event').style.display = 'none';
                 }
 
-                if (user_id == null){
+                if (user_id == null) {
                     var joinBtn = document.querySelector('.join-button')
                     var unJoinBtn = document.querySelector('#unjoin-event');
 
@@ -150,7 +155,7 @@
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
-       
+
 
                 if (user_id === organiserId) {
                     document.querySelector('.join-button').disabled = true;

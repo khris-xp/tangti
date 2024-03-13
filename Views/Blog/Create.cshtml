@@ -10,58 +10,59 @@
     <link rel="stylesheet" href="~/css/createBlog.css" asp-append-version="true" />
 </head>
 
-<script>
-    function countLength() {
-        var answer = document.getElementById("answer").value;
-        var length = answer.length;
-        document.getElementById("lengthResult").innerHTML = "Length of your answer is: " + length;
-    }
-</script>
+<body>
+    <script>
+        function countLength() {
+            var answer = document.getElementById("answer").value;
+            var length = answer.length;
+            document.getElementById("lengthResult").innerHTML = "Length of your answer is: " + length;
+        }
+    </script>
 
 
-<img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
-    alt="Room">
-<div class="heading">
-    <h1>Create</h1>
-    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam illum quos distinctio, in nobis aliquid numquam
-        architecto omnis unde incidunt. Repellat quis rem a illo magnam, doloremque facere aperiam nesciunt.</p>
-    <p>
-</div>
-<div class='form'>
-    <div class="card">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <textarea id="answer" name="Content" class="form-control" rows="4" cols="50"></textarea>
-                <span asp-validation-for="Content" class="text-danger"></span>
-                <div id="lengthResult"></div>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" id="CreatedBy" readonly />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-
-        </form>
+    <img src="https://assets-global.website-files.com/5f4457266e6bc413f94c5229/6077179e29d958aa332f42fa_a6377ac7-b3a3-468e-a4b5-64b77eee6a54_Functional%25252BWorkspace%25252BDesign.jpeg"
+        alt="Room">
+    <div class="heading">
+        <h1>Create</h1>
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam illum quos distinctio, in nobis aliquid numquam
+            architecto omnis unde incidunt. Repellat quis rem a illo magnam, doloremque facere aperiam nesciunt.</p>
+        <p>
     </div>
-</div>
-<script>
-    const user_id = localStorage.getItem('id');
-    if (user_id) {
-        document.getElementById('CreatedBy').value = user_id;
-    }
-</script>
+    <div class='form'>
+        <div class="card">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea id="answer" name="Content" class="form-control" rows="4" cols="50"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                    <div id="lengthResult"></div>
+                </div>
+                <div class="form-group">
+                    <input asp-for="CreatedBy" class="form-control" id="CreatedBy" type="hidden" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+        const user_id = localStorage.getItem('id');
+        if (user_id) {
+            document.getElementById('CreatedBy').value = user_id;
+        }
+    </script>
+
+</body>
