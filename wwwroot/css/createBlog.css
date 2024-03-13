@@ -42,17 +42,28 @@ body {
   align-items: center;
 }
 
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .card {
   border-radius: 16px;
   box-shadow: 0 30px 30px -25px rgba(#626267, .25);
   max-width: 1000px;
   padding: 5.5rem;
-  margin-left: 10%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-control {
   background: #f3f2f2;
-  border-radius: 50px;
+  border-radius: 20px;
   margin-top: 10px;
 }
 
@@ -71,21 +82,11 @@ body {
   font-size: 14px;
   transition: background-color 0.3s ease;
   margin-top: 30px;
-  margin-left: 50%;
-
 }
 
 .btn-primary:hover {
   cursor: pointer;
   background-color: #FF7426;
-}
-
-.edit {
-  background-color: #FF7426;
-}
-
-.delete {
-  background-color: red;
 }
 
 .btn-danger {
@@ -98,8 +99,6 @@ body {
   font-size: 14px;
   transition: background-color 0.3s ease;
   margin-top: 30px;
-  margin-left: 10%;
-
 }
 
 .btn-danger:hover {
