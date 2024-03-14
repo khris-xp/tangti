@@ -356,6 +356,13 @@ namespace EnrollController
                 {
                     enroll.MemberList.Remove(member);
 
+                    var user = await _userService.GetUserAsync(kickEnrollMemberDto.userId);
+                    var events = await _eventService.GetAsync(kickEnrollMemberDto.eventId); 
+
+                    string subject = "Tangti: Your Event has been kicked";
+                    string body = "<h1>Unfortunaly member in event has been kick.</h1> \n <h2>Event: "+ events.Title + "</h2> \n<img src ='"+ events.Image +"'><br> \n ";
+                    await _emailService.SendEmail(user.Email, subject, body);
+
                     enroll.Member = enroll.MemberList.Count;
 
                     if (enroll.Id != null)

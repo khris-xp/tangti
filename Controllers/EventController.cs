@@ -8,16 +8,23 @@ namespace tangti.Controllers;
 public class EventController : Controller
 {
     private readonly EventService _eventsService;
+
+    private readonly EmailService _emailService;
+
     private readonly EnrollService _enrollService;
     private readonly CategoryService _categoryService;
     private readonly ReportService _reportService;
+
+    private readonly UserService _userService;
     private readonly LikeService _likeService;
-    public EventController(EventService eventsService, EnrollService enrollService, CategoryService categoryService, ReportService reportService, UserService userService, LikeService likeService)
+    public EventController(EventService eventsService, EnrollService enrollService, CategoryService categoryService, ReportService reportService, UserService userService,EmailService emailService, LikeService likeService)
     {
         _eventsService = eventsService;
         _categoryService = categoryService;
         _reportService = reportService;
         _enrollService = enrollService;
+        _emailService = emailService;
+        _userService = userService;
         _likeService = likeService;
     }
 
@@ -37,19 +44,48 @@ public class EventController : Controller
         foreach (var curr_event in events)
         {
             Enroll? enroll_inst = null;
-            if (curr_event.Id != null)
+            if (curr_event.Id != null && curr_event.Status != "CLOSED")
             {
                 enroll_inst = await _enrollService.GetEventEnrollAsync(curr_event.Id);
                 await _eventsService.checkStatus(curr_event);
                 if (await _eventsService.isTimeClose(curr_event.Id))
                 {
                     await _eventsService.changeStatus(curr_event.Id, "CLOSED");
+
+                    var members = enroll_inst.MemberList;
+                        foreach (var member in members)
+                        {
+                            var user = await _userService.GetUserAsync(member.UserID);
+                            if (user != null)
+                            {
+    
+                    
+                                string subject = "Tangti: Your Event has been closed";
+                                string body = "<h1>Your event has been closed.</h1> \n <h2>Event: "+ curr_event.Title + "</h2> \n<img src ='"+ curr_event.Image +"'><br> \n You can see member in https://kmitltangti.azurewebsites.net/Event/memberlist/" + enroll_inst.EventID;
+                                await _emailService.SendEmail(user.Email, subject, body);
+                            }
+                        }
+
                 }
                 if (enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
                 {
                     if (curr_event.Type != "Queue" && curr_event.Status != "CLOSED")
                     {
                         await _eventsService.changeStatus(curr_event.Id, "CLOSED");
+
+                        var members = enroll_inst.MemberList;
+                        foreach (var member in members)
+                        {
+                            var user = await _userService.GetUserAsync(member.UserID);
+                            if (user != null)
+                            {
+    
+                    
+                                string subject = "Tangti: Your Event has been closed";
+                                string body = "<h1>Your event has been closed.</h1> \n <h2>Event: "+ curr_event.Title + "</h2> \n<img src ='"+ curr_event.Image +"'><br> \n You can see member in https://kmitltangti.azurewebsites.net/Event/memberlist/" + enroll_inst.EventID;
+                                await _emailService.SendEmail(user.Email, subject, body);
+                            }
+                        }
                     }
                 }
                 if (enroll_inst != null)
