@@ -28,6 +28,10 @@ public class UserService
     public async Task<List<UserModel>> GetUsersAsync() =>
         await _usersCollection.Find(_ => true).ToListAsync();
 
+
+    //get email by user id
+    
+
     public async Task<UserModel?> GetUserAsync(string id) =>
         await _usersCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
     public async Task<UserModel?> GetUserByEmail(string email) =>
