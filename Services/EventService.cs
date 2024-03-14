@@ -117,6 +117,8 @@ namespace tangti.Services
         public async Task<bool> isTouchLimit(string id, Enroll enroll)
         {
             var target_event = await GetAsync(id);
+            // Console.WriteLine(enroll.Member);
+            // Console.WriteLine(target_event.EnrollLimit);
             if (enroll == null)
                 return (true);
             if (enroll.Member >= target_event.EnrollLimit)
@@ -141,8 +143,8 @@ namespace tangti.Services
             {
                 return (false);
             }
-            if (events.Type != "Queue" && events.Status != "CLOSED")
-                await changeStatus(events.Id, "CLOSED");
+            // if (events.Type != "Queue" && events.Status != "CLOSED")
+            //     await changeStatus(events.Id, "CLOSED");
             if (events.Status != "NOT OPENED" && await isTimeNotOpen(events.Id))
             {
                 Console.WriteLine("Event:" + events.Title + " hereee");
