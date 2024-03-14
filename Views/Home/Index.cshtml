@@ -66,8 +66,17 @@
                         </div>
                     </div>
                     <div class="card-header">
-                        <a href="/Event/Details/@item.Id">@item.Title</a>
-                        <button class="icon-button" id="Heart-@item.Id" onclick="handleLike('@item.Id')">
+                        @if (item.Status != "CLOSED")
+                        {
+                            <a href="/Event/Details/@item.Id">@item.Title</a>
+
+                        }
+                        else
+                        {
+                            <a href="/Event/memberlist/@item.Id">@item.Title</a>
+
+                        }
+                        <button class="icon-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 display="block" id="Heart">
@@ -190,7 +199,7 @@
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
                             }
-                            else if (eventStatus == 'CLOSED' || eventStatus == 'NOT OPENED') {
+                            else if (eventStatus === 'Closed' || eventStatus === 'NOT OPENED') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
