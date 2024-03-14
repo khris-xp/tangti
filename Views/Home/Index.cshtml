@@ -58,7 +58,7 @@
                     </div>
                     <div class="card-header">
                         <a href="/Event/Details/@item.Id">@item.Title</a>
-                        <button class="icon-button" id="Heart-'@item.Id'">
+                        <button class="icon-button" id="Heart-@item.Id" onclick="handleLike('@item.Id')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 display="block" id="Heart">
@@ -67,58 +67,28 @@
                             </svg>
                         </button>
                         <script>
-                        var Heart = document.getElementById("Heart-'@item.Id'");
-                        var user_id = localStorage.getItem('id');
-                        var event_id = '@item.Id';
-                        console.log(Heart);
-
-                        Heart.addEventListener('click', function () {
-                            if (!this.classList.contains("active")) {
-                                console.log("like");
-                                const like_response = fetch('http://localhost:5040/api/like/userlike', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        userId: user_id,
-                                        eventId: event_id
-                                    })
-                                }).then(response => {
-                                    if (response.ok) {
-                                        return response.json();
-                                    }
-                                }).then(data => {
-                                    console.log(data);
-                                    this.classList.add("active");
-                                }).catch(error => {
-                                    console.error(error);
+                            fetch(`/api/like/check`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    eventId: '@item.Id',
+                                    userId: localStorage.getItem('id')
                                 })
-                            }
-                            else {
-                                console.log("dislike");
-                                const like_response = fetch('http://localhost:5040/api/like/dislike', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        userId: user_id,
-                                        eventId: event_id
-                                    })
-                                }).then(response => {
-                                    if (response.ok) {
-                                        return response.json();
-                                    }
-                                }).then(data => {
-                                    this.classList.remove('active');
-                                    console.log(data);
-                                }).catch(error => {
-                                    console.error(error);
-                                })
-                            }
-                        })
-                    </script>
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                }
+                            }).then(data => {
+                                if (data) {
+                                    document.getElementById('Heart-@item.Id').style.color = 'red';
+                                    likeStatus = true;
+                                }
+                            }).catch(error => {
+                                console.error(error);
+                            });
+                        </script>
                     </div>
                     <div class="member-container">
                         <div class="member">
@@ -256,5 +226,51 @@
             buttons[0].click();
         }
         handlePagination();
+
+        function handleLike(eventId) {
+            const heart = document.getElementById('Heart-' + eventId);
+
+            if (heart.style.color === 'red') {
+                heart.style.color = 'black';
+                fetch(`/api/like/dislike`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        eventId: eventId,
+                        userId: localStorage.getItem('id')
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then(data => {
+                    console.log(data);
+                }).catch(error => {
+                    console.error(error);
+                });
+            } else {
+                heart.style.color = 'red';
+                fetch(`/api/like/userlike`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        eventId: eventId,
+                        userId: localStorage.getItem('id')
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then(data => {
+                    console.log(data);
+                }).catch(error => {
+                    console.error(error);
+                });
+            }
+        }
     </script>
 </body>
