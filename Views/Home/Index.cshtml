@@ -38,14 +38,14 @@
                         @if (item.Status != "CLOSED")
                         {
                             <a href="/Event/Details/@item.Id" id="ClickCard">
-                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
-                        </a>
+                                <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                            </a>
                         }
-                        else 
+                        else
                         {
                             <a href="/Event/memberlist/@item.Id" id="ClickCard">
-                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
-                        </a>
+                                <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                            </a>
                         }
                     </figure>
                     <div class="card-container">
@@ -182,9 +182,9 @@
                                 return response.json();
                             }
                         }).then(data => {
-                            const enrollmentLimit = "@item.EnrollLimit";
-                            const eventStatus = "@item.Status";
-                           var eventStatus = "@item.Status";
+                            var enrollmentLimit = "@item.EnrollLimit";
+                            var eventStatus = "@item.Status";
+                            var eventStatus = "@item.Status";
                             if (data.member >= enrollmentLimit || "@item.Type" !== 'Queue') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
@@ -194,7 +194,7 @@
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
-                            }else if(eventStatus == 'BANNED'){
+                            } else if (eventStatus == 'BANNED') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'red';
