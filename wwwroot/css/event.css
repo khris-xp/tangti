@@ -188,10 +188,33 @@ input[type="search"]::-webkit-search-results-decoration {
         height: 1em;
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
         background-color: #EC4646;
         color: #FFF;
+    }
+}
+
+.icon-button.active {
+    border: 0;
+    background: transparent;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    transition: .25s ease;
+    box-shadow: 0 0 0 1px rgba(#000, .05), 0 3px 8px 0 rgba(#000, .15);
+    z-index: 1;
+    cursor: pointer;
+    background-color: #EC4646;
+    color: #FFF;
+
+    svg {
+        width: 1em;
+        height: 1em;
     }
 }
 

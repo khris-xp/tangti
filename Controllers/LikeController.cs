@@ -3,6 +3,7 @@ using tangti.Services;
 using Microsoft.AspNetCore.Mvc;
 using tangti.DTOs;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LikeController
 {
@@ -70,6 +71,11 @@ namespace LikeController
                 return BadRequest("User Id is null");
             }
 
+            if(like.Likes.Any(member => member == likeDto.userId))
+            {
+                return Ok(like);    
+            }
+
             like.Likes.Add(user.Id);
 
             like.LikeAmount = like.Likes.Count;
@@ -110,6 +116,11 @@ namespace LikeController
                 return BadRequest("User Id is null");
             }
 
+            if(!like.Likes.Any(member => member == likeDto.userId))
+            {
+                return Ok(like);    
+            }
+
             like.Likes.Remove(user.Id);
 
             like.LikeAmount = like.Likes.Count;
@@ -126,6 +137,26 @@ namespace LikeController
             await _userService.UpdateUserAsync(user.Id, user);
 
             return Ok(like);
+        }
+
+        [HttpPost("check")]
+        public async Task<ActionResult> Check([FromBody] LikeDto likeDto)
+        {
+            var like = await _likeService.GetLikeEventAsync(likeDto.eventId);
+
+            if (like is null)
+            {
+                return BadRequest("Like is Null");
+            }
+
+            foreach (var member in like.Likes){
+                if (member == likeDto.userId)
+                {
+                    return Ok(true);
+                }
+            }
+
+            return Ok(false);
         }
     }
 }
