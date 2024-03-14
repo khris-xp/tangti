@@ -7,11 +7,11 @@ function updateEnrollmentUI(enrolled) {
   if (enrolled) {
     joinButton.style.display = 'none';
     unjoinButton.style.display = 'block';
-    member.innerText = parseInt(member.innerText) + 1 ;
+    member.innerText = parseInt(member.innerText) + 1;
   } else {
     joinButton.style.display = 'block';
     unjoinButton.style.display = 'none';
-    member.innerText = parseInt(member.innerText) - 1 ;
+    member.innerText = parseInt(member.innerText) - 1;
   }
 }
 
@@ -57,14 +57,13 @@ function updateEnrollment(endpointUrl, eventId) {
 }
 
 function enrollEvent(eventId) {
-  const endpointUrl = 'http://localhost:5040/api/enroll/update';
+  const endpointUrl = '/api/enroll/update';
   updateEnrollment(endpointUrl, eventId);
   updateEnrollmentUI(true);
 }
 
 function unenrollEvent(eventId) {
-  const endpointUrl =
-    'http://localhost:5040/api/enroll/unenroll';
+  const endpointUrl = '/api/enroll/unenroll';
   updateEnrollment(endpointUrl, eventId);
   updateEnrollmentUI(false);
 }

@@ -78,6 +78,9 @@
     <script>
         const organiserId = "@Model.CreatedBy";
         const user_id = localStorage.getItem('id');
+
+        
+
         document.addEventListener('DOMContentLoaded', function () {
             const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
                 method: 'GET',
@@ -155,9 +158,13 @@
                     document.querySelector('.join-button').disabled = true;
                     document.querySelector('.join-button').innerText = 'Event Full';
                 }
+                
+                if("@Model.Status" === 'CLOSED' || "@Model.Status" === 'BANNED'){
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Closed';
+                }
 
-
-                if (user_id === organiserId || user_response.role == "Admin") {
+                if (user_id === organiserId) {
                     document.querySelector('.join-button').disabled = true;
                     document.getElementById('edit-button').style.display = 'flex';
                     document.querySelector('.join-button').innerText = 'You are the owner!';
@@ -165,9 +172,37 @@
                 else {
                     document.getElementById('edit-button').style.display = 'none';
                 }
+                
+                if("@Model.Status" === 'CLOSED' || "@Model.Status" === 'BANNED'){
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Closed';
+                }
             }).catch(error => {
                 console.error(error);
             });
+
+
+            //Check user is Admin
+            const user_response3 = fetch(`https://kmitltangti.azurewebsites.net/api/user/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                if (data.role === 'Admin') {
+                    console.log("============================")
+                    document.getElementById('edit-button').style.display = 'flex';
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+
         });
+
+
     </script>
 </body>

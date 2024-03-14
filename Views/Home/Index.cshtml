@@ -35,9 +35,18 @@
             {
                 <article class="card" id="card-@item.Id">
                     <figure class="card-image">
-                        <a href="/Event/Details/@item.Id">
+                        @if (item.Status != "CLOSED")
+                        {
+                            <a href="/Event/Details/@item.Id" id="ClickCard">
                             <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
                         </a>
+                        }
+                        else 
+                        {
+                            <a href="/Event/memberlist/@item.Id" id="ClickCard">
+                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                        </a>
+                        }
                     </figure>
                     <div class="card-container">
                         <div class="card-category">
@@ -175,15 +184,20 @@
                         }).then(data => {
                             const enrollmentLimit = "@item.EnrollLimit";
                             const eventStatus = "@item.Status";
+                           var eventStatus = "@item.Status";
                             if (data.member >= enrollmentLimit || "@item.Type" !== 'Queue') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
                             }
-                            else if (eventStatus === 'Closed' || eventStatus === 'NOT OPENED') {
+                            else if (eventStatus == 'CLOSED' || eventStatus == 'NOT OPENED') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
+                            }else if(eventStatus == 'BANNED'){
+                                document.querySelector('.card-button').disabled = true;
+                                document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
+                                document.getElementById('event-button-@item.Id').style.backgroundColor = 'red';
                             }
                             else if (user_id === organiserId) {
                                 document.querySelector('.card-button').disabled = true;

@@ -20,7 +20,7 @@
             <li><a href="/About">About us</a></li>
             <li><a href="/Event">Events</a></li>
             <li><a href="/Blog">Blogs</a></li>
-            <li><a href="/Profile">History</a></li>
+            <li><a href="/History">History</a></li>
         </ul>
         <div>
             <a href="/Login" class="action_btn" id="loginBtn">Login</a>
@@ -37,7 +37,7 @@
             <li><a href="/">Home</a></li>
             <li><a href="/About">About us</a></li>
             <li><a href="/Event">Events</a></li>
-            <li><a href="/">History</a></li>
+            <li><a href="/History">History</a></li>
             <li><a href="/Blog">Blogs</a></li>
            
         </div>
@@ -81,15 +81,12 @@
                 document.getElementById('loginDropdown').style.display = "none";
             }
             else {
-                
-
                 document.getElementById('loginBtn').classList.remove('action_btn_hidden');
                 document.getElementById('profileLink').classList.add('action_btn_hidden');
                 document.getElementById('logoutBtn').classList.add('action_btn_hidden');
             }
         }
 
-        //get profile by id fetch
         fetch('/api/user/' + localStorage.getItem('id'))
             .then(response => response.json())
             .then(data => {
@@ -108,15 +105,8 @@
                     reportlink2.innerHTML = '<a b-f4e90i3eyj href="/Report">Report</a>';
                     var link2 = document.getElementById('dropdown_menu')
                     link2.appendChild(reportlink2);
-
-
-
-                    console.log('role admin');
-
                 }
-            
             });
-
 
         function logout() {
             localStorage.removeItem('id');
