@@ -193,7 +193,7 @@
                         }).then(data => {
                             const enrollmentLimit = "@item.EnrollLimit";
                             const eventStatus = "@item.Status";
-                            if (data.member >= enrollmentLimit || "@item.Type" !== 'Queue') {
+                            if (data.member >= enrollmentLimit && "@item.Type" !== 'Queue') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
