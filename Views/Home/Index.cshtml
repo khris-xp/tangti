@@ -38,14 +38,14 @@
                         @if (item.Status != "CLOSED")
                         {
                             <a href="/Event/Details/@item.Id" id="ClickCard">
-                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
-                        </a>
+                                <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                            </a>
                         }
-                        else 
+                        else
                         {
                             <a href="/Event/memberlist/@item.Id" id="ClickCard">
-                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
-                        </a>
+                                <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                            </a>
                         }
                     </figure>
                     <div class="card-container">
@@ -66,15 +66,15 @@
                         </div>
                     </div>
                     <div class="card-header">
-                         @if (item.Status != "CLOSED")
+                        @if (item.Status != "CLOSED")
                         {
                             <a href="/Event/Details/@item.Id">@item.Title</a>
-                        
+
                         }
-                        else 
+                        else
                         {
                             <a href="/Event/memberlist/@item.Id">@item.Title</a>
-                   
+
                         }
                         <button class="icon-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -191,9 +191,10 @@
                                 return response.json();
                             }
                         }).then(data => {
-                            const enrollmentLimit = "@item.EnrollLimit";
-                            const eventStatus = "@item.Status";
-                            if (data.member >= enrollmentLimit && "@item.Type" !== 'Queue') {
+                            var enrollmentLimit = "@item.EnrollLimit";
+                            var eventStatus = "@item.Status";
+                            var eventStatus = "@item.Status";
+                            if (data.member >= enrollmentLimit || "@item.Type" !== 'Queue') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = 'Event Full';
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
@@ -202,6 +203,10 @@
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
+                            } else if (eventStatus == 'BANNED') {
+                                document.querySelector('.card-button').disabled = true;
+                                document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
+                                document.getElementById('event-button-@item.Id').style.backgroundColor = 'red';
                             }
                             else if (user_id === organiserId) {
                                 document.querySelector('.card-button').disabled = true;
