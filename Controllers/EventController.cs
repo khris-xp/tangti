@@ -16,7 +16,8 @@ public class EventController : Controller
     private readonly ReportService _reportService;
 
     private readonly UserService _userService;
-    public EventController(EventService eventsService, EnrollService enrollService, CategoryService categoryService, ReportService reportService, UserService userService,EmailService emailService)
+    private readonly LikeService _likeService;
+    public EventController(EventService eventsService, EnrollService enrollService, CategoryService categoryService, ReportService reportService, UserService userService,EmailService emailService, LikeService likeService)
     {
         _eventsService = eventsService;
         _categoryService = categoryService;
@@ -24,6 +25,7 @@ public class EventController : Controller
         _enrollService = enrollService;
         _emailService = emailService;
         _userService = userService;
+        _likeService = likeService;
     }
 
     public async Task<IActionResult> Index(string searchString, string category, int page = 1, int pageSize = 6)
@@ -189,6 +191,14 @@ public class EventController : Controller
                     {
                         Console.WriteLine(e.Message);
                     }
+
+                    Like newLike = new()
+                    {
+                        Id = ObjectId.GenerateNewId().ToString(),
+                        EventId = events.Id
+                    };
+
+                    await _likeService.CreateAsync(newLike);
 
                     message_response = "Event created successfully";
                     ViewBag.Message = message_response;
