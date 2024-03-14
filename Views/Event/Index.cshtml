@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="top-right-button-container" id="createBtn">
-            <a href="/Event/Create" class="create-event-button" >
+            <a href="/Event/Create" class="create-event-button">
                 Create Event
             </a>
         </div>
@@ -47,14 +47,14 @@
                         @if (item.Status != "CLOSED")
                         {
                             <a href="/Event/Details/@item.Id" id="ClickCard">
-                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
-                        </a>
+                                <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                            </a>
                         }
-                        else 
+                        else
                         {
                             <a href="/Event/memberlist/@item.Id" id="ClickCard">
-                            <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
-                        </a>
+                                <img src=@item.Image alt="An orange painted blue, cut in half laying on a blue background" />
+                            </a>
                         }
                     </figure>
                     <div class="card-container">
@@ -76,18 +76,17 @@
                     </div>
 
                     <div class="card-header">
-                         @if (item.Status != "CLOSED")
+                        @if (item.Status != "CLOSED")
                         {
                             <a href="/Event/Details/@item.Id">@item.Title</a>
-                        
+
                         }
-                        else 
+                        else
                         {
                             <a href="/Event/memberlist/@item.Id">@item.Title</a>
-                   
+
                         }
-             
-                        <button class="icon-button">
+                        <button class="icon-button" id="Heart-@item.Id" onclick="handleLike('@item.Id')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 display="block" id="Heart">
@@ -199,7 +198,7 @@
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'gray';
-                            }else if(eventStatus == 'BANNED'){
+                            } else if (eventStatus == 'BANNED') {
                                 document.querySelector('.card-button').disabled = true;
                                 document.getElementById('event-button-@item.Id').innerHTML = eventStatus;
                                 document.getElementById('event-button-@item.Id').style.backgroundColor = 'red';
