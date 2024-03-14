@@ -141,8 +141,8 @@ namespace tangti.Services
             {
                 return (false);
             }
-            if (events.Type != "Queue" && events.Status != "CLOSED")
-                await changeStatus(events.Id, "CLOSED");
+            // if (events.Type != "Queue" && events.Status != "CLOSED")
+            //     await changeStatus(events.Id, "CLOSED");
             if (events.Status != "NOT OPENED" && await isTimeNotOpen(events.Id))
             {
                 Console.WriteLine("Event:" + events.Title + " hereee");

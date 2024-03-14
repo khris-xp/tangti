@@ -57,15 +57,12 @@ public class EventController : Controller
                         {
                             var user = await _userService.GetUserAsync(member.UserID);
                             if (user != null)
-                            {
-    
-                    
+                            {                
                                 string subject = "Tangti: Your Event has been closed";
                                 string body = "<h1>Your event has been closed.</h1> \n <h2>Event: "+ curr_event.Title + "</h2> \n<img src ='"+ curr_event.Image +"'><br> \n You can see member in https://kmitltangti.azurewebsites.net/Event/memberlist/" + enroll_inst.EventID;
                                 await _emailService.SendEmail(user.Email, subject, body);
                             }
                         }
-
                 }
                 if (enroll_inst != null && await _eventsService.isTouchLimit(curr_event.Id, enroll_inst))
                 {
@@ -79,8 +76,6 @@ public class EventController : Controller
                             var user = await _userService.GetUserAsync(member.UserID);
                             if (user != null)
                             {
-    
-                    
                                 string subject = "Tangti: Your Event has been closed";
                                 string body = "<h1>Your event has been closed.</h1> \n <h2>Event: "+ curr_event.Title + "</h2> \n<img src ='"+ curr_event.Image +"'><br> \n You can see member in https://kmitltangti.azurewebsites.net/Event/memberlist/" + enroll_inst.EventID;
                                 await _emailService.SendEmail(user.Email, subject, body);
