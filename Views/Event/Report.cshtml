@@ -1,0 +1,55 @@
+@model tangti.Models.Report
+@{
+    ViewBag.Title = "Report";
+    var eventId = ViewContext.RouteData.Values["id"]?.ToString();
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/report.css" asp-append-version="true" />
+    <script src="~/js/eventDetail.js" asp-append-version="true"></script>
+</head>
+
+<body>
+
+    <h1>Report</h1>
+
+    <h4>Event</h4>
+    <h4>@ViewBag.Message</h4>
+    <div class="container">
+            <form asp-action="Report">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <select id="Title" name="Title" class="form-control">
+                        <option value="Scam1">Scam1</option>
+                        <option value="Scam2">Scam2</option>
+                        <option value="Scam3">Scam3</option>
+                        <option value="Scam4">Scam4</option>
+                        <option value="Scam5">Scam5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea asp-for="Content" class="form-control"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                <input id="EventIDInput" asp-for="EventId" class="form-control" type="hidden" />
+                <input id="userIDInput" asp-for="Createdby" class="form-control" type="hidden" />
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" id="sendDataButton" />
+                </div>
+            </form>
+    </div>
+
+    <script>
+        document.getElementById('sendDataButton').addEventListener('click', function () {
+            // Retrieve data from local storage
+            var data = localStorage.getItem('id');
+            document.getElementById("userIDInput").value = data;
+            document.getElementById("EventIDInput").value = eventId;
+        });
+    </script>
+</body>

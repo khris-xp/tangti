@@ -1,0 +1,204 @@
+@model IEnumerable<tangti.Models.UserModel>
+@{
+    ViewData["Title"] = "Profile Page";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
+    <title>@ViewData["Title"] - tangti</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabShow" id="container1">
+            <ul>
+                <div class="circular-image">
+                    <input type="file" id="fileInput" style="display: none;" accept="image/*">
+                    <label for="fileInput"></label>
+                    <img id="photo" alt="Original Photo" />
+                </div>
+                <h1> Personal Info </h1>
+                <div class="textlist">
+                    <div>
+                        <h2> First name : </h2>
+                        <input type="text" class="input" id="userFirstName" readonly />
+                    </div>
+                    <div>
+                        <h2> Last name : </h2>
+                        <input type="text" class="input" id="userLastName" readonly />
+                    </div>
+                    <div>
+                        <h2> Email : </h2>
+                        <input type="text" class="input" id="userEmail" readonly />
+                    </div>
+                    <div>
+                        <h2> Telephone Number : </h2>
+                        <input type="text" class="input" id="userPhone" readonly />
+                    </div>
+                </div>
+                <div id="buttonContainer">
+                    <button class="button" id="editButton" onclick="toggleButtons()">Edit</button>
+                    <button class="button" id="saveButton" onclick="saveChanges()"
+                        style="display: none; background-color: green;">Save</button>
+                    <button class="button" id="cancelButton" onclick="cancelChanges()"
+                        style="display: none; background-color: red;">Cancel</button>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        var userLastName = "";
+        var userFirstName = "";
+        var userEmail = "";
+        var userPhone = "";
+
+        function showContainer(containerId) {
+            var containers = document.querySelectorAll('.tabShow');
+            containers.forEach(function (tabShow) {
+                if (tabShow.id !== containerId) {
+                    tabShow.style.display = 'none';
+                }
+            });
+
+            var containerToShow = document.getElementById(containerId);
+            containerToShow.style.display = 'flex';
+        }
+
+        function toggleButtons() {
+            var editButton = document.getElementById('editButton');
+            var saveButton = document.getElementById('saveButton');
+            var cancelButton = document.getElementById('cancelButton');
+            var inputs = document.querySelectorAll('.input');
+
+            if (editButton.style.display !== 'none') {
+                editButton.style.display = 'none';
+                saveButton.style.display = 'flex';
+                cancelButton.style.display = 'flex';
+
+                inputs.forEach(function (input) {
+                    input.removeAttribute('readonly');
+                });
+
+                userLastName = document.getElementById("userLastName").value;
+                userFirstName = document.getElementById("userFirstName").value;
+                userEmail = document.getElementById("userEmail").value;
+                userPhone = document.getElementById("userPhone").value;
+                document.getElementById('buttonContainer').style.textAlign = 'center';
+            } else {
+                editButton.style.display = 'flex';
+                saveButton.style.display = 'none';
+                cancelButton.style.display = 'none';
+
+                inputs.forEach(function (input) {
+                    input.setAttribute('readonly', 'true');
+                });
+
+                document.getElementById('buttonContainer').style.textAlign = 'center';
+            }
+            
+            return {
+                userLastName : userLastName,
+                userFirstName : userFirstName,
+                userEmail : userEmail,
+                userPhone : userPhone
+            }
+        }
+
+        function saveChanges() {
+            var user_id = localStorage.getItem('id');
+            var inputs = document.querySelectorAll('.input');
+            var labels = ["firstName", "lastName", "email", "phone"];
+            inputs.forEach(function (input, index) {
+                var value = input.value;
+                @* console.log(labels[index] + ":", value); *@
+                labels[index] = value;
+
+                // Setting the readonly attribute to true for the current input element
+                input.setAttribute('readonly', 'true');
+            });
+                document.getElementById("userLastName").value = labels[1];
+                document.getElementById("userFirstName").value = labels[0];
+                document.getElementById("userEmail").value = labels[2];
+                document.getElementById("userPhone").value = labels[3];
+
+            @* console.log(labels); *@
+
+            const user_update = fetch('http://localhost:5040/api/user/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user_id,
+                    FirstName: labels[0],
+                    LastName: labels[1],
+                    Email: labels[2],
+                    TelephoneNumber: labels[3]
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                @* console.log(data); *@
+                toggleButtons();
+            }).catch(error => {
+                console.error(error);
+            })
+        }
+
+        function cancelChanges() {
+            @* console.log("cancel"); *@
+            var inputs = document.querySelectorAll('.input');
+            var labels = ["firstName", "lastName", "email", "phone"];
+            inputs.forEach(function (input, index) {
+                var value = input.value;
+                labels[index] = value;
+                // Setting the readonly attribute to true for the current input element
+                input.setAttribute('readonly', 'true');
+            });
+            toggleButtons();
+            document.getElementById("userLastName").value = userLastName;
+            document.getElementById("userFirstName").value = userFirstName;
+            document.getElementById("userEmail").value = userEmail;
+            document.getElementById("userPhone").value = userPhone;
+
+            // Add code to revert changes here
+            // You might want to reload the original data or discard changes made
+        }
+
+        const user_id = localStorage.getItem('id');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                document.getElementById('userFirstName').value = data.firstName;
+                document.getElementById('userLastName').value = data.lastName;
+                document.getElementById('userEmail').value = data.email;
+                document.getElementById('userPhone').value = data.phone;
+                document.getElementById('photo').src = data.imageProfile;
+                console.log(data.firstName)
+            }).catch(error => {
+                console.error(error);
+            });
+        });
+
+        // check cookie
+        if (user_id == null) {
+            window.location.href = '/Login';
+        }
+    </script>
+
+</body>

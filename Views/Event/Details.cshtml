@@ -1,0 +1,208 @@
+@model tangti.Models.Event
+
+@using tangti.Models
+@{
+    ViewBag.Title = "Details";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/eventDetail.css" asp-append-version="true" />
+    <script src="~/js/eventDetail.js" asp-append-version="true"></script>
+</head>
+
+<body>
+    <div class="box-area">
+        <div class="banner-area" style="background-image: url('@Html.DisplayFor(modelItem => Model.Image)');">
+        </div>
+        <div class="top-right-button-container" id="edit-button">
+            <a href="/Event/Edit/@Model.Id" class="create-event-button">
+                Edit Event
+            </a>
+        </div>
+        <div class="content-area">
+            <h5>@Html.DisplayFor(modelItem => Model.Category)</h5>
+            <h2>@Html.DisplayFor(modelItem => Model.Title)</h2>
+            <button class="event-status">
+                @Html.DisplayFor(modelItem => Model.Status) [ <a id="Members"></a>/@Html.DisplayFor(modelItem =>
+                Model.EnrollLimit) ]
+            </button>
+            <div class="content-container">
+                <p class="description-container">@Html.DisplayFor(modelItem => Model.Description)</p>
+                <div class="card">
+                    <div class="card-details-container">
+                        <div class="card-details">
+                            <p class="text-title">RUNS FROM</p>
+                            <p class="text-body">
+                                <script>
+                                    var startDate = "@Model.EnrollDate.StartDate";
+                                    var endDate = "@Model.EnrollDate.EndDate";
+                                    document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                                </script>
+                            </p>
+                        </div>
+                        <button id="report-event" type="button" class="report-button" onclick=""><a href=/Event/Report/@Model.Id>Report</a></button>
+                    </div>
+                    <div class="card-details">
+                        <p class="text-title">HAPPENING</p>
+                        <p class="text-body">
+                            <script>
+                                var startDate = "@Model.EventDate.StartDate";
+                                var endDate = "@Model.EventDate.EndDate";
+                                document.write(formatDate(startDate) + " - " + formatDate(endDate));
+                            </script>
+                        </p>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-details">
+                            <p class="text-title">Organiser</p>
+                            <p class="text-body" id="organiser"></p>
+                        </div>
+                        <div class="card-details">
+                            <p class="text-title">Event Type</p>
+                            <p class="text-body" id="eventType">@Model.Type</p>
+                        </div>
+                    </div>
+                    <button id="join-event" type="button" class="join-button" onclick="enrollEvent('@Model.Id')">Join
+                        Event</button>
+                    <button id="unjoin-event" type="button" class="join-button" onclick="unenrollEvent('@Model.Id')">
+                        Unjoin Event</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        const organiserId = "@Model.CreatedBy";
+        const user_id = localStorage.getItem('id');
+
+        
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response = fetch(`https://kmitltangti.azurewebsites.net/api/user/${organiserId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                document.getElementById('organiser').innerHTML = data.fullName;
+            }).catch(error => {
+                console.error(error);
+            });
+            
+            const enrollment = fetch('https://kmitltangti.azurewebsites.net/api/enroll/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventId: "@Model.Id",
+                    userId: user_id
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                if (data) {
+                    document.querySelector('.join-button').style.display = 'none';
+                    document.querySelector('#unjoin-event').style.display = 'block';
+                }
+                else {
+                    document.querySelector('.join-button').style.display = 'block';
+                    document.querySelector('#unjoin-event').style.display = 'none';
+                }
+
+                if (user_id == null) {
+                    var joinBtn = document.querySelector('.join-button')
+                    var unJoinBtn = document.querySelector('#unjoin-event');
+
+                    joinBtn.onclick = function () {
+                        window.location.href = '/Login';
+
+                    }
+
+                    unJoinBtn.onclick = function () {
+                        window.location.href = '/Login';
+
+                    }
+                }
+            }).catch(error => {
+                console.error(error);
+            })
+        });
+
+        event_id = '@Model.Id'
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_response2 = fetch(`https://kmitltangti.azurewebsites.net/api/enroll/event/${event_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                document.getElementById('Members').innerHTML = data.member;
+                const enrollmentLimit = "@Model.EnrollLimit";
+
+                if (data.member >= enrollmentLimit && "@Model.Type" !== 'Queue') {
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Full';
+                }
+                
+                if("@Model.Status" === 'CLOSED' || "@Model.Status" === 'BANNED'){
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Closed';
+                }
+
+                if (user_id === organiserId) {
+                    document.querySelector('.join-button').disabled = true;
+                    document.getElementById('edit-button').style.display = 'flex';
+                    document.querySelector('.join-button').innerText = 'You are the owner!';
+                }
+                else {
+                    document.getElementById('edit-button').style.display = 'none';
+                }
+                
+                if("@Model.Status" === 'CLOSED' || "@Model.Status" === 'BANNED'){
+                    document.querySelector('.join-button').disabled = true;
+                    document.querySelector('.join-button').innerText = 'Event Closed';
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+
+
+            //Check user is Admin
+            const user_response3 = fetch(`https://kmitltangti.azurewebsites.net/api/user/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(data => {
+                if (data.role === 'Admin') {
+                    console.log("============================")
+                    document.getElementById('edit-button').style.display = 'flex';
+                }
+            }).catch(error => {
+                console.error(error);
+            });
+
+        });
+
+
+    </script>
+</body>

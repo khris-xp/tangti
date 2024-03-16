@@ -1,0 +1,351 @@
+@model tangti.Models.Event
+@{
+    ViewBag.Title = "Edit";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - tangti</title>
+    <link rel="stylesheet" href="~/css/handleEvent.css" asp-append-version="true" />
+</head>
+
+<script>
+    function openConfirmationModal() {
+        var projectName = prompt("Please enter the project name:");
+        if (projectName) {
+            document.getElementById("projectName").innerText = projectName;
+            document.getElementById("myModal").style.display = "block";
+        }
+    }
+
+    const handleKickUser = (userid) => {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/kick', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "userId": userid
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('User has been kicked');
+                location.reload();
+            } else {
+                alert('Error:', response.status);
+            }
+        });
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function closeProject() {
+        alert("Project closed successfully!");
+        closeModal();
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        const response = await fetch('https://kmitltangti.azurewebsites.net/api/enroll/getmember', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "status": true
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const enrolled_member = data.memberList;
+            console.log('enrolled_member', enrolled_member)
+            const members = document.getElementById('enrolled-members');
+
+            for (const member of enrolled_member) {
+                try {
+                    const user_response = await fetch(`https://kmitltangti.azurewebsites.net/api/user/${member.userID}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (user_response.ok) {
+                        const userData = await user_response.json();
+                        const card = createCard(userData);
+                        members.appendChild(card);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        } else {
+            console.error('Error:', response.status);
+        }
+
+        const queue_response = await fetch('https://kmitltangti.azurewebsites.net/api/enroll/getmember', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "status": false
+            })
+        });
+
+        if (queue_response.ok) {
+            const data = await queue_response.json();
+            const queue_member = data.memberList;
+            console.log('queue_member', queue_member)
+            const members = document.getElementById('queued-members');
+
+            for (const member of queue_member) {
+                try {
+                    const user_response = await fetch(`https://kmitltangti.azurewebsites.net/api/user/${member.userID}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (user_response.ok) {
+                        const userData = await user_response.json();
+                        const card = createCard(userData);
+                        members.appendChild(card);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        } else {
+            console.error('Error:', queue_response.status);
+        }
+    });
+
+    const handleInviteUser = (userid) => {
+        fetch('https://kmitltangti.azurewebsites.net/api/enroll/updatestatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "eventId": '@Model.Id',
+                "userId": userid,
+                "status": true
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('User has been invited');
+                location.reload();
+            } else {
+                alert('Error:', response.status);
+            }
+        });
+    }
+
+    function createCard(userData) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.style.setProperty('--background', '#FF7426');
+        card.style.setProperty('--text', 'white');
+        card.style.setProperty('width', '200px');
+        card.style.setProperty('height', '300px');
+        card.style.setProperty('border-radius', '10px');
+        card.style.setProperty('box-shadow', '0 4px 8px 0 rgba(0, 0, 0, 0.2)');
+        card.style.setProperty('display', 'flex');
+        card.style.setProperty('flex-direction', 'column');
+        card.style.setProperty('justify-content', 'center');
+        card.style.setProperty('align-items', 'center');
+
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        img.src = userData.imageProfile;
+        img.style.setProperty('width', '100px');
+        img.style.setProperty('height', '100px');
+        img.style.setProperty('border-radius', '50%');
+
+        const figcaption = document.createElement('figcaption');
+        const h3 = document.createElement('h3');
+        h3.innerText = userData.fullName;
+        h3.style.setProperty('margin-top', '10px');
+        h3.style.setProperty('font-size', '18px');
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.setProperty('display', 'flex');
+        buttonContainer.style.setProperty('justify-content', 'space-between');
+        buttonContainer.style.setProperty('margin-top', '10px');
+        buttonContainer.style.setProperty('gap', '10px');
+
+        const inviteButton = document.createElement('button');
+        inviteButton.innerText = 'Invite';
+        inviteButton.style.setProperty('background-color', 'green');
+        inviteButton.style.setProperty('color', 'white');
+        inviteButton.style.setProperty('border', 'none');
+        inviteButton.style.setProperty('padding', '10px 20px');
+        inviteButton.style.setProperty('text-align', 'center');
+        inviteButton.style.setProperty('text-decoration', 'none');
+        inviteButton.style.setProperty('display', 'inline-block');
+        inviteButton.style.setProperty('font-size', '16px');
+        inviteButton.style.setProperty('border-radius', '5px');
+        inviteButton.style.setProperty('cursor', 'pointer');
+
+        const kickButton = document.createElement('button');
+        kickButton.innerText = 'Kick';
+        kickButton.style.setProperty('background-color', 'red');
+        kickButton.style.setProperty('color', 'white');
+        kickButton.style.setProperty('border', 'none');
+        kickButton.style.setProperty('padding', '10px 20px');
+        kickButton.style.setProperty('text-align', 'center');
+        kickButton.style.setProperty('text-decoration', 'none');
+        kickButton.style.setProperty('display', 'inline-block');
+        kickButton.style.setProperty('font-size', '16px');
+        kickButton.style.setProperty('border-radius', '5px');
+        kickButton.style.setProperty('cursor', 'pointer');
+
+        kickButton.addEventListener('click', () => handleKickUser(userData.id));
+
+        inviteButton.addEventListener('click', () => handleInviteUser(userData.id));
+
+        buttonContainer.appendChild(inviteButton);
+        buttonContainer.appendChild(kickButton);
+
+
+        figcaption.appendChild(h3);
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        card.appendChild(figure);
+        card.appendChild(buttonContainer);
+        buttonContainer.appendChild(inviteButton);
+        buttonContainer.appendChild(kickButton);
+
+        return card;
+    }
+    document.getElementById('sendDataButton').addEventListener('click', function () {
+        var data = localStorage.getItem('id');
+        document.getElementById("userIDInput").value = data;
+    });
+</script>
+
+<div class="heading">
+    <h1>Edit Event</h1>
+</div>
+<h3>1. Information</h3>
+<div class="container">
+    <div class="form-container">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="Title" type="text" required />
+                    <div class="underline"></div>
+                    <label asp-for="Title"></label>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="input-data">
+                    <input asp-for="Image" type="text" required />
+                    <div class="underline"></div>
+                    <label asp-for="Image"></label>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data textarea">
+                    <textarea rows="8" cols="80" required asp-for="Description"></textarea>
+                    <br />
+                    <div class="underline"></div>
+                    <label asp-for="Description"></label>
+                    <br />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="select-data">
+                    <label asp-for="Category" class="control-label">Category:</label>
+                    <select id="Category" name="Category" class="form-control">
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                </div>
+                <div class="select-data">
+                    <label asp-for="Type" class="control-label">Type:</label>
+                    <select id="Type" name="Type" class="form-control">
+                        <option value="Queue">Queue</option>
+                        <option value="Close When full">Close When full</option>
+                    </select>
+                </div>
+                <div class="select-data">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select id="Status" name="Status" class="form-control">
+                        <option value="NOT OPENED">Not Opened</option>
+                        <option value="ON GOING">On Going</option>
+                        <option value="CLOSED">Closed</option>
+                        <option value="CANCELED">Canceled</option>
+                        <option value="BANNED">Banned</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input asp-for="EnrollLimit" type="number" min="1" value="1" required />
+                    <div class="underline"></div>
+                    <label asp-for="EnrollLimit"></label>
+                    <span asp-validation-for="EnrollLimit" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="select-data">
+                    <label asp-for="EnrollDate.StartDate" class="control-label">Enroll Start date</label>
+                    <input asp-for="EnrollDate.StartDate" class="form-control" required />
+                </div>
+                <div class="select-data">
+                    <label asp-for="EnrollDate.EndDate" class="control-label">Enroll end date</label>
+                    <input asp-for="EnrollDate.EndDate" class="form-control" required />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="select-data">
+                    <label asp-for="EventDate.StartDate" class="control-label">Event Start Date</label>
+                    <input asp-for="EventDate.StartDate" class="form-control" required />
+                </div>
+                <div class="select-data">
+                    <label asp-for="EventDate.EndDate" class="control-label">Event End Date</label>
+                    <input asp-for="EventDate.EndDate" class="form-control" required />
+                </div>
+            </div>
+            <input id="userIDInput" asp-for="CreatedBy" class="form-control" type="hidden" />
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" id="sendDataButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<h3>2. Selection & Closing</h3>
+<div class="container">
+    <div class="form-container">
+        <h4>Member</h4>
+        <div class="members" id="enrolled-members">
+        </div>
+        <h4>Registrator</h4>
+        <div class="members" id="queued-members">
+        </div>
+        <div id="warningMessage" class="warning" style="display: none;">
+            Please enter a valid project name!
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p>Are you sure you want to close the project "<span id="projectName"></span>"?</p>
+        <button class="confirm-btn" onclick="closeProject()">Yes, Close</button>
+    </div>
+</div>

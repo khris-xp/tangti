@@ -1,0 +1,126 @@
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - login</title>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="registerForm">
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                </div>
+                <input type="text" placeholder="FirstName" id="registerFirstName">
+                <input type="text" placeholder="LastName" id="registerLastName">
+                <input type="text" placeholder="Tel." id="registerPhone">
+                <input type="email" placeholder="Email" id="registerEmail">
+                <input type="password" placeholder="Password" id="registerPassword">
+                <button type="button" onclick="register()">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Sign In to Tangti!!!</h1>
+                <div class="social-icons">
+                </div>
+                <input type="email" placeholder="Email" id="loginEmail">
+                <input type="password" placeholder="Password" id="loginPassword">
+                <a href="#">Forget Your Password?</a>
+                <button type="button" onclick="login()">Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please log with your personal info</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details
+                        and start journey with us</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+
+        function login() {
+            const email = $('#loginEmail').val();
+            const password = $('#loginPassword').val();
+
+            $.ajax({
+                url: 'https://kmitltangti.azurewebsites.net/api/user/login',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                success: function (data) {
+                    localStorage.setItem('id', data.id);
+                    window.location.href = '/';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+        }
+
+
+        function register() {
+            const firstName = $('#registerFirstName').val();
+            const lastName = $('#registerLastName').val();
+            const phone = $('#registerPhone').val();
+            const email = $('#registerEmail').val();
+            const password = $('#registerPassword').val();
+
+            $.ajax({
+                url: 'https://kmitltangti.azurewebsites.net/api/user/register',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    firstname: firstName,
+                    lastname: lastName,
+                    phone: phone,
+                    email: email,
+                    password: password,
+                    imageProfile: "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg",
+                    enrolled: [],
+                    eventCreated: []
+                }),
+                success: function (data) {
+                    localStorage.setItem('id', data.id);
+                    window.location.href = '/';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+        }
+
+    </script>
+</body>

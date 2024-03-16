@@ -1,0 +1,56 @@
+@model tangti.Models.Event ;
+@{
+    ViewData["Title"] = "Memberlist page";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
+    <link rel="stylesheet" href="~/css/memberlist.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - tangti</title>
+</head>
+
+<body>
+    <script>
+        const EventId = "@Model.Id";
+        const memberdata = fetch(`https://kmitltangti.azurewebsites.net/api/memberlist/${EventId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then(data => {
+            document.getElementById("member-list-number").innerHTML = `All Members (${data.num_enrolls} / ${data.limit})`
+            var container = document.getElementById("memberList");
+            data.users.forEach((element, index) => {
+                var member = document.createElement("div");
+                member.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+                member.innerHTML = `
+                    <div class="our-team">
+                        <div class="picture">
+                            <img class="img-fluid" src=${element.imageProfile}>
+                        </div>
+                        <div class="team-content">
+                            <h3 class="name">${element.fullName}</h3>
+                            <h4 class="title">${element.phone}</h4>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(member);
+            });
+        })
+    </script>
+
+    <div class="container">
+        <div class="member_header">
+            <h1 id="member-list-number">All Members</h1>
+            <h2> Congratuations You are selected to be this team member</h2>
+            <button class="button"> Contact </button>
+        </div>
+        <div class="container" id="memberList"></div>
+    </div>
+</body>

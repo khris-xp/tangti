@@ -1,0 +1,79 @@
+@model List<tangti.Models.Report>
+@using tangti.Models
+@{
+    ViewBag.Title = "All Reports";
+}
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/reportTable.css" asp-append-version="true" />
+</head>
+
+<div class="heading">
+    <h1>Report</h1>
+</div>
+
+<div class="containers">
+    <table class="report">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Content)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].EventName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Createdby)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].CreateAt)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td>
+                        <a href="/Event/Details/@item.EventId">@Html.DisplayFor(modelItem => item.EventName)</a>
+                    </td>
+                    <td id="user_name_@item.Createdby">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateAt)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@foreach (var item in Model)
+{
+    <script>
+    fetch('https://kmitltangti.azurewebsites.net/api/user/@item.Createdby', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('data : ', data);
+            var user = data;
+            var user_name = user.fullName;
+            console.log(user_name);
+            document.getElementById('user_name_@item.Createdby').innerHTML = user_name;
+        });
+</script>
+}
